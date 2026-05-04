@@ -1,0 +1,15 @@
+.tableHeaderContainer {
+  display: flex;
+  gap: 1rem;
+  background-color: white;
+  width: 100%;
+  font-size: .8rem;
+  color: #B6B6B6;
+  justify-content: space-between;
+  padding: .8rem;
+  border-bottom: 1px solid #DFDFDF;
+
+  div {
+    width: 100%;
+  }
+}

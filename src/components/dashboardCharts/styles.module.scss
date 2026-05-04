@@ -1,0 +1,18 @@
+.dashboardChartsContainer {
+  display: flex;
+  gap: 1rem;
+
+  .monthlySalesChart {
+    flex: 1;
+  }
+
+  .monthlyStatusChart {
+    width: 26rem;
+  }
+
+  .monthlySalesChart,
+  .monthlyStatusChart {
+    background-color: white;
+    border-radius: 1rem;
+  }
+}
