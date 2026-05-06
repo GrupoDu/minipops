@@ -1,0 +1,35 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /app
+          ignore:
+            - node_modules
+            - .next
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./tsconfig.json
+        - action: rebuild
+          path: ./next.config.ts
+    environment:
+      - WATCHPACK_POLLING=true
+    ports:
+      - "${DEV_PORT}:3000"
+    expose:
+      - 3000
+    networks:
+      - minipops_network
+    env_file:
+      - .env
+
+networks:
+  minipops_network:
+    name: erp-network
+    external: true
