@@ -1,11 +1,8 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { DonutSeriesModule, ModuleRegistry } from "ag-charts-enterprise";
 import { AgCharts } from "ag-charts-react";
 import BarChart from "@/components/barChart";
-
-ModuleRegistry.registerModules([DonutSeriesModule]);
 
 function DashboardCharts() {
   const barChartOptions = {

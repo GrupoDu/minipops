@@ -7,12 +7,14 @@ import Logo from "@/assets/GRUPODU_WHITE.png";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiPackage } from "react-icons/bi";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { IoIosLogOut } from "react-icons/io";
 import { MdOutlineHandshake } from "react-icons/md";
 import { FaChartColumn } from "react-icons/fa6";
 import { FaUserCog } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { api } from "@/services/api";
 
 function Sidebar() {
   const pathname = usePathname();
@@ -24,8 +26,20 @@ function Sidebar() {
     { option: "Analises", icon: FaChartColumn },
     { option: "Usuarios", icon: FaUserCog },
   ];
+  const router = useRouter();
   const isOptionSelected = (option: string): boolean => {
     return pathname.includes(option.toLowerCase());
+  };
+  const handleLogout = async () => {
+    try {
+      await api.post("/login/logout");
+      toast.success("Logout realizado com sucesso");
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+    } finally {
+      router.push("/login");
+    }
   };
 
   return (
@@ -47,7 +61,7 @@ function Sidebar() {
         {options.map((option) => (
           <Link
             key={option.option}
-            href={option.option.toLowerCase()}
+            href={`/${option.option.toLowerCase()}`}
             className={`${styles.menuItem} ${isOptionSelected(option.option) && styles.selected}`}
           >
             <option.icon className={styles.menuIcon} />
@@ -55,7 +69,7 @@ function Sidebar() {
           </Link>
         ))}
       </div>
-      <div className={styles.logoutContainer}>
+      <div onClick={handleLogout} className={styles.logoutContainer}>
         <IoIosLogOut />
         <span>Sair</span>
       </div>

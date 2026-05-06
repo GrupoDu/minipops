@@ -3,7 +3,7 @@ import {
   AgChartOptions,
   BarSeriesModule,
   ModuleRegistry,
-} from "ag-charts-enterprise";
+} from "ag-charts-community";
 import { AgCharts } from "ag-charts-react";
 
 ModuleRegistry.registerModules([BarSeriesModule]);

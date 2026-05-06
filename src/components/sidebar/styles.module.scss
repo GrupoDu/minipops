@@ -57,11 +57,16 @@
       border-radius: .2rem;
       cursor: pointer;
       text-decoration: none;
+      transition: background-color .2s ease;
 
       .menuIcon {
         width: 1.2rem;
         height: 1.2rem;
         object-fit: contain;
+      }
+
+      &:hover {
+        background-color: var(--hover-green);
       }
     }
 
@@ -69,6 +74,12 @@
       background-color: var(--select-green);
       color: var(--dark-blue);
       font-weight: bold;
+
+      &:hover {
+        background-color: var(--select-green);
+        color: var(--dark-blue);
+        font-weight: bold;
+      }
     }
   }
 
