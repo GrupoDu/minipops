@@ -1,0 +1,22 @@
+.orderField {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+  align-items: flex-start;
+
+  span {
+    font-weight: 600;
+    font-size: .8rem;
+    white-space: nowrap;
+    color: #848484;
+  }
+
+  .valueField {
+    border-bottom: 1px solid #848484;
+    font-size: .8rem;
+    padding-bottom: 2px;
+    width: 100%;
+    min-height: 1.2rem;
+  }
+}

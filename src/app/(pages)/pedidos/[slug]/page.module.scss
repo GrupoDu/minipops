@@ -1,0 +1,137 @@
+.orderContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+
+  .statusBar {
+    width: 4rem;
+    height: 10px;
+    border-radius: 10px;
+  }
+
+  .status_Pendente {
+    background-color: var(--pending-color);
+  }
+  .status_Em_produção {
+    background-color: var(--on-going-color);
+  }
+  .status_Concluído {
+    background-color: var(--done-color);
+  }
+  .status_Cancelado {
+    background-color: var(--cancel-color);
+  }
+  .status_Enviado {
+    background-color: var(--shipped-color);
+  }
+
+  h3,
+  h4 {
+    margin: 0;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #848484;
+    width: 100%;
+    margin: 0;
+  }
+
+  .orderInfoBlocks {
+    border: 1px solid #848484;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    border-radius: .2rem;
+
+    .itemsList {
+      li {
+        display: flex;
+        width: 100%;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.8rem;
+        box-sizing: border-box;
+        border-bottom: 1px solid #dfdfdf;
+
+        span {
+          flex: 1;
+          width: 100%;
+          font-size: 0.8rem;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  .itemsBlock {
+    border: 1px solid #848484;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .itemsList {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      border: 1px solid red;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .totalSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media print {
+  // Oculta a sidebar, cabeçalho da página e outros elementos globais
+  :global(nav), 
+  :global(aside),
+  :global(.sidebarContainer), 
+  :global([class*="sidebarContainer"]),
+  :global(.pageHeaderContainer),
+  :global([class*="pageHeaderContainer"]),
+  :global(header) {
+    display: none !important;
+  }
+
+  // Reseta o layout para ocupar a tela inteira na impressão
+  :global(body), :global(main) {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: white !important;
+  }
+
+  :global(.pageContainer), :global(.mainContent) {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .orderContainer {
+    box-shadow: none !important;
+    padding: 0 !important;
+    gap: .6rem !important;
+    margin: 0 !important;
+    width: 100% !important;
+    border: none !important;
+  }
+}

@@ -1,0 +1,25 @@
+.printButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+  width: fit-content;
+  margin-top: 1rem;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+@media print {
+  .printButton {
+    display: none;
+  }
+}

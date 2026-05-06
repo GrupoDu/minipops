@@ -1,0 +1,11 @@
+.filterContainer {
+  background-color: white;
+  border-radius: .6rem;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+}
+.filters {
+  display: flex;
+  gap: .4rem;
+  width: 100%;
+}
