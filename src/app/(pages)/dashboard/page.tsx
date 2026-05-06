@@ -6,6 +6,7 @@ import { MdAttachMoney } from "react-icons/md";
 import { CiClock1 } from "react-icons/ci";
 import DashboardCharts from "@/components/dashboardCharts";
 import OrderList from "@/components/orderList";
+import OrderProvider from "@/providers/order.provider";
 
 function DashboardPage() {
   const cards = [
@@ -43,7 +44,9 @@ function DashboardPage() {
         </div>
         <DashboardCharts />
         <div className={styles.recentOrders}>
-          <OrderList />
+          <OrderProvider>
+            <OrderList />
+          </OrderProvider>
         </div>
       </div>
     </div>
