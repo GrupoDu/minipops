@@ -1,0 +1,9 @@
+.clientsListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .buttonContainer {
+    flex: 1;
+  }
+}
