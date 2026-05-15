@@ -2,3 +2,10 @@
   font-size: .8rem;
   color: var(--dark-blue);
 }
+
+.isRequired {
+  &::after {
+    content: "*";
+    color: var(--error-color);
+  }
+}
