@@ -26,9 +26,13 @@ interface AxiosErrorApi extends AxiosError {
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosErrorApi) => {
-    if (typeof window !== "undefined") {
-      toast.error(error.response?.data?.message);
-    }
+    const isClient = typeof window !== "undefined";
+    const isNotLoginPage = isClient && window.location.pathname !== "/login";
+
+    if (isClient) toast.error(error.response?.data?.message);
+
+    // if (isNotLoginPage) document.location.href = "login";
+
     return Promise.reject(error);
   },
 );
