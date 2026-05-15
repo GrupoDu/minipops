@@ -1,6 +1,8 @@
 import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import ListTemplate from "@/components/listTemplate";
+import OrderList from "@/components/orderList";
+import OrderProvider from "@/providers/order.provider";
 
 function OrdersPage() {
   return (
@@ -10,9 +12,12 @@ function OrdersPage() {
         description={
           "Acompanhe pedidos por status, período, cliente e fornecedor."
         }
+        addButton={"Adicionar Pedido"}
       />
       <div className={"mainContent"}>
-        <ListTemplate />
+        <OrderProvider>
+          <OrderList />
+        </OrderProvider>
       </div>
     </div>
   );

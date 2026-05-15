@@ -1,0 +1,46 @@
+.formTitle {
+  padding: .8rem;
+  border-bottom: 1px solid var(--border-default-color);
+}
+
+.buttonsContainer {
+  padding: .8rem;
+  display: flex;
+  gap: .4rem;
+
+  button {
+    padding: .4rem;
+    cursor: pointer;
+  }
+}
+
+.tabs {
+  display: flex;
+  padding: .4rem .8rem;
+  border-top: 1px solid var(--border-default-color);
+  border-bottom: 1px solid var(--border-default-color);
+  gap: .4rem;
+
+  div {
+    padding: .4rem 1rem ;
+    border: 1px solid #D3C77A;
+    border-radius: .4rem;
+    transition: all .2s ease-in-out;
+  }
+
+  .isSelected {
+    padding: .4rem 1rem ;
+    border: 1px solid var(--done-color);
+    background-color: var(--done-bg);
+
+    span {
+      color: var(--done-color);
+      font-weight: 700;
+    }
+  }
+
+  span {
+    font-size: .8rem;
+    color: #D3C77A;
+  }
+}

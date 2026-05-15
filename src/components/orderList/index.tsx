@@ -10,6 +10,7 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import { CSSProperties } from "react";
 import Link from "next/link";
 import { CgDetailsMore } from "react-icons/cg";
+import ListTemplate from "@/components/listTemplate";
 
 function OrderList() {
   const tableHeaderTitles = [
@@ -44,9 +45,9 @@ function displayItems(orders: Order[] | undefined, isLoading: boolean) {
     return <div className={styles.fetchError}>Erro ao carregar pedidos.</div>;
 
   return (
-    <ul className={styles.ordersList}>
+    <ListTemplate>
       {orders.map((order) => (
-        <li key={order.order_uuid}>
+        <li className={styles.item} key={order.order_uuid}>
           <div className={styles.orderIdContainer}>
             <span className={styles.orderId}>{order.order_uuid}</span>
             <span className={styles.orderDate}>
@@ -58,7 +59,7 @@ function displayItems(orders: Order[] | undefined, isLoading: boolean) {
           <span style={statusStyle(order.order_status)}>
             {order.order_status}
           </span>
-          <span>{priceFormatter(order.totalPrice)}</span>
+          <span>{priceFormatter(order.total_price)}</span>
           <div className={styles.buttonContainer}>
             <Link
               href={`/pedidos/${order.order_uuid}`}
@@ -70,7 +71,7 @@ function displayItems(orders: Order[] | undefined, isLoading: boolean) {
           </div>
         </li>
       ))}
-    </ul>
+    </ListTemplate>
   );
 }
 

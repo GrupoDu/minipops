@@ -1,0 +1,23 @@
+.formHeader {
+  padding: .8rem;
+  border-bottom: 1px solid var(--border-default-color);
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding: .8rem;
+
+  .gridInputs {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: .4rem;
+  }
+
+  .buttons {
+    display: flex;
+    gap: .4rem;
+  }
+}

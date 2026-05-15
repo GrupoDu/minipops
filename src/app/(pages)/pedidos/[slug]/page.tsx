@@ -9,24 +9,9 @@ import { OrderItem } from "@/types/orderItem.interface";
 import { cookies } from "next/headers";
 import OrderField from "@/components/orderFields";
 import Breadcrumb from "@/components/breadcrumb";
-
-async function getOrder(slug: string): Promise<Order | null> {
-  const cookieStore = await cookies();
-  const cookieString = cookieStore.toString();
-
-  try {
-    const response = await api.get(`/orders/${slug}`, {
-      headers: {
-        Cookie: cookieString,
-      },
-    });
-
-    return response.data?.data;
-  } catch (error) {
-    console.error("Error fetching order:", error);
-    return null;
-  }
-}
+import Image from "next/image";
+import Logo from "@/assets/grupodu_new_logo.png";
+import { dateFormatter } from "@/utils/dateFormatter";
 
 export default async function OrderDetailsPage({
   params,
@@ -35,31 +20,7 @@ export default async function OrderDetailsPage({
 }) {
   const { slug } = await params;
   const order = await getOrder(slug);
-
-  if (!order) {
-    return (
-      <div className="pageContainer">
-        <PageHeader
-          title="Pedidos"
-          description="Acompanhe pedidos por status, período, cliente e fornecedor."
-        />
-        <Breadcrumb
-          customLabels={{
-            pedidos: "Lista de Pedidos",
-            [slug]: "Pedido não encontrado",
-          }}
-        />
-        <div className="mainContent">
-          <div className={styles.orderContainer}>
-            <h3>Pedido não encontrado.</h3>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const statusClass = order.order_status.replace(/\s+/g, "_");
-
+  const year = new Date().getFullYear();
   const tableHeaderTitles = [
     "Produto",
     "Valor unit.",
@@ -69,6 +30,10 @@ export default async function OrderDetailsPage({
     "Acréscimo(%)",
     "Total",
   ];
+
+  if (!order) return <OrderNotFound slug={slug} />;
+
+  const statusClass = order.order_status.replace(/\s+/g, "_");
 
   const renderOrderItems = (items: OrderItem[]) => {
     return items.map((item) => (
@@ -101,23 +66,37 @@ export default async function OrderDetailsPage({
           <div
             className={`${styles.statusBar} ${styles[`status_${statusClass}`]}`}
           />
-
-          <h3>Pedido: {order.order_uuid}</h3>
-
-          <hr />
-
-          <div className={styles.orderInfoBlocks}>
-            <h5>Faturamento</h5>
-            <OrderField label="Cliente" value={order.clients.client_name} />
-            <OrderField label="CNPJ" value={order.revenue.revenue_cnpj} />
-            <OrderField
-              label="Endereço"
-              value={order.revenue.revenue_address}
+          <div className={styles.printLogo}>
+            <Image
+              className={styles.logo}
+              src={Logo}
+              alt={"logo-grupodu"}
+              width={60}
+              height={60}
             />
-            <OrderField label="Telefone" value={order.revenue.revenue_phone} />
-            <OrderField label="E-mail" value={order.revenue.revenue_email} />
+            <div className={styles.textInfo}>
+              <h4>GrupoDu • {year}</h4>
+              <span>{dateFormatter(order.created_at)}</span>
+            </div>
           </div>
-
+          <h4>Pedido: {order.order_uuid}</h4>
+          <hr />
+          <div className={`${styles.orderInfoBlocks} ${styles.revenue}`}>
+            <h5>Faturamento</h5>
+            <div className={styles.gridFields}>
+              <OrderField label="Cliente" value={order.clients.client_name} />
+              <OrderField label="CNPJ" value={order.revenue.revenue_cnpj} />
+              <OrderField
+                label="Endereço"
+                value={order.revenue.revenue_address}
+              />
+              <OrderField
+                label="Telefone"
+                value={order.revenue.revenue_phone}
+              />
+              <OrderField label="E-mail" value={order.revenue.revenue_email} />
+            </div>
+          </div>
           <div className={styles.orderInfoBlocks}>
             <h5>Cobrança</h5>
             <OrderField label="Nome" value={order.billing.name} />
@@ -126,7 +105,6 @@ export default async function OrderDetailsPage({
               value={order.billing.billing_address}
             />
           </div>
-
           <div className={styles.orderInfoBlocks}>
             <h5>Entrega</h5>
             <OrderField label="Obra" value={order.delivery.building} />
@@ -149,10 +127,49 @@ export default async function OrderDetailsPage({
           </div>
           <div className={styles.totalSection}>
             <hr />
-            <h3>Valor total: {priceFormatter(order.totalPrice)}</h3>
+            <h3>Valor total: {priceFormatter(order.total_price)}</h3>
           </div>
-
           <PrintButton />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function getOrder(slug: string): Promise<Order | null> {
+  const cookieStore = await cookies();
+  const cookieString = cookieStore.toString();
+
+  try {
+    const response = await api.get(`/orders/${slug}`, {
+      headers: {
+        Cookie: cookieString,
+      },
+    });
+
+    return response.data?.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    return null;
+  }
+}
+
+function OrderNotFound({ slug }: { slug: string }) {
+  return (
+    <div className="pageContainer">
+      <PageHeader
+        title="Pedidos"
+        description="Acompanhe pedidos por status, período, cliente e fornecedor."
+      />
+      <Breadcrumb
+        customLabels={{
+          pedidos: "Lista de Pedidos",
+          [slug]: "Pedido não encontrado",
+        }}
+      />
+      <div className="mainContent">
+        <div className={styles.orderContainer}>
+          <h3>Pedido não encontrado.</h3>
         </div>
       </div>
     </div>
