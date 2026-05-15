@@ -5,3 +5,8 @@ export interface Billing {
   billing_address: string;
   name?: string | null;
 }
+
+export interface BillingCreate extends Omit<
+  Billing,
+  "created_at" | "billing_uuid"
+> {}

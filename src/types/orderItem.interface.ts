@@ -9,3 +9,8 @@ export interface OrderItem {
   additional_amount: number;
   total: number;
 }
+
+export interface OrderItemCreate extends Omit<
+  OrderItem,
+  "order_item_uuid" | "total" | "order_uuid"
+> {}

@@ -6,3 +6,5 @@ export interface Revenue {
   revenue_phone: string;
   revenue_email: string;
 }
+
+// export interface RevenueCreate extends Omit<Revenue, "client_uuid"> {}

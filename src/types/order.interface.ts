@@ -1,8 +1,8 @@
-import { OrderItem } from "@/types/orderItem.interface";
+import { OrderItem, OrderItemCreate } from "@/types/orderItem.interface";
 import { Client } from "@/types/client.interface";
 import { Revenue } from "@/types/revenue.interface";
-import { Billing } from "@/types/billing.interface";
-import { Delivery } from "@/types/delivery.interface";
+import { Billing, BillingCreate } from "@/types/billing.interface";
+import { Delivery, DeliveryCreate } from "@/types/delivery.interface";
 
 export interface Order {
   order_uuid: string;
@@ -15,5 +15,23 @@ export interface Order {
   delivery: Delivery;
   client_uuid: string;
   clients: Client;
-  totalPrice: number;
+  total_price: number;
+}
+
+type omitCreate =
+  | "created_at"
+  | "order_uuid"
+  | "order_status"
+  | "totalPrice"
+  | "clients"
+  | "billing"
+  | "revenue"
+  | "delivery"
+  | "order_items";
+
+export interface OrderCreate extends Omit<Order, omitCreate> {
+  delivery: DeliveryCreate;
+  revenue: Revenue;
+  billing: BillingCreate;
+  order_items: OrderItemCreate[];
 }
