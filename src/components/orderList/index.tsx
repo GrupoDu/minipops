@@ -1,8 +1,6 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import TableHeader from "@/components/tableHeader";
-import useOrders from "@/hooks/useOrders";
 import { Order } from "@/types/order.interface";
 import { usePathname } from "next/navigation";
 import { dateFormatter } from "@/utils/dateFormatter";
@@ -11,65 +9,45 @@ import { CSSProperties } from "react";
 import Link from "next/link";
 import { CgDetailsMore } from "react-icons/cg";
 import ListTemplate from "@/components/listTemplate";
+import { EmptyList } from "@/components/emptyList";
+import useFetch from "@/hooks/useFetch";
 
 function OrderList() {
-  const tableHeaderTitles = [
-    "Pedido",
-    "Cliente",
-    "Obra",
-    "Status",
-    "Total",
-    "Ações",
-  ];
-  const { orders, isLoading } = useOrders();
+  const { data: orders, isLoading } = useFetch<Order[]>("orders");
   const pathname = usePathname();
   const isDashboard = pathname.includes("dashboard");
   const pendingOrders = orders?.filter(
     (order) => order.order_status === "Pendente",
   );
   const ordersToUse = isDashboard ? pendingOrders : orders;
+  const isOrdersEmpty = !ordersToUse || ordersToUse.length < 1;
+  const heads = ["ID", "Cliente", "Obra", "Status", "Total", "Ações"];
 
-  return (
-    <div className={styles.orderListComponent}>
-      <TableHeader titles={tableHeaderTitles} />
-      {displayItems(ordersToUse, isLoading)}
-    </div>
-  );
-}
-
-function displayItems(orders: Order[] | undefined, isLoading: boolean) {
   if (isLoading)
     return <div className={styles.fetchLoading}>Carregando...</div>;
-
-  if (!orders)
-    return <div className={styles.fetchError}>Erro ao carregar pedidos.</div>;
+  if (isOrdersEmpty) return <EmptyList targetName={"pedido"} />;
 
   return (
-    <ListTemplate>
-      {orders.map((order) => (
-        <li className={styles.item} key={order.order_uuid}>
-          <div className={styles.orderIdContainer}>
-            <span className={styles.orderId}>{order.order_uuid}</span>
+    <ListTemplate heads={heads}>
+      {ordersToUse.map((order) => (
+        <tr key={order.custom_order_id}>
+          <td className={styles.orderIdContainer}>
+            <span className={styles.orderId}>{order.custom_order_id}</span>
             <span className={styles.orderDate}>
               {dateFormatter(order.created_at)}
             </span>
-          </div>
-          <span>{order.clients.client_name}</span>
-          <span>{order.delivery.building}</span>
-          <span style={statusStyle(order.order_status)}>
-            {order.order_status}
-          </span>
-          <span>{priceFormatter(order.total_price)}</span>
-          <div className={styles.buttonContainer}>
-            <Link
-              href={`/pedidos/${order.order_uuid}`}
-              className={styles.detailsButton}
-            >
+          </td>
+          <td>{order.clients.client_name}</td>
+          <td>{order.delivery.building}</td>
+          <td style={statusStyle(order.order_status)}>{order.order_status}</td>
+          <td>{priceFormatter(order.total_price)}</td>
+          <td className={styles.buttonContainer}>
+            <Link href={`/pedidos/${order.custom_order_id}`}>
               <CgDetailsMore color={"#000000"} />
               <span className={styles.buttonText}>Detalhes</span>
             </Link>
-          </div>
-        </li>
+          </td>
+        </tr>
       ))}
     </ListTemplate>
   );

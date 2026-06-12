@@ -1,10 +1,20 @@
-import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
-import ListTemplate from "@/components/listTemplate";
+import TableHeader from "@/components/tableHeader";
+import FilterContainer from "@/components/filterContainer";
+import InputText from "@/components/inputs/inputText";
+import { InputDate } from "@/components/inputs/inputDate";
 import OrderList from "@/components/orderList";
-import OrderProvider from "@/providers/order.provider";
 
 function OrdersPage() {
+  const tableHeaderTitles = [
+    "Pedido",
+    "Cliente",
+    "Obra",
+    "Status",
+    "Total",
+    "Ações",
+  ];
+
   return (
     <div className={"pageContainer"}>
       <PageHeader
@@ -15,9 +25,17 @@ function OrdersPage() {
         addButton={"Adicionar Pedido"}
       />
       <div className={"mainContent"}>
-        <OrderProvider>
-          <OrderList />
-        </OrderProvider>
+        <FilterContainer>
+          <InputText
+            type={"text"}
+            label={"Cliente"}
+            filterTarget={"client"}
+            isSearch={true}
+            placeholder={"Pesquisar cliente"}
+          />
+          <InputDate label={"Prazo"} />
+        </FilterContainer>
+        <OrderList />
       </div>
     </div>
   );

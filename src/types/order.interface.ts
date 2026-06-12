@@ -5,7 +5,7 @@ import { Billing, BillingCreate } from "@/types/billing.interface";
 import { Delivery, DeliveryCreate } from "@/types/delivery.interface";
 
 export interface Order {
-  order_uuid: string;
+  custom_order_id: string;
   created_at: Date;
   order_status: string;
   order_deadline: Date;

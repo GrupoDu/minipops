@@ -3,6 +3,7 @@ export interface Billing {
   created_at: Date;
   client_uuid: string;
   billing_address: string;
+  billing_cep: string;
   name?: string | null;
 }
 

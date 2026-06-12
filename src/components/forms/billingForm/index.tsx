@@ -31,6 +31,14 @@ const BillingForm = (props: BillingProps) => {
           setBilling((prev) => ({ ...prev, billing_address: e.target.value }))
         }
       />
+      <InputText
+        type={"text"}
+        label={"CEP"}
+        value={billing.billing_cep}
+        onChange={(e) =>
+          setBilling((prev) => ({ ...prev, billing_cep: e.target.value }))
+        }
+      />
     </div>
   );
 };

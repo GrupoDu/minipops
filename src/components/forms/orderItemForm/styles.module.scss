@@ -21,16 +21,24 @@
   }
 }
 
-.saveButton {
-  padding: .4rem;
-  border-radius: .4rem;
-  border: 1px solid var(--border-default-color);
-  cursor: pointer;
-}
-
 .orderItemForm {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 1rem;
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--confirm-border) !important;
+
+  span {
+    text-align: center;
+    width: 100%;
+  }
+
+  &:hover {
+    background-color: var(--confirm-border) !important;
+  }
 }

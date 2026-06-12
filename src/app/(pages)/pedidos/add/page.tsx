@@ -7,8 +7,6 @@ import ClientsProvider from "@/providers/clients.provider";
 import ProductsProvider from "@/providers/products.provider";
 
 function AddOrderPage() {
-  const formSteps: JSX.Element[] = [];
-
   return (
     <div className={"pageContainer"}>
       <PageHeader

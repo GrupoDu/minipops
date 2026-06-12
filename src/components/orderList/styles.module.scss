@@ -20,66 +20,16 @@
   .fetchError {
     color: #FF8080;
   }
-}
 
-.item {
-  display: flex;
-  width: 100%;
-  flex: 1;
-  gap: 1rem;
-  align-items: center;
-  padding: .8rem;
-  box-sizing: border-box;
-  border-radius: .4rem;
-
-  .orderIdContainer {
+  .emptyList {
+    text-align: center;
+    font-size: .9rem;
+    opacity: .4;
     display: flex;
     flex-direction: column;
-    flex: 1;
 
-    .orderId {
-      font-weight: bold;
-      width: 8rem;
+    strong {
+      color: var(--select-green);
     }
-
-    .orderDate {
-      opacity: .5;
-    }
-  }
-
-  span {
-    flex: 1;
-    width: 100%;
-    font-size: .8rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .buttonContainer {
-    flex: 1;
-
-    .detailsButton {
-      display: flex;
-      gap: .5rem;
-      padding: .6rem;
-      width: 100%;
-      align-items: center;
-      background-color: #FFF;
-      border: 1px solid #E0E0E0;
-      border-radius: .4rem;
-      cursor: pointer;
-      box-sizing: border-box;
-      text-decoration: none;
-
-      .buttonText {
-        text-align: start;
-        color: #000;
-      }
-    }
-  }
-
-  &:hover {
-    background-color: #F0F0F0;
   }
 }

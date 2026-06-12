@@ -1,3 +1,5 @@
+import { Product } from "@/types/product.type";
+
 export interface OrderItem {
   order_item_uuid: string;
   product_uuid: string;
@@ -8,9 +10,10 @@ export interface OrderItem {
   ipi: number;
   additional_amount: number;
   total: number;
+  products: Product;
 }
 
 export interface OrderItemCreate extends Omit<
   OrderItem,
-  "order_item_uuid" | "total" | "order_uuid"
+  "order_item_uuid" | "total" | "order_uuid" | "products"
 > {}

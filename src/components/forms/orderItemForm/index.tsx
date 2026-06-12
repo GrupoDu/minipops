@@ -9,6 +9,7 @@ import InputText from "@/components/inputs/inputText";
 import TableHeader from "@/components/tableHeader";
 import { priceFormatter } from "@/utils/priceFormatter";
 import debugLogger from "@/utils/debugLogger";
+import DefaultButton from "@/components/defaultButton";
 
 type OrderItemProps = {
   setOrderItem: Dispatch<SetStateAction<OrderItemCreate[]>>;
@@ -25,7 +26,7 @@ type AddOrderItemType = {
 };
 
 const ProductsForm = (props: OrderItemProps) => {
-  const { products, status, isLoading } = useProducts();
+  const { products } = useProducts();
   const [newOrderItem, setNewOrderItem] = useState<OrderItemCreate>({
     product_uuid: "",
     unit_price: 0,
@@ -125,16 +126,11 @@ const ProductsForm = (props: OrderItemProps) => {
           }
         />
         <InputText
-          type={"number"}
+          type={"text"}
           label={"Preço unitário"}
           required={true}
-          value={String(newOrderItem.unit_price)}
-          onChange={(e) =>
-            setNewOrderItem((prev) => ({
-              ...prev,
-              unit_price: Number(e.target.value),
-            }))
-          }
+          value={priceFormatter(newOrderItem.unit_price)}
+          readonly={true}
         />
         <InputText
           type={"number"}
@@ -160,13 +156,13 @@ const ProductsForm = (props: OrderItemProps) => {
         />
       </div>
       <h4>Total: {priceFormatter(calculateProductTotalPrice(newOrderItem))}</h4>
-      <button
-        className={styles.saveButton}
+      <DefaultButton
         type={"button"}
         onClick={handleSave}
+        className={styles.saveButton}
       >
-        Adicionar item
-      </button>
+        <span>Adicionar item</span>
+      </DefaultButton>
       <div className={styles.productsListContainer}>
         <h4>Produtos adicionados</h4>
         <TableHeader titles={tableTitles} />

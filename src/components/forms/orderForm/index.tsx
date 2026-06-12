@@ -17,6 +17,11 @@ import OrderItemForm from "@/components/forms/orderItemForm";
 import { OrderItemCreate } from "@/types/orderItem.interface";
 import debugLogger from "@/utils/debugLogger";
 import DefaultButton from "@/components/defaultButton";
+import numberRgxFormatter from "@/utils/numberRgxFormatter";
+import { useLoading } from "@/hooks/useLoading";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { GiConfirmed } from "react-icons/gi";
+import { BiCheck } from "react-icons/bi";
 
 const OrderForm = () => {
   const [deadline, setDeadline] = useState<string>("");
@@ -31,15 +36,20 @@ const OrderForm = () => {
   const [billing, setBilling] = useState<BillingCreate>({
     billing_address: "",
     client_uuid: "",
+    billing_cep: "",
     name: "",
   });
   const [delivery, setDelivery] = useState<DeliveryCreate>({
     building: "",
     delivery_address: "",
+    address_number: "",
+    contact_number: "",
+    delivery_cep: "",
     reference: "",
   });
   const [orderItem, setOrderItem] = useState<OrderItemCreate[]>([]);
   const router = useRouter();
+  const { isLoading, setIsLoading } = useLoading();
 
   const forms = [
     <RevenueForm setRevenue={setRevenue} revenue={revenue} key={0} />,
@@ -54,6 +64,8 @@ const OrderForm = () => {
       return;
     }
 
+    setIsLoading(true);
+
     debugLogger([
       JSON.stringify({
         delivery,
@@ -66,11 +78,17 @@ const OrderForm = () => {
     ]);
 
     const body = {
-      delivery,
+      delivery: {
+        ...delivery,
+        delivery_cep: Number(numberRgxFormatter(delivery.delivery_cep)),
+        address_number: Number(numberRgxFormatter(delivery.address_number)),
+        contact_number: numberRgxFormatter(delivery.contact_number),
+      },
       revenue,
       billing: {
         ...billing,
         client_uuid: revenue.client_uuid,
+        billing_cep: Number(numberRgxFormatter(billing.billing_cep)),
       },
       order_deadline: new Date(deadline),
       client_uuid: revenue.client_uuid,
@@ -84,6 +102,8 @@ const OrderForm = () => {
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -115,34 +135,17 @@ const OrderForm = () => {
       <div className={styles.tabs}>{displayTabs(step)}</div>
       {CurrentComponent}
       <div className={styles.buttonsContainer}>
-        <DefaultButton
-          type={"button"}
-          onClick={() => {
-            prevStep();
-            debugLogger([
-              JSON.stringify(revenue),
-              JSON.stringify(billing),
-              JSON.stringify(delivery),
-              JSON.stringify(orderItem),
-            ]);
-          }}
-        >
-          {prevButtonText}
+        <DefaultButton type={"button"} onClick={() => prevStep()}>
+          <MdKeyboardArrowLeft />
+          <span>{prevButtonText}</span>
         </DefaultButton>
         <DefaultButton
           style={doneStyle}
           type={"button"}
-          onClick={() => {
-            nextStep();
-            debugLogger([
-              JSON.stringify(revenue),
-              JSON.stringify(billing),
-              JSON.stringify(delivery),
-              JSON.stringify(orderItem),
-            ]);
-          }}
+          onClick={() => nextStep()}
         >
-          {nextButtonText}
+          <span>{nextButtonText}</span>
+          {isLastForm ? <BiCheck /> : <MdKeyboardArrowRight />}
         </DefaultButton>
       </div>
       <div className={styles.orderItemsListContainer}></div>

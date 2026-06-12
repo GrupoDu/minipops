@@ -2,16 +2,16 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import { Order } from "@/types/order.interface";
 import { api } from "@/services/api";
-import TableHeader from "@/components/tableHeader";
 import { priceFormatter } from "@/utils/priceFormatter";
 import PrintButton from "@/components/printButton";
 import { OrderItem } from "@/types/orderItem.interface";
 import { cookies } from "next/headers";
-import OrderField from "@/components/orderFields";
 import Breadcrumb from "@/components/breadcrumb";
 import Image from "next/image";
 import Logo from "@/assets/grupodu_new_logo.png";
 import { dateFormatter } from "@/utils/dateFormatter";
+import phoneFormatter from "@/utils/phoneFormatter";
+import cepFormatter from "@/utils/cepFormatter";
 
 export default async function OrderDetailsPage({
   params,
@@ -21,15 +21,6 @@ export default async function OrderDetailsPage({
   const { slug } = await params;
   const order = await getOrder(slug);
   const year = new Date().getFullYear();
-  const tableHeaderTitles = [
-    "Produto",
-    "Valor unit.",
-    "Quantidade",
-    "Desconto(%)",
-    "IPI(%)",
-    "Acréscimo(%)",
-    "Total",
-  ];
 
   if (!order) return <OrderNotFound slug={slug} />;
 
@@ -37,15 +28,15 @@ export default async function OrderDetailsPage({
 
   const renderOrderItems = (items: OrderItem[]) => {
     return items.map((item) => (
-      <li key={item.order_item_uuid}>
-        <span>{item.product_uuid}</span>
-        <span>{priceFormatter(item.unit_price)}</span>
-        <span>{item.quantity}</span>
-        <span>{item.discount_percentage}%</span>
-        <span>{item.ipi}%</span>
-        <span>{item.additional_amount}%</span>
-        <span>{priceFormatter(item.total)}</span>
-      </li>
+      <tr key={item.order_item_uuid}>
+        <td>{item.products.acronym}</td>
+        <td>{priceFormatter(item.unit_price)}</td>
+        <td>{item.quantity} und.</td>
+        <td>{item.discount_percentage}%</td>
+        <td>{item.ipi}%</td>
+        <td>{item.additional_amount}%</td>
+        <td>{priceFormatter(item.total)}</td>
+      </tr>
     ));
   };
 
@@ -58,77 +49,205 @@ export default async function OrderDetailsPage({
       <Breadcrumb
         customLabels={{
           pedidos: "Lista de Pedidos",
-          [slug]: `Pedido ${order.order_uuid}`,
+          [slug]: `Pedido ${order.custom_order_id}`,
         }}
       />
       <div className="mainContent">
         <div className={styles.orderContainer}>
-          <div
-            className={`${styles.statusBar} ${styles[`status_${statusClass}`]}`}
-          />
           <div className={styles.printLogo}>
             <Image
               className={styles.logo}
               src={Logo}
               alt={"logo-grupodu"}
-              width={60}
-              height={60}
+              width={100}
+              height={100}
             />
             <div className={styles.textInfo}>
-              <h4>GrupoDu • {year}</h4>
-              <span>{dateFormatter(order.created_at)}</span>
+              <h3>GrupoDu</h3>
+              <div className={styles.date}>
+                <span>Data de emissão: {dateFormatter(order.created_at)}</span>
+              </div>
             </div>
           </div>
-          <h4>Pedido: {order.order_uuid}</h4>
+          <div
+            className={`${styles.statusBar} ${styles[`status_${statusClass}`]}`}
+          ></div>
+          <h4 className={styles.orderId}>Pedido: {order.custom_order_id}</h4>
           <hr />
-          <div className={`${styles.orderInfoBlocks} ${styles.revenue}`}>
-            <h5>Faturamento</h5>
-            <div className={styles.gridFields}>
-              <OrderField label="Cliente" value={order.clients.client_name} />
-              <OrderField label="CNPJ" value={order.revenue.revenue_cnpj} />
-              <OrderField
-                label="Endereço"
-                value={order.revenue.revenue_address}
-              />
-              <OrderField
-                label="Telefone"
-                value={order.revenue.revenue_phone}
-              />
-              <OrderField label="E-mail" value={order.revenue.revenue_email} />
+
+          {/* |--- TABELA ---| */}
+          <div className={styles.revenueBillingContainer}>
+            {/* |-- FATURAMENTO --| */}
+            <div className={styles.revenueContainer}>
+              <table>
+                <thead className={styles.formSectionTitle}>
+                  <tr>
+                    <th>Faturamento</th>
+                  </tr>
+                </thead>
+                <thead>
+                  <tr>
+                    <th>Razão Social</th>
+                    <th>CNPJ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{order.clients.client_name}</td>
+                    <td>{order.clients.client_cnpj}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Endereço</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{order.clients.client_address}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th className={styles.bottomInfo}>Telefone</th>
+                    <th className={styles.bottomInfo}>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{phoneFormatter(order.clients.client_phone)}</td>
+                    <td>{order.clients.client_name}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* |-- COBRANÇA --| */}
+            <div className={styles.billingContainer}>
+              <table>
+                <thead className={styles.formSectionTitle}>
+                  <tr>
+                    <th>Cobrança</th>
+                  </tr>
+                </thead>
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{order.billing.name}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Endereço</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{order.billing.billing_address}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th>CEP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{cepFormatter(order.billing.billing_cep)}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <div className={styles.orderInfoBlocks}>
-            <h5>Cobrança</h5>
-            <OrderField label="Nome" value={order.billing.name} />
-            <OrderField
-              label="Endereço"
-              value={order.billing.billing_address}
-            />
-          </div>
-          <div className={styles.orderInfoBlocks}>
-            <h5>Entrega</h5>
-            <OrderField label="Obra" value={order.delivery.building} />
-            <OrderField
-              label="Endereço"
-              value={order.delivery.delivery_address}
-            />
-            <OrderField label="Referência" value={order.delivery.reference} />
-            <OrderField
-              label="Observação"
-              value={order.delivery.delivery_observation}
-            />
-          </div>
-          <div className={styles.orderInfoBlocks}>
-            <h5>Produtos</h5>
-            <TableHeader titles={tableHeaderTitles} />
-            <ul className={styles.itemsList}>
-              {renderOrderItems(order.order_items)}
-            </ul>
-          </div>
-          <div className={styles.totalSection}>
-            <hr />
-            <h3>Valor total: {priceFormatter(order.total_price)}</h3>
-          </div>
+
+          {/* |-- ENTREGA --| */}
+          <table>
+            <thead className={styles.formSectionTitle}>
+              <tr>
+                <th>Entrega</th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th>Obra</th>
+                <th>Endereço</th>
+                <th>CEP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{order.delivery.building}</td>
+                <td>
+                  {order.delivery.delivery_address} - n°{" "}
+                  {order.delivery.address_number}
+                </td>
+                <td>{cepFormatter(order.delivery.delivery_cep)}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <tr>
+                <th className={styles.bottomInfo}>Celular</th>
+                <th className={styles.bottomInfo}>Referência</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{phoneFormatter(order.delivery.contact_number)}</td>
+                <td>
+                  {order.delivery.reference || "Referência não informada."}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* |-- PRODUTOS --| */}
+          <table>
+            <thead className={styles.formSectionTitle}>
+              <tr>
+                <th>Produtos</th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Valor Unit.</th>
+                <th>Quantidade</th>
+                <th>Desconto(%)</th>
+                <th>IPI(%)</th>
+                <th>Acrescimo(%)</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>{renderOrderItems(order.order_items)}</tbody>
+          </table>
+
+          {/* Total */}
+          <table style={{ marginTop: ".6rem" }}>
+            <tbody>
+              <tr>
+                <th>Valor Total</th>
+              </tr>
+              <tr>
+                <td style={{ fontSize: "1rem", fontWeight: 600 }}>
+                  {priceFormatter(order.total_price)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <PrintButton />
         </div>
       </div>

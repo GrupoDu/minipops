@@ -9,8 +9,9 @@
   gap: .4rem;
 
   button {
-    padding: .4rem;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
