@@ -1,0 +1,28 @@
+.pagination {
+  display: flex;
+  gap: .2rem;
+  padding: .4rem;
+  border: 1px solid var(--border-default-color);
+  background-color: white;
+  border-radius: .4rem;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
+
+  .paginationItem {
+    width: 1.6rem;
+    border-radius: .3rem;
+    padding: .2rem;
+    border: 1px solid var(--select-green);
+    background-color: var(--hover-green);
+    color: var(--select-green);
+    text-align: center;
+    text-decoration: none;
+    transition: all .2s ease-in-out;
+  }
+
+  .isSelected {
+    border: 1px solid var(--select-green);
+    background-color: var(--select-green);
+    color: white;
+    font-weight: bold;
+  }
+}

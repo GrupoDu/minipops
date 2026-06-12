@@ -7,6 +7,7 @@ export interface Client {
   client_phone: string;
   client_email: string;
   client_landline?: string;
+  client_logo?: string;
 }
 
 export interface ClientCreate extends Omit<

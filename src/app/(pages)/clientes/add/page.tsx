@@ -1,6 +1,4 @@
 import PageHeader from "@/components/pageHeader";
-import ClientsProvider from "@/providers/clients.provider";
-import ClientsList from "@/components/clientsList";
 import ClientForm from "@/components/forms/clientForm";
 
 function AddClientPage() {

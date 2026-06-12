@@ -1,7 +1,7 @@
 import PageHeader from "@/components/pageHeader";
-import ClientsProvider from "@/providers/clients.provider";
 import ClientsList from "@/components/clientsList";
-import styles from "./page.module.scss";
+import InputText from "@/components/inputs/inputText";
+import FilterContainer from "@/components/filterContainer";
 
 function CustomersPage() {
   return (
@@ -12,9 +12,23 @@ function CustomersPage() {
         addButton={"Novo cliente"}
       />
       <div className={"mainContent"}>
-        <ClientsProvider>
-          <ClientsList />
-        </ClientsProvider>
+        <FilterContainer>
+          <InputText
+            type={"text"}
+            label={"Nome"}
+            placeholder={"Pesquisar nome do cliente"}
+            isSearch={true}
+            filterTarget={"cliente"}
+          />
+          <InputText
+            type={"text"}
+            label={"Email"}
+            placeholder={"Pesquisar email do cliente"}
+            isSearch={true}
+            filterTarget={"email"}
+          />
+        </FilterContainer>
+        <ClientsList />
       </div>
     </div>
   );

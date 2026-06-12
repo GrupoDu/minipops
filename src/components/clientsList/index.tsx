@@ -1,61 +1,60 @@
 "use client";
 
-import useClients from "@/hooks/useClients";
 import styles from "./styles.module.scss";
-import { useState } from "react";
-import FilterContainer from "@/components/filterContainer";
-import InputText from "@/components/inputs/inputText";
-import ListTemplate from "@/components/listTemplate";
 import { Client } from "@/types/client.interface";
-import TableHeader from "@/components/tableHeader";
 import DefaultButton from "@/components/defaultButton";
+import phoneFormatter from "@/utils/phoneFormatter";
+import { EmptyList } from "@/components/emptyList";
+import useFetch from "@/hooks/useFetch";
+import ListTemplate from "@/components/listTemplate";
+import { Pagination } from "@/components/pagination";
+import { useSearchParams } from "next/navigation";
 
 const ClientsList = () => {
-  const { clients, status, error } = useClients();
-  const [nameFilter, setNameFilter] = useState("");
-  const [emailFilter, setEmailFilter] = useState("");
-  const tableTitles = ["Nome", "CNPJ", "Email", "Contato", "Ações"];
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page");
+  const { data } = useFetch<{ clients: Client[]; max_pages: number }>(
+    `clients?page=${page}`,
+  );
+  const tableHeads = ["Nome", "CNPJ", "Email", "Contato", "Ações"];
+
+  const clients = data?.clients;
+  const maxPage = data?.max_pages || 1;
+
+  if (!clients || clients.length === 0)
+    return <EmptyList targetName={"cliente"} />;
 
   return (
-    <div className={styles.clientsListContainer}>
-      <FilterContainer>
-        <InputText
-          type={"text"}
-          label={"Nome"}
-          value={nameFilter}
-          onChange={(e) => setNameFilter(e.target.value)}
-        />
-        <InputText
-          type={"text"}
-          label={"Email"}
-          value={emailFilter}
-          onChange={(e) => setEmailFilter(e.target.value)}
-        />
-      </FilterContainer>
-      <div className="listContainer">
-        <TableHeader titles={tableTitles} />
-        <ListTemplate>{displayClients(clients)}</ListTemplate>
-      </div>
-    </div>
+    <>
+      <ListTemplate heads={tableHeads}>
+        {clients?.map((client) => (
+          <tr key={client.client_uuid}>
+            <td>{client.client_name}</td>
+            <td>{client.client_cnpj}</td>
+            <td>{client.client_email || "Email não fornecido"}</td>
+            <td className={"phone"}>
+              <span>{phoneFormatter(client.client_phone)}</span>
+              <span className={!client.client_landline ? "isNotInformed" : ""}>
+                {client.client_landline
+                  ? phoneFormatter(client.client_landline)
+                  : "Fixo não informado"}
+              </span>
+            </td>
+            <td className={styles.buttonContainer}>
+              <DefaultButton
+                type={"button"}
+                isLink={true}
+                href={`/clientes/${client.client_uuid}`}
+              >
+                Visualizar
+              </DefaultButton>
+            </td>
+          </tr>
+        ))}
+      </ListTemplate>
+      <Pagination maxPage={maxPage} />
+    </>
   );
 };
-
-function displayClients(clients?: Client[]) {
-  if (!clients) {
-    return <div className={styles.fetchError}>Erro ao carregar clientes.</div>;
-  }
-
-  return clients?.map((client) => (
-    <li key={client.client_uuid} className={`listItem ${styles.itemList}`}>
-      <span>{client.client_name}</span>
-      <span>{client.client_cnpj}</span>
-      <span>{client.client_email || "Email não fornecido"}</span>
-      <span>{client.client_phone}</span>
-      <div className={styles.buttonContainer}>
-        <DefaultButton type={"button"}>Visualizar</DefaultButton>
-      </div>
-    </li>
-  ));
-}
 
 export default ClientsList;

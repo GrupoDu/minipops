@@ -16,6 +16,19 @@
     gap: .4rem;
   }
 
+  .fileInputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    border: 1px dashed var(--border-default-color);
+    border-radius: .6rem;
+  }
+
   .buttons {
     display: flex;
     gap: .4rem;

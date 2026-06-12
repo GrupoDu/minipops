@@ -1,0 +1,24 @@
+.clientInfoItemContainer {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+
+  .iconContainer {
+    padding: .6rem;
+    border: 1px solid var(--select-green);
+    display: flex;
+    border-radius: .4rem;
+    color: var(--select-green);
+    background-color: var(--hover-green);
+  }
+
+  .infoValue {
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-size: .8rem;
+    }
+  }
+}
