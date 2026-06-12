@@ -1,0 +1,26 @@
+.buttonContainer {
+  flex: 1;
+}
+
+.contacts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.linkButton {
+  padding: .6rem;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  background-color: black;
+  border-radius: .4rem;
+  border: none;
+  font-size: .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .2rem;
+}
+

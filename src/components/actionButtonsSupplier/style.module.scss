@@ -1,0 +1,29 @@
+.actionButtons {
+  display: flex;
+  gap: .4rem;
+  width: 100%;
+
+  .deleteButton {
+    border: none;
+    background-color: #a62222 ;
+    color: #ffadad;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      background-color: #ffadad;
+      color: #a62222;
+    }
+  }
+
+  .editButton {
+    border: none;
+    background-color: black;
+    color: #c3c3c3;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      background-color: #c3c3c3;
+      color: black;
+    }
+  }
+}
