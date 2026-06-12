@@ -18,6 +18,12 @@
   --on-going-color: #284576;
   --cancel-color: #800000;
   --shipped-color: #563b2b;
+  --warning-border: #8e1f1f;
+  --confirm-border: #202c77;
+
+  // Gradients
+  --warning-gradient: linear-gradient(145deg, #b52424 0%, #ca493e 45%, #8e1f1f 100%);
+  --confirm-gradient: linear-gradient(145deg, #4a95b5 0%, #216c8e 45%, #202c77 100%);
 }
 
 * {
@@ -26,7 +32,7 @@
 }
 
 html, body {
-  font-family: var(--font-poppins);
+  font-family: var(--font-poppins), sans-serif;
   font-size: 16px;
   width: 100%;
   height: 100%;
@@ -122,6 +128,18 @@ main {
   box-sizing: border-box;
   border-radius: .4rem;
 
+  .phone {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: .2rem;
+  }
+
+  .isNotInformed {
+    opacity: .5;
+    font-style: italic;
+  }
+
   .orderIdContainer {
     display: flex;
     flex-direction: column;
@@ -175,8 +193,34 @@ main {
 }
 
 .input {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
   border-radius: .4rem;
   border: 1px solid #CECECE;
   padding: .5rem;
   flex: 1;
+  transition: all .2s ease-in-out;
+
+  &:focus {
+    outline-color: var(--select-green);
+    box-shadow: 0 0 0 2px var(--hover-green);
+  }
+}
+
+.input[class="date"] {
+  flex: 1;
+
+  &:focus {
+    outline-color: var(--select-green);
+    box-shadow: 0 0 0 2px var(--hover-green);
+  }
+}
+
+.listWrapper {
+  border: 1px solid var(--border-default-color);
+  border-radius: .6rem;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
 }

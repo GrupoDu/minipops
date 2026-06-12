@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.scss";
-import Sidebar from "@/components/sidebar";
 import React from "react";
 import { ToastContainer } from "react-toastify";
+import { ModalProvider } from "@/providers/modal.provider";
+import { LoadingProvider } from "@/providers/loading.provider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -25,7 +26,9 @@ export default function RootLayout({
     <html lang="pt-br" className={poppins.variable}>
       <body>
         <ToastContainer />
-        {children}
+        <LoadingProvider>
+          <ModalProvider>{children}</ModalProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

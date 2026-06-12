@@ -11,7 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { IoIosLogOut } from "react-icons/io";
 import { MdOutlineHandshake } from "react-icons/md";
-import { FaChartColumn } from "react-icons/fa6";
+import { FaChartColumn, FaMoneyBillTransfer } from "react-icons/fa6";
 import { FaUserCog } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
@@ -19,12 +19,13 @@ import { api } from "@/services/api";
 function Sidebar() {
   const pathname = usePathname();
   const options = [
-    { option: "Dashboard", icon: LuLayoutDashboard },
-    { option: "Pedidos", icon: IoDocumentTextOutline },
-    { option: "Fornecedores", icon: BiPackage },
-    { option: "Clientes", icon: MdOutlineHandshake },
-    { option: "Analises", icon: FaChartColumn },
-    { option: "Usuarios", icon: FaUserCog },
+    { option: "Dashboard", icon: LuLayoutDashboard, href: "/dashboard" },
+    { option: "Pedidos", icon: IoDocumentTextOutline, href: "/pedidos?page=1" },
+    { option: "Fornecedores", icon: BiPackage, href: "/fornecedores?page=1" },
+    { option: "Clientes", icon: MdOutlineHandshake, href: "/clientes?page=1" },
+    { option: "Gastos", icon: FaMoneyBillTransfer, href: "/gastos?page=1" },
+    { option: "Analises", icon: FaChartColumn, href: "/analises" },
+    { option: "Usuarios", icon: FaUserCog, href: "/usuários?page=1" },
   ];
   const router = useRouter();
   const isOptionSelected = (option: string): boolean => {
@@ -61,7 +62,7 @@ function Sidebar() {
         {options.map((option) => (
           <Link
             key={option.option}
-            href={`/${option.option.toLowerCase()}`}
+            href={option.href}
             className={`${styles.menuItem} ${isOptionSelected(option.option) && styles.selected}`}
           >
             <option.icon className={styles.menuIcon} />

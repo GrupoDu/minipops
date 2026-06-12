@@ -3,6 +3,12 @@
   color: var(--dark-blue);
 }
 
+.searchInput {
+  border: none;
+  width: 100%;
+  outline: none;
+}
+
 .isRequired {
   &::after {
     content: "*";
