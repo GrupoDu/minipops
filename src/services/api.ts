@@ -1,38 +1,99 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { toast } from "react-toastify";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
-const API_URL = process.env["NEXT_PUBLIC_API_URL"];
-const API_URL_DEV =
-  process.env["NEXT_PUBLIC_API_URL_DEV"] || "http://localhost:8000";
-const isProd = process.env["NODE_ENV"] === "production";
-const API = isProd ? API_URL : API_URL_DEV;
+interface CustomAxiosConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
 
-if (isProd && !API_URL) throw new Error("Em produção mas sem API_URL definida");
+const isProd = process.env.NODE_ENV === "production";
+const PROD_API_URL = process.env.NEXT_PUBLIC_API_URL;
+const DEV_API_URL = process.env.NEXT_PUBLIC_API_URL_DEV;
+const API_URL = isProd ? PROD_API_URL : DEV_API_URL;
 
 export const api = axios.create({
-  baseURL: API,
+  baseURL: API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000,
-  timeoutErrorMessage: "Tempo de espera excedido. Tente novamente.",
+  timeout: 20000,
 });
 
-interface AxiosErrorApi extends AxiosError {
-  response: AxiosResponse;
-}
+type FailedQueue = {
+  resolve: (value?: unknown) => void;
+  reject: (reason?: unknown) => void;
+};
+
+let isRefreshing = false;
+let failedQueue: FailedQueue[] = [];
+
+const processQueue = (error: Error | null = null) => {
+  failedQueue.forEach((promise) => {
+    if (error) {
+      promise.reject(error);
+    } else {
+      promise.resolve();
+    }
+  });
+  failedQueue = [];
+};
 
 api.interceptors.response.use(
   (response) => response,
-  (error: AxiosErrorApi) => {
-    const isClient = typeof window !== "undefined";
-    const isNotLoginPage = isClient && window.location.pathname !== "/login";
+  async (error) => {
+    const originalRequest: CustomAxiosConfig = error.config;
 
-    if (isClient) toast.error(error.response?.data?.message);
+    if (originalRequest._retry) return Promise.reject(error);
 
-    // if (isNotLoginPage) document.location.href = "login";
+    const isNotLoginPage =
+      typeof window !== "undefined" &&
+      !window.location.pathname.includes("login");
 
-    return Promise.reject(error);
+    // Se já está fazendo refresh, coloca na fila
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      })
+        .then(() => {
+          return api(originalRequest);
+        })
+        .catch((err) => {
+          console.log("Mensagem de erro: ", err.message);
+          return Promise.reject(err);
+        });
+    }
+
+    // Marca que vai tentar refresh
+    originalRequest._retry = true;
+    isRefreshing = true;
+
+    try {
+      await axios.post(
+        `${API_URL}/login/refresh`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      // Processa a fila com sucesso
+      processQueue();
+
+      // Tenta a requisição original novamente
+      return api(originalRequest);
+    } catch (err) {
+      const refreshError = err as Error;
+      console.log("Não foi possível fazer o refresh");
+      // Processa a fila com erro
+      processQueue(refreshError);
+
+      // if (isNotLoginPage) window.location.href = "/login";
+
+      return Promise.reject(refreshError);
+    } finally {
+      isRefreshing = false;
+    }
   },
 );
