@@ -1,0 +1,47 @@
+.expensesList {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: .6rem;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+
+  thead, tbody {
+    tr {
+      border-bottom: 1px solid #e5e7eb;
+
+      th, td {
+        padding: 1rem;
+        box-sizing: border-box;
+        text-align: left;
+      }
+    }
+
+    tr:last-child {
+      border-bottom: none;
+    }
+  }
+
+  thead {
+    border-bottom: 1px solid #e5e7eb;
+
+    tr {
+      th {
+        font-weight: 400;
+        font-size: .8rem;
+        opacity: .6;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        font-size: .9rem;
+      }
+    }
+
+    tr:nth-child(odd) {
+      background-color: #f1f1f1;
+    }
+  }
+}

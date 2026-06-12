@@ -1,0 +1,19 @@
+.formTitle {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: .6rem;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+

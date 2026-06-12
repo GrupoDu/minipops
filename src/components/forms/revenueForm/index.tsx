@@ -34,6 +34,7 @@ const RevenueForm = (props: RevenueProps) => {
       revenue_landline: selectedClient?.client_landline || "",
       revenue_cnpj: selectedClient?.client_cnpj || "",
       revenue_address: selectedClient?.client_address || "",
+      revenue_email: selectedClient?.client_email || "",
     }));
   };
 
