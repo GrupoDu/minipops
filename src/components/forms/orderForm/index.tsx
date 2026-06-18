@@ -3,7 +3,6 @@
 import styles from "./styles.module.scss";
 import { InputDate } from "@/components/inputs/inputDate";
 import { CSSProperties, useState } from "react";
-import useOrderMultistepValues from "@/hooks/useOrderMultistepValues";
 import BillingForm from "@/components/forms/billingForm";
 import { Revenue } from "@/types/revenue.interface";
 import { BillingCreate } from "@/types/billing.interface";
@@ -19,9 +18,8 @@ import debugLogger from "@/utils/debugLogger";
 import DefaultButton from "@/components/defaultButton";
 import numberRgxFormatter from "@/utils/numberRgxFormatter";
 import { useLoading } from "@/hooks/useLoading";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { GiConfirmed } from "react-icons/gi";
 import { BiCheck } from "react-icons/bi";
+import BackButton from "@/components/backButton";
 
 const OrderForm = () => {
   const [deadline, setDeadline] = useState<string>("");
@@ -49,14 +47,7 @@ const OrderForm = () => {
   });
   const [orderItem, setOrderItem] = useState<OrderItemCreate[]>([]);
   const router = useRouter();
-  const { isLoading, setIsLoading } = useLoading();
-
-  const forms = [
-    <RevenueForm setRevenue={setRevenue} revenue={revenue} key={0} />,
-    <BillingForm setBilling={setBilling} billing={billing} key={1} />,
-    <DeliveryForm setDelivery={setDelivery} delivery={delivery} key={2} />,
-    <OrderItemForm setOrderItem={setOrderItem} key={3} />,
-  ];
+  const { setIsLoading } = useLoading();
 
   const handleSubmit = async () => {
     if (!deadline) {
@@ -101,25 +92,16 @@ const OrderForm = () => {
       router.push("/pedidos");
     } catch (err) {
       const error = err as Error;
-      console.error(error.message);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const { nextStep, step, prevStep, CurrentComponent } =
-    useOrderMultistepValues(forms, handleSubmit);
-
-  const isLastForm = step === 3;
-  const prevButtonText = step < 1 ? "Cancelar" : "Voltar";
-  const nextButtonText = step === 3 ? "Concluir" : "Próximo";
-
-  const doneStyle: CSSProperties = isLastForm
-    ? {
-        color: "var(--select-green)",
-        border: "1px solid var(--select-green)",
-      }
-    : {};
+  const doneStyle: CSSProperties = {
+    color: "var(--select-green)",
+    border: "1px solid var(--select-green)",
+  };
 
   return (
     <form className="formContainer">
@@ -132,20 +114,33 @@ const OrderForm = () => {
         onChange={(e) => setDeadline(e.target.value)}
         style={{ padding: ".8rem" }}
       />
-      <div className={styles.tabs}>{displayTabs(step)}</div>
-      {CurrentComponent}
+      <div className={styles.forms}>
+        <div className={styles.grid}>
+          <section className={styles.revenueForm}>
+            <Tab>Faturamento</Tab>
+            <RevenueForm setRevenue={setRevenue} revenue={revenue} key={0} />
+          </section>
+          <section className={styles.billingForm}>
+            <Tab>Cobrança</Tab>
+            <BillingForm setBilling={setBilling} billing={billing} key={1} />
+          </section>
+        </div>
+        <section className={styles.deliveryForm}>
+          <Tab>Entrega</Tab>
+          <DeliveryForm setDelivery={setDelivery} delivery={delivery} key={2} />
+        </section>
+        <section className={styles.orderItemForm}>
+          <Tab>Produtos</Tab>
+          <OrderItemForm setOrderItem={setOrderItem} key={3} />
+        </section>
+      </div>
       <div className={styles.buttonsContainer}>
-        <DefaultButton type={"button"} onClick={() => prevStep()}>
-          <MdKeyboardArrowLeft />
-          <span>{prevButtonText}</span>
-        </DefaultButton>
-        <DefaultButton
-          style={doneStyle}
-          type={"button"}
-          onClick={() => nextStep()}
-        >
-          <span>{nextButtonText}</span>
-          {isLastForm ? <BiCheck /> : <MdKeyboardArrowRight />}
+        <div>
+          <BackButton />
+        </div>
+        <DefaultButton style={doneStyle} type={"button"} onClick={handleSubmit}>
+          <span>Registrar</span>
+          <BiCheck />
         </DefaultButton>
       </div>
       <div className={styles.orderItemsListContainer}></div>
@@ -153,15 +148,12 @@ const OrderForm = () => {
   );
 };
 
-function displayTabs(step: number) {
-  const tabs = ["Faturamento", "Cobrança", "Entrega", "Produtos"];
-  const isSelected = (tab: string) => tabs[step] === tab;
-
-  return tabs.map((tab, index) => (
-    <div className={`${isSelected(tab) && styles.isSelected}`} key={index}>
-      <span>{tab}</span>
+function Tab({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={styles.tabs}>
+      <span>{children}</span>
     </div>
-  ));
+  );
 }
 
 export default OrderForm;
