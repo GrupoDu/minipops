@@ -19,31 +19,15 @@ export const Pagination = (props: PaginationProps) => {
   };
 
   const displayPaginationNumbers = () => {
-    const actualPage = Number(page);
-    let maxNumberPages = actualPage + 4;
-
-    if (maxPage < 4) maxNumberPages = maxPage;
-
     const paginationSpans = [];
 
-    if (actualPage > 1)
-      paginationSpans.push(
-        <Link
-          key={actualPage - 1}
-          href={`${pathname}?page=${actualPage - 1}`}
-          className={styles.paginationItem}
-        >
-          {actualPage - 1}
-        </Link>,
-      );
-
-    for (let i = actualPage; i < maxNumberPages; i++) {
-      if (i < 1) return;
+    for (let i = 1; i <= maxPage; i++) {
+      if (i > 5) return;
 
       paginationSpans.push(
         <Link
           key={i}
-          href={`/fornecedores?page=${i}`}
+          href={`${pathname}?page=${i}&per_page=10`}
           className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
         >
           {i}
@@ -57,12 +41,14 @@ export const Pagination = (props: PaginationProps) => {
   return (
     <div className={styles.pagination}>
       {displayPaginationNumbers()}
-      <Link
-        href={`${pathname}?page=${maxPage}`}
-        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-      >
-        {maxPage}
-      </Link>
+      {maxPage > 5 && (
+        <Link
+          href={`${pathname}?page=${maxPage}&per_page=10`}
+          className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+        >
+          {maxPage}
+        </Link>
+      )}
     </div>
   );
 };
