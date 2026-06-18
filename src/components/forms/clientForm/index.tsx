@@ -38,10 +38,11 @@ const ClientForm = () => {
         skipToast: true,
       });
       return imageUploadResponse.data.data.imageUrl;
-    } catch (error) {
+    } catch (err) {
       toast.warning(
         "A imagem não pôde ser enviada. O registro continuará sem logo.",
       );
+      console.error((err as Error).message);
       return null;
     }
   };
@@ -61,8 +62,8 @@ const ClientForm = () => {
       toast.success("Cliente registrado com sucesso");
       router.push("/clientes");
     } catch (err) {
-      const error = err as AxiosError;
-      const errorMessage: string = error.response?.data?.message;
+      const error = err as AxiosError<{ message?: string }>;
+      const errorMessage = error.response?.data?.message || "";
 
       if (errorMessage.includes("Campos obrigatórios")) {
         return toast.error("Campos obrigatórios faltando.");
