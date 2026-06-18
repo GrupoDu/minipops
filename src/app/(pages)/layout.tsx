@@ -1,7 +1,7 @@
 import "../globals.scss";
 import "@/lib/ag-charts-modules"; // Register AG Charts modules once
 import Sidebar from "@/components/sidebar";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default function RootLayout({
   children,
@@ -11,7 +11,11 @@ export default function RootLayout({
   return (
     <>
       <Sidebar />
-      <main>{children}</main>
+      <main>
+        <Suspense fallback={<div>Carregando...</div>}>
+          {children}
+        </Suspense>
+      </main>
     </>
   );
 }
