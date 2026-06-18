@@ -1,11 +1,25 @@
 .filterContainer {
   background-color: white;
   border-radius: .6rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  border: 1px solid var(--border-default-color);
 }
 .filters {
   display: flex;
   gap: .4rem;
   width: 100%;
+  align-items: flex-end;
+
+  .searchButton, .clearFilters {
+    height: fit-content;
+    padding: .6rem;
+    border: 1px solid var(--border-default-color);
+    border-radius: .4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
 }
