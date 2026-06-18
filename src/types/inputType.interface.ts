@@ -6,4 +6,5 @@ export interface InputType {
   value?: string;
   style?: CSSProperties;
   required?: boolean;
+  param?: string;
 }
