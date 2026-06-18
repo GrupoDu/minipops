@@ -3,7 +3,7 @@
 import styles from "./styles.module.scss";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { DEFAULT_PARAMS } from "@/constants/defaultParams";
+import { DEFAULT_PARAMS } from "@/constants/defaultParams.constant";
 
 const BackButton = ({ style }: { style?: React.CSSProperties }) => {
   const listPages = [
