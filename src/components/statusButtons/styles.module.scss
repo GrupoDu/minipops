@@ -1,0 +1,49 @@
+.statusBtnsContainer {
+  width: 100%;
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+
+  .statusBtns {
+    display: flex;
+    gap: .4rem;
+
+    button {
+      padding: .6rem .8rem;
+      border-radius: .2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+
+    .cancelButton {
+      border: 1px solid #8e1f1f;
+      color: #8e1f1f;
+      background-color: transparent;
+      transition: all .2s ease-in-out;
+
+      &:hover {
+        background-color: #8e1f1f;
+        color: white;
+      }
+    }
+
+    .doneButton {
+      border: 1px solid #4AB56C;
+      color: #4AB56C;
+      background-color: transparent;
+      transition: all .2s ease-in-out;
+
+      &:hover {
+        background-color: #4AB56C;
+        color: white;
+      }
+    }
+  }
+
+  .backButton {
+    flex: 1;
+  }
+}
