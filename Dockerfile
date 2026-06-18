@@ -1,4 +1,4 @@
-FROM node:25-alpine AS base
+FROM oven/bun:alpine AS base
 
 WORKDIR /app
 
@@ -9,13 +9,13 @@ ENV NODE_ENV=$NODE_ENV
 
 FROM base AS prod
 RUN echo "=> Rodando em produção..."
-RUN npm install
-RUN npm run build
+RUN bun install
+RUN bun run build
 EXPOSE 3001
-CMD ["npm", "run", "start"]
+CMD ["bun", "run", "start"]
 
 FROM base AS dev
 RUN echo "=> Rodando em dev..."
-RUN npm install
+RUN bun install
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+CMD ["bun", "run", "dev"]
