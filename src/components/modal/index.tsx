@@ -13,10 +13,10 @@ type ModalProps = {
 export const Modal = (props: ModalProps) => {
   const { type, onClickConfirm, showModal, setShowModal } = props;
 
-  const warningText = "Essa ação não poderá ser recuperada.";
-  const confirmText = "Deseja confirmar a ação?";
+  const WARNING_TEXT = "Essa ação não poderá ser recuperada.";
+  const CONFIRM_TEXT = "Deseja confirmar a ação?";
   const title = type === "warning" ? "Aviso!" : "Confirmar";
-  const text = type === "warning" ? warningText : confirmText;
+  const text = type === "warning" ? WARNING_TEXT : CONFIRM_TEXT;
 
   const warningStyle: CSSProperties = {
     background: "var(--warning-gradient)",
