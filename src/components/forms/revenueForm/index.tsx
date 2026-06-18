@@ -1,11 +1,12 @@
 "use client";
 
 import useClients from "@/hooks/useClients";
-import { ChangeEvent, Dispatch, SetStateAction, useEffect } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Revenue } from "@/types/revenue.interface";
 import InputText from "@/components/inputs/inputText";
 import InputSelect from "@/components/inputs/inputSelect";
 import styles from "./styles.module.scss";
+import numberRgxFormatter from "@/utils/numberRgxFormatter";
 
 type RevenueProps = {
   setRevenue: Dispatch<SetStateAction<Revenue>>;
@@ -14,7 +15,7 @@ type RevenueProps = {
 
 const RevenueForm = (props: RevenueProps) => {
   const { setRevenue, revenue } = props;
-  const { error, status, clients } = useClients();
+  const { clients } = useClients();
   const clientsList =
     clients?.map((client) => ({
       value: client.client_uuid,
@@ -58,6 +59,7 @@ const RevenueForm = (props: RevenueProps) => {
       <InputText
         type={"text"}
         label={"CNPJ"}
+        placeholder={"00.000.000/0000-00"}
         required={true}
         value={revenue.revenue_cnpj}
         onChange={(e) =>
@@ -66,16 +68,23 @@ const RevenueForm = (props: RevenueProps) => {
       />
       <InputText
         type={"text"}
-        label={"Telefone"}
+        label={"Celular"}
+        max={11}
+        placeholder={"00000000000"}
         required={true}
         value={revenue.revenue_phone}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenue_phone: e.target.value }))
+          setRevenue((prev) => ({
+            ...prev,
+            revenue_phone: numberRgxFormatter(e.target.value),
+          }))
         }
       />
       <InputText
         type={"text"}
         label={"Fixo"}
+        max={10}
+        placeholder={"0000000000"}
         value={revenue.revenue_landline}
         onChange={(e) =>
           setRevenue((prev) => ({ ...prev, revenue_landline: e.target.value }))
@@ -84,6 +93,7 @@ const RevenueForm = (props: RevenueProps) => {
       <InputText
         type={"text"}
         label={"Email"}
+        placeholder={"email@exemplo.com"}
         value={revenue.revenue_email}
         required={true}
         onChange={(e) =>

@@ -18,6 +18,7 @@ const DeliveryForm = (props: DeliveyProps) => {
       <InputText
         type={"text"}
         label={"Obra"}
+        required={true}
         value={delivery.building}
         onChange={(e) =>
           setDelivery((prev) => ({ ...prev, building: e.target.value }))
@@ -25,15 +26,10 @@ const DeliveryForm = (props: DeliveyProps) => {
       />
       <InputText
         type={"text"}
-        label={"Local de entrega"}
-        value={delivery.delivery_address}
-        onChange={(e) =>
-          setDelivery((prev) => ({ ...prev, delivery_address: e.target.value }))
-        }
-      />
-      <InputText
-        type={"text"}
         label={"CEP"}
+        max={8}
+        placeholder={"00000000"}
+        required={true}
         value={delivery.delivery_cep}
         onChange={(e) =>
           setDelivery((prev) => ({ ...prev, delivery_cep: e.target.value }))
@@ -41,7 +37,18 @@ const DeliveryForm = (props: DeliveyProps) => {
       />
       <InputText
         type={"text"}
-        label={"Número (local)"}
+        label={"Local de entrega"}
+        required={true}
+        value={delivery.delivery_address}
+        onChange={(e) =>
+          setDelivery((prev) => ({ ...prev, delivery_address: e.target.value }))
+        }
+      />
+      <InputText
+        type={"text"}
+        label={"Número"}
+        placeholder={"000"}
+        max={3}
         value={delivery.address_number}
         onChange={(e) =>
           setDelivery((prev) => ({
@@ -53,6 +60,9 @@ const DeliveryForm = (props: DeliveyProps) => {
       <InputText
         type={"text"}
         label={"Celular"}
+        max={11}
+        placeholder={"00000000000"}
+        required={true}
         value={delivery.contact_number}
         onChange={(e) =>
           setDelivery((prev) => ({
