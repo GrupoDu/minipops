@@ -20,12 +20,32 @@ function Sidebar() {
   const pathname = usePathname();
   const options = [
     { option: "Dashboard", icon: LuLayoutDashboard, href: "/dashboard" },
-    { option: "Pedidos", icon: IoDocumentTextOutline, href: "/pedidos?page=1" },
-    { option: "Fornecedores", icon: BiPackage, href: "/fornecedores?page=1" },
-    { option: "Clientes", icon: MdOutlineHandshake, href: "/clientes?page=1" },
-    { option: "Gastos", icon: FaMoneyBillTransfer, href: "/gastos?page=1" },
+    {
+      option: "Pedidos",
+      icon: IoDocumentTextOutline,
+      href: "/pedidos?page=1&per_page=10",
+    },
+    {
+      option: "Fornecedores",
+      icon: BiPackage,
+      href: "/fornecedores?page=1&per_page=10",
+    },
+    {
+      option: "Clientes",
+      icon: MdOutlineHandshake,
+      href: "/clientes?page=1&per_page=10",
+    },
+    {
+      option: "Gastos",
+      icon: FaMoneyBillTransfer,
+      href: "/gastos?page=1&per_page=10",
+    },
     { option: "Analises", icon: FaChartColumn, href: "/analises" },
-    { option: "Usuarios", icon: FaUserCog, href: "/usuários?page=1" },
+    {
+      option: "Usuarios",
+      icon: FaUserCog,
+      href: "/usuários?page=1&per_page=10",
+    },
   ];
   const router = useRouter();
   const isOptionSelected = (option: string): boolean => {
