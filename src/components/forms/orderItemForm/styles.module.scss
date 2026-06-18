@@ -1,6 +1,45 @@
 .productsListContainer {
   border-bottom: 1px solid var(--border-default-color);
 
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid var(--border-default-color);
+
+    thead, tbody {
+      tr {
+        border-bottom: 1px solid var(--border-default-color);
+
+        th {
+          text-align: left;
+          font-size: .9rem;
+          opacity: .6;
+          border-bottom: 1px solid var(--border-default-color);
+        }
+
+        td {
+          font-size: .8rem;
+
+
+        }
+
+        th, td {
+          padding: .6rem;
+        }
+      }
+    }
+
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #f4f4f4;
+      }
+
+      tr:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
   ul {
     li {
       list-style: none;
@@ -32,13 +71,16 @@
   display: flex;
   align-items: center;
   border: 1px solid var(--confirm-border) !important;
+  transition: all .2s ease-in-out;
 
   span {
     text-align: center;
     width: 100%;
+    font-weight: 700;
   }
 
   &:hover {
+    color: white;
     background-color: var(--confirm-border) !important;
   }
 }
