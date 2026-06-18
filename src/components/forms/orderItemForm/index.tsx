@@ -6,10 +6,10 @@ import useProducts from "@/hooks/useProducts";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { OrderItemCreate } from "@/types/orderItem.interface";
 import InputText from "@/components/inputs/inputText";
-import TableHeader from "@/components/tableHeader";
 import { priceFormatter } from "@/utils/priceFormatter";
 import debugLogger from "@/utils/debugLogger";
 import DefaultButton from "@/components/defaultButton";
+import { toast } from "react-toastify";
 
 type OrderItemProps = {
   setOrderItem: Dispatch<SetStateAction<OrderItemCreate[]>>;
@@ -76,6 +76,12 @@ const ProductsForm = (props: OrderItemProps) => {
   const handleSave = () => {
     const product = getProduct(newOrderItem);
 
+    if (newOrderItem.quantity < 1)
+      return toast.error("Quantidade de produtos inválida.");
+
+    if (!newOrderItem.product_uuid || newOrderItem.product_uuid === "")
+      return toast.error("Por favor, selecione um produto.");
+
     setOrderItem((prevState) => [...prevState, newOrderItem]);
     setAddProductsList((prevState) => [
       ...prevState,
@@ -95,7 +101,7 @@ const ProductsForm = (props: OrderItemProps) => {
     setNewOrderItem({
       product_uuid: "",
       unit_price: 0,
-      quantity: 0,
+      quantity: 1,
       ipi: 0,
       discount_percentage: 0,
       additional_amount: 0,
@@ -161,12 +167,20 @@ const ProductsForm = (props: OrderItemProps) => {
         onClick={handleSave}
         className={styles.saveButton}
       >
-        <span>Adicionar item</span>
+        <span>+ Adicionar item</span>
       </DefaultButton>
       <div className={styles.productsListContainer}>
         <h4>Produtos adicionados</h4>
-        <TableHeader titles={tableTitles} />
-        {displayAddOrderItems(addProductsList)}
+        <table>
+          <thead>
+            <tr>
+              {tableTitles.map((head, index) => (
+                <th key={index}>{head}</th>
+              ))}
+            </tr>
+          </thead>
+          {displayAddOrderItems(addProductsList)}
+        </table>
       </div>
     </div>
   );
@@ -181,18 +195,18 @@ function calculateProductTotalPrice(item: {
 
 function displayAddOrderItems(orderItems?: AddOrderItemType[]) {
   return (
-    <ul>
+    <tbody>
       {orderItems?.map((item, index) => (
-        <li key={index}>
-          <span>{item.product}</span>
-          <span>{priceFormatter(item.unitprice)}</span>
-          <span>{item.quantity}</span>
-          <span>{item.descount}</span>
-          <span>{item.ipi}</span>
-          <span>{priceFormatter(item.total)}</span>
-        </li>
+        <tr key={index}>
+          <td>{item.product}</td>
+          <td>{priceFormatter(item.unitprice)}</td>
+          <td>{item.quantity}</td>
+          <td>{item.descount}</td>
+          <td>{item.ipi}</td>
+          <td>{priceFormatter(item.total)}</td>
+        </tr>
       ))}
-    </ul>
+    </tbody>
   );
 }
 
