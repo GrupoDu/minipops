@@ -33,12 +33,16 @@ const ClientsList = () => {
             <td>{client.client_cnpj}</td>
             <td>{client.client_email || "Email não fornecido"}</td>
             <td className={"phone"}>
-              <span>{phoneFormatter(client.client_phone)}</span>
-              <span className={!client.client_landline ? "isNotInformed" : ""}>
-                {client.client_landline
-                  ? phoneFormatter(client.client_landline)
-                  : "Fixo não informado"}
-              </span>
+              <div className={styles.phoneCellContainer}>
+                <span>{phoneFormatter(client.client_phone)}</span>
+                <span
+                  className={!client.client_landline ? "isNotInformed" : ""}
+                >
+                  {client.client_landline
+                    ? phoneFormatter(client.client_landline)
+                    : "Fixo não informado"}
+                </span>
+              </div>
             </td>
             <td className={styles.buttonContainer}>
               <DefaultButton
