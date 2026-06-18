@@ -114,7 +114,6 @@ main {
 .multistepForm {
   display: flex;
   flex-direction: column;
-  padding: .8rem;
   gap: .8rem;
 }
 
@@ -221,6 +220,6 @@ main {
   border: 1px solid var(--border-default-color);
   border-radius: .6rem;
   background-color: white;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
 }
