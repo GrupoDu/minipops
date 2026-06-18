@@ -12,6 +12,7 @@ interface InputTextProps extends InputType {
   placeholder?: string;
   isSearch?: boolean;
   min?: number;
+  max?: number;
   style?: CSSProperties;
   readonly?: boolean;
 }
@@ -29,6 +30,7 @@ const InputText = (props: InputTextProps) => {
     isSearch,
     filterTarget,
     readonly,
+    max,
   } = props;
 
   const [filterValue, setFilterValue] = useState("");
@@ -79,6 +81,7 @@ const InputText = (props: InputTextProps) => {
             value={value}
             readOnly={readonly}
             min={min}
+            maxLength={max}
             onChange={onChange}
             placeholder={placeholder}
             className={"input"}
