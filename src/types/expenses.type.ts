@@ -10,7 +10,7 @@ export interface Expenses {
   supplier_uuid?: string | null;
 }
 
-export interface ExpensesOffset {
+export interface ExpensesPagination {
   expenses: Expenses[];
   max_pages: number;
 }
