@@ -10,6 +10,11 @@ export interface Expenses {
   supplier_uuid?: string | null;
 }
 
+export interface ExpensesOffset {
+  expenses: Expenses[];
+  max_pages: number;
+}
+
 export interface ExpensesCreate extends Omit<
   Expenses,
   "expense_uuid" | "suppliers"

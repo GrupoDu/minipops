@@ -18,6 +18,11 @@ export interface Order {
   total_price: number;
 }
 
+export interface OrderPagination {
+  orders: Order[];
+  max_pages: number;
+}
+
 type omitCreate =
   | "created_at"
   | "order_uuid"
