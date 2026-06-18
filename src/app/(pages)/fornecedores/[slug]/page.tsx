@@ -9,10 +9,6 @@ import { MdOutlineEmail } from "react-icons/md";
 import { TbDeviceLandlinePhone } from "react-icons/tb";
 import cepFormatter from "@/utils/cepFormatter";
 import { BsPostcard } from "react-icons/bs";
-import DefaultButton from "@/components/defaultButton";
-import { BiTrash } from "react-icons/bi";
-import { FaEdit } from "react-icons/fa";
-import { Modal } from "@/components/modal";
 import { SupplierModal } from "@/components/supplierModal";
 import { ActionButtonsSupplier } from "@/components/actionButtonsSupplier";
 
