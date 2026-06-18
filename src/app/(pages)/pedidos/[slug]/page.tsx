@@ -12,6 +12,7 @@ import Logo from "@/assets/grupodu_new_logo.png";
 import { dateFormatter } from "@/utils/dateFormatter";
 import phoneFormatter from "@/utils/phoneFormatter";
 import cepFormatter from "@/utils/cepFormatter";
+import { StatusButtons } from "@/components/statusButtons";
 
 export default async function OrderDetailsPage({
   params,
@@ -20,7 +21,8 @@ export default async function OrderDetailsPage({
 }) {
   const { slug } = await params;
   const order = await getOrder(slug);
-  const year = new Date().getFullYear();
+  const isOrderDone =
+    order?.order_status === "Concluído" || order?.order_status === "Cancelado";
 
   if (!order) return <OrderNotFound slug={slug} />;
 
@@ -53,6 +55,7 @@ export default async function OrderDetailsPage({
         }}
       />
       <div className="mainContent">
+        <StatusButtons slug={slug} show={!isOrderDone} />
         <div className={styles.orderContainer}>
           <div className={styles.printLogo}>
             <Image
@@ -236,7 +239,7 @@ export default async function OrderDetailsPage({
           </table>
 
           {/* Total */}
-          <table style={{ marginTop: ".6rem" }}>
+          <table style={{ marginTop: ".6rem" }} className={styles.totalSection}>
             <tbody>
               <tr>
                 <th>Valor Total</th>
