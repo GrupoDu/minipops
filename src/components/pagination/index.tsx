@@ -14,9 +14,7 @@ export const Pagination = (props: PaginationProps) => {
   const page = searchParams.get("page");
   const pathname = usePathname();
 
-  const isSelected = (pageItem: number) => {
-    return pageItem === Number(page);
-  };
+  const isSelected = (pageItem: number) => pageItem === Number(page);
 
   const displayPaginationNumbers = () => {
     const paginationSpans = [];
@@ -27,7 +25,7 @@ export const Pagination = (props: PaginationProps) => {
       paginationSpans.push(
         <Link
           key={i}
-          href={`${pathname}?page=${i}&per_page=10`}
+          href={`${pathname}?page=${i}&per_page=7`}
           className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
         >
           {i}
@@ -43,7 +41,7 @@ export const Pagination = (props: PaginationProps) => {
       {displayPaginationNumbers()}
       {maxPage > 5 && (
         <Link
-          href={`${pathname}?page=${maxPage}&per_page=10`}
+          href={`${pathname}?page=${maxPage}&per_page=7`}
           className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
         >
           {maxPage}
