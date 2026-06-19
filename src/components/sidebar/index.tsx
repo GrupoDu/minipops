@@ -15,6 +15,7 @@ import { FaChartColumn, FaMoneyBillTransfer } from "react-icons/fa6";
 import { FaUserCog } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
+import { DEFAULT_PARAMS } from "@/constants/defaultParams.constant";
 
 function Sidebar() {
   const pathname = usePathname();
@@ -23,28 +24,28 @@ function Sidebar() {
     {
       option: "Pedidos",
       icon: IoDocumentTextOutline,
-      href: "/pedidos?page=1&per_page=10",
+      href: `/pedidos?${DEFAULT_PARAMS}`,
     },
     {
       option: "Fornecedores",
       icon: BiPackage,
-      href: "/fornecedores?page=1&per_page=10",
+      href: `/fornecedores?${DEFAULT_PARAMS}`,
     },
     {
       option: "Clientes",
       icon: MdOutlineHandshake,
-      href: "/clientes?page=1&per_page=10",
+      href: `/clientes?${DEFAULT_PARAMS}`,
     },
     {
       option: "Gastos",
       icon: FaMoneyBillTransfer,
-      href: "/gastos?page=1&per_page=10",
+      href: `/gastos?${DEFAULT_PARAMS}`,
     },
     { option: "Analises", icon: FaChartColumn, href: "/analises" },
     {
       option: "Usuarios",
       icon: FaUserCog,
-      href: "/usuários?page=1&per_page=10",
+      href: `/usuários?${DEFAULT_PARAMS}`,
     },
   ];
   const router = useRouter();
