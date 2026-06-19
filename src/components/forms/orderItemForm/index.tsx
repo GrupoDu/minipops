@@ -10,6 +10,7 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import debugLogger from "@/utils/debugLogger";
 import DefaultButton from "@/components/defaultButton";
 import { toast } from "react-toastify";
+import { calculateProductTotalPrice } from "@/utils/calculateProductTotalPrice";
 
 type OrderItemProps = {
   setOrderItem: Dispatch<SetStateAction<OrderItemCreate[]>>;
@@ -95,6 +96,7 @@ const ProductsForm = (props: OrderItemProps) => {
         total: calculateProductTotalPrice({
           quantity: newOrderItem.quantity,
           unit_price: newOrderItem.unit_price,
+          discount_percentage: newOrderItem.discount_percentage,
         }),
       },
     ]);
@@ -185,13 +187,6 @@ const ProductsForm = (props: OrderItemProps) => {
     </div>
   );
 };
-
-function calculateProductTotalPrice(item: {
-  quantity: number;
-  unit_price: number;
-}): number {
-  return item.quantity * item.unit_price;
-}
 
 function displayAddOrderItems(orderItems?: AddOrderItemType[]) {
   return (
