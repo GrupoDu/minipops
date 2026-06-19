@@ -23,6 +23,9 @@ export default async function OrderDetailsPage({
   const order = await getOrder(slug);
   const isOrderDone =
     order?.order_status === "Concluído" || order?.order_status === "Cancelado";
+  const hasAddressNumber =
+    !!order?.delivery.address_number &&
+    order.delivery.address_number.toString().length === 3;
 
   if (!order) return <OrderNotFound slug={slug} />;
 
@@ -193,8 +196,10 @@ export default async function OrderDetailsPage({
               <tr>
                 <td>{order.delivery.building}</td>
                 <td>
-                  {order.delivery.delivery_address} - n°{" "}
-                  {order.delivery.address_number}
+                  {order.delivery.delivery_address}
+                  {hasAddressNumber &&
+                    ` - n°
+                  ${order.delivery.address_number}`}
                 </td>
                 <td>{cepFormatter(order.delivery.delivery_cep)}</td>
               </tr>
