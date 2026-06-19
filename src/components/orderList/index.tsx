@@ -5,7 +5,7 @@ import { OrderPagination } from "@/types/order.interface";
 import { usePathname, useSearchParams } from "next/navigation";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { priceFormatter } from "@/utils/priceFormatter";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import Link from "next/link";
 import { CgDetailsMore } from "react-icons/cg";
 import ListTemplate from "@/components/listTemplate";
@@ -16,6 +16,7 @@ import { InputDate } from "@/components/inputs/inputDate";
 import { Client } from "@/types/client.interface";
 import InputSelect from "@/components/inputs/inputSelect";
 import { STATUS_CONSTANT } from "@/constants/status.constant";
+import { Pagination } from "@/components/pagination";
 
 function OrderList() {
   const searchParams = useSearchParams();
@@ -26,8 +27,16 @@ function OrderList() {
   const [clientFilter, setClientFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [endpoint, setEndpoint] = useState(
-    `orders?page=${page ? page : 1}&per_page=${per_page ? per_page : 10}${client ? `&client=${client}` : ""}${date ? `&created_at=${date}` : ""}`,
+    `orders?page=${page ? page : 1}&per_page=${per_page ? per_page : 7}${client ? `&client=${client}` : ""}${date ? `&created_at=${date}` : ""}`,
   );
+
+  useEffect(() => {
+    // TODO Pensar numa forma de remover esse useState daqui
+    setEndpoint(
+      `orders?page=${page ? page : 1}&per_page=${per_page ? per_page : 7}${client ? `&client=${client}` : ""}${date ? `&created_at=${date}` : ""}`,
+    );
+  }, [page, per_page, client, date]);
+
   const { data, isLoading } = useFetch<OrderPagination>(endpoint);
   const { data: clients } = useFetch<Client[]>("clients");
   const pathname = usePathname();
@@ -115,6 +124,7 @@ function OrderList() {
           ))}
         </ListTemplate>
       )}
+      <Pagination maxPage={data?.max_pages || 1} />
     </>
   );
 }
