@@ -1,0 +1,16 @@
+services:
+  web:
+    container_name: minipops_prod_v0.1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    ports:
+      - "3001:3001"
+    expose:
+      - "3001"
