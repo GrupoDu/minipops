@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./styles.module.scss";
 import { MdChevronRight, MdHome } from "react-icons/md";
+import { DEFAULT_PARAMS } from "@/constants/defaultParams.constant";
 
 interface BreadcrumbProps {
   customLabels?: Record<string, string>;
@@ -24,11 +25,14 @@ const Breadcrumb = ({ customLabels = {} }: BreadcrumbProps) => {
         </li>
 
         {pathSegments.map((segment, index) => {
-          const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
+          const href = `/${pathSegments.slice(0, index + 1).join("/")}?${DEFAULT_PARAMS}`;
           const isLast = index === pathSegments.length - 1;
-          
+
           // Use custom label if provided, otherwise capitalize and remove hyphens/underscores
-          const label = customLabels[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/[-_]/g, " ");
+          const label =
+            customLabels[segment] ||
+            segment.charAt(0).toUpperCase() +
+              segment.slice(1).replace(/[-_]/g, " ");
 
           return (
             <li key={href} className={styles.item}>
