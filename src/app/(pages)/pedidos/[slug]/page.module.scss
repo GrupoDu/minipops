@@ -4,60 +4,6 @@
   border: 1px solid var(--border-default-color);
   padding: 1.4rem;
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-
-    tbody, thead {
-
-      tr {
-        border-collapse: collapse;
-
-        th {
-          text-align: left;
-          border-collapse: collapse;
-          padding: .6rem;
-          font-size: .8rem;
-          border: 1px solid var(--border-default-color);
-          background-color: var(--on-going-color);
-          color: white;
-        }
-
-        td {
-          border: 1px solid var(--border-default-color);
-          padding: .6rem;
-          font-size: .8rem;
-        }
-
-        .bottomInfo {
-          border-top: none;
-        }
-      };
-    }
-  }
-
-  .formSectionTitle {
-    tr {
-      th {
-        border: none;
-        font-size: 1rem;
-        padding: .6rem 0;
-        background-color: transparent;
-        color: black;
-      }
-    }
-  }
-
-  .revenueBillingContainer {
-    display: flex;
-    gap: .4rem;
-    flex: 1;
-
-    div {
-      flex: 1;
-    }
-  }
-
   .orderId {
     text-align: center;
     padding: .6rem 0;
