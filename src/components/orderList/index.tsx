@@ -17,6 +17,8 @@ import { Client } from "@/types/client.interface";
 import InputSelect from "@/components/inputs/inputSelect";
 import { STATUS_CONSTANT } from "@/constants/status.constant";
 import { Pagination } from "@/components/pagination";
+import { useLoading } from "@/hooks/useLoading";
+import { LoadingBlock } from "@/components/loadingBlock";
 
 function OrderList() {
   const searchParams = useSearchParams();
@@ -24,6 +26,7 @@ function OrderList() {
   const per_page = searchParams.get("per_page");
   const client = searchParams.get("client");
   const date = searchParams.get("date");
+  const { setIsLoading } = useLoading();
   const [clientFilter, setClientFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [endpoint, setEndpoint] = useState(
@@ -64,67 +67,71 @@ function OrderList() {
     label: status,
   }));
 
-  if (isLoading)
-    return <div className={styles.fetchLoading}>Carregando...</div>;
-
   return (
     <>
-      <FilterContainer setEndpoint={setEndpoint} target={"orders"}>
-        <InputSelect
-          label={"Cliente"}
-          options={clientsOptions}
-          value={clientFilter}
-          filterTarget={"client"}
-          onChange={(e) => setClientFilter(e.target.value)}
-        />
-        <InputSelect
-          label={"Status"}
-          options={statusOptions}
-          filterTarget={"status"}
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        />
-        <InputDate label={"Data de emissão"} param={"created_at"} />
-      </FilterContainer>
-      {isOrdersEmpty ? (
+      {!isDashboard && (
+        <FilterContainer setEndpoint={setEndpoint} target={"orders"}>
+          <InputSelect
+            label={"Cliente"}
+            options={clientsOptions}
+            value={clientFilter}
+            filterTarget={"client"}
+            onChange={(e) => setClientFilter(e.target.value)}
+          />
+          <InputSelect
+            label={"Status"}
+            options={statusOptions}
+            filterTarget={"status"}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          />
+          <InputDate label={"Data de emissão"} param={"created_at"} />
+        </FilterContainer>
+      )}
+      {isLoading ? (
+        <LoadingBlock />
+      ) : isOrdersEmpty ? (
         <EmptyList targetName={"pedido"} />
       ) : (
-        <ListTemplate heads={Object.values(tableHeads)}>
-          {ordersToUse.map((order) => (
-            <tr key={order.custom_order_id}>
-              <td>
-                <div className={styles.orderIdContainer}>
-                  <span className={styles.orderId}>
-                    {order.custom_order_id}
-                  </span>
-                  <span className={styles.orderDate}>
-                    {dateFormatter(order.created_at)}
-                  </span>
-                </div>
-              </td>
-              <td>{order.clients.client_name}</td>
-              <td>{order.delivery.building}</td>
-              <td>
-                <div style={statusStyle(order.order_status)}>
-                  {order.order_status}
-                </div>
-              </td>
+        <>
+          <ListTemplate heads={Object.values(tableHeads)}>
+            {ordersToUse.map((order) => (
+              <tr key={order.custom_order_id}>
+                <td>
+                  <div className={styles.orderIdContainer}>
+                    <span className={styles.orderId}>
+                      {order.custom_order_id}
+                    </span>
+                    <span className={styles.orderDate}>
+                      {dateFormatter(order.created_at)}
+                    </span>
+                  </div>
+                </td>
+                <td>{order.clients.client_name}</td>
+                <td>{order.delivery.building}</td>
+                <td>
+                  <div style={statusStyle(order.order_status)}>
+                    {order.order_status}
+                  </div>
+                </td>
 
-              <td>{priceFormatter(order.total_price)}</td>
-              <td>
-                <Link
-                  className={styles.buttonContainer}
-                  href={`/pedidos/${order.custom_order_id}`}
-                >
-                  <CgDetailsMore color={"#000000"} />
-                  <span className={styles.buttonText}>Detalhes</span>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </ListTemplate>
+                <td>{priceFormatter(order.total_price)}</td>
+                <td>
+                  <Link
+                    className={styles.buttonContainer}
+                    href={`/pedidos/${order.custom_order_id}`}
+                    onClick={() => setIsLoading(true)}
+                  >
+                    <CgDetailsMore color={"#000000"} />
+                    <span className={styles.buttonText}>Detalhes</span>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </ListTemplate>
+          {!isDashboard && <Pagination maxPage={data?.max_pages || 1} />}
+        </>
       )}
-      <Pagination maxPage={data?.max_pages || 1} />
     </>
   );
 }
