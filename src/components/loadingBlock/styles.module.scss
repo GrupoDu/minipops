@@ -1,0 +1,15 @@
+.loadingBlockContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 1rem;
+  background-color: white;
+  border-radius: .6rem;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+
+  span {
+    color: var(--select-green);
+  }
+}
