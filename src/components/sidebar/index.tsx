@@ -16,36 +16,54 @@ import { FaUserCog } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { api } from "@/services/api";
 import { DEFAULT_PARAMS } from "@/constants/defaultParams.constant";
+import { useLoading } from "@/hooks/useLoading";
+import { PuffLoader } from "react-spinners";
 
 function Sidebar() {
   const pathname = usePathname();
+  const { isLoading, setIsLoading } = useLoading();
   const options = [
-    { option: "Dashboard", icon: LuLayoutDashboard, href: "/dashboard" },
+    {
+      option: "Dashboard",
+      icon: LuLayoutDashboard,
+      href: "/dashboard",
+      disabled: false,
+    },
     {
       option: "Pedidos",
       icon: IoDocumentTextOutline,
       href: `/pedidos?${DEFAULT_PARAMS}`,
+      disabled: false,
     },
     {
       option: "Fornecedores",
       icon: BiPackage,
       href: `/fornecedores?${DEFAULT_PARAMS}`,
+      disabled: false,
     },
     {
       option: "Clientes",
       icon: MdOutlineHandshake,
       href: `/clientes?${DEFAULT_PARAMS}`,
+      disabled: false,
     },
     {
       option: "Gastos",
       icon: FaMoneyBillTransfer,
       href: `/gastos?${DEFAULT_PARAMS}`,
+      disabled: false,
     },
-    { option: "Analises", icon: FaChartColumn, href: "/analises" },
+    {
+      option: "Analises",
+      icon: FaChartColumn,
+      href: "/analises",
+      disabled: true,
+    },
     {
       option: "Usuarios",
       icon: FaUserCog,
-      href: `/usuários?${DEFAULT_PARAMS}`,
+      href: `/usuarios?${DEFAULT_PARAMS}`,
+      disabled: true,
     },
   ];
   const router = useRouter();
@@ -67,13 +85,17 @@ function Sidebar() {
   return (
     <div className={styles.sidebarContainer}>
       <div className={styles.logoContainer}>
-        <Image
-          src={Logo}
-          alt={"GrupoDu Logo"}
-          width={100}
-          height={100}
-          className={styles.logo}
-        />
+        {isLoading ? (
+          <PuffLoader size={40} color={"#4AB56C"} />
+        ) : (
+          <Image
+            src={Logo}
+            alt={"GrupoDu Logo"}
+            width={100}
+            height={100}
+            className={styles.logo}
+          />
+        )}
         <div className={styles.logoText}>
           <span>GrupoDu</span>
           <span className={styles.logoName}>Minipops</span>
@@ -84,7 +106,8 @@ function Sidebar() {
           <Link
             key={option.option}
             href={option.href}
-            className={`${styles.menuItem} ${isOptionSelected(option.option) && styles.selected}`}
+            onClick={() => setIsLoading(true)}
+            className={`${styles.menuItem} ${isOptionSelected(option.option) && styles.selected} ${option.disabled && styles.disabled}`}
           >
             <option.icon className={styles.menuIcon} />
             <span>{option.option}</span>
