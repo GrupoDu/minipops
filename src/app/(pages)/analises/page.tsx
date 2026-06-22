@@ -2,7 +2,7 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import { LuMonitorCog } from "react-icons/lu";
 
-function UsersPage() {
+function AnalysisPage() {
   return (
     <div className={"pageContainer"}>
       <PageHeader
@@ -19,4 +19,4 @@ function UsersPage() {
   );
 }
 
-export default UsersPage;
+export default AnalysisPage;
