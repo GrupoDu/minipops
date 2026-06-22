@@ -12,22 +12,6 @@ function CustomersPage() {
         addButton={"Novo cliente"}
       />
       <div className={"mainContent"}>
-        <FilterContainer>
-          <InputText
-            type={"text"}
-            label={"Nome"}
-            placeholder={"Pesquisar nome do cliente"}
-            isSearch={true}
-            filterTarget={"cliente"}
-          />
-          <InputText
-            type={"text"}
-            label={"Email"}
-            placeholder={"Pesquisar email do cliente"}
-            isSearch={true}
-            filterTarget={"email"}
-          />
-        </FilterContainer>
         <ClientsList />
       </div>
     </div>
