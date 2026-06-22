@@ -11,6 +11,10 @@ import { FaEye } from "react-icons/fa6";
 import React, { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { Pagination } from "@/components/pagination";
+import { useLoading } from "@/hooks/useLoading";
+import { LoadingBlock } from "@/components/loadingBlock";
+import FilterContainer from "@/components/filterContainer";
+import InputText from "@/components/inputs/inputText";
 
 export const SuppliersList = () => {
   const searchParams = useSearchParams();
@@ -19,6 +23,7 @@ export const SuppliersList = () => {
   const name = searchParams.get("name");
   const email = searchParams.get("email");
   const [maxPage, setMaxPage] = useState(0);
+  const { setIsLoading, isLoading } = useLoading();
   const filteredSuppliers = suppliers?.filter(
     (supplier) =>
       (name ? supplier.supplier_name === name : true) &&
@@ -30,9 +35,11 @@ export const SuppliersList = () => {
   const tablesHeads = ["Fornecedor", "CNPJ", "Email", "Contatos", "Ações"];
 
   useEffect(() => {
+    setIsLoading(true);
+
     const fetchData = async () => {
       try {
-        const response = await api.get(`/suppliers?page=${page}`);
+        const response = await api.get(`/suppliers?page=${page}&per_page=7`);
 
         const data = await response.data?.data;
 
@@ -41,43 +48,64 @@ export const SuppliersList = () => {
       } catch (err) {
         const error = err as Error;
         console.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, [page]);
 
-  if (!isListPopulated) {
-    return <EmptyList targetName={"fornecedor"} />;
-  }
-
-  if (!isListPopulated) return <EmptyList targetName={"fornecedor"} />;
-
   return (
     <>
-      <ListTemplate heads={tablesHeads}>
-        {displayList.map((supplier) => (
-          <tr key={supplier.supplier_uuid}>
-            <td>{supplier.supplier_name}</td>
-            <td>{supplier.supplier_cnpj}</td>
-            <td>{supplier.supplier_email}</td>
-            <td className={styles.contacts}>
-              <span>{phoneFormatter(supplier.supplier_phone)}</span>
-              <span>{supplier.supplier_landline}</span>
-            </td>
-            <td className={styles.buttonContainer}>
-              <Link
-                className={styles.linkButton}
-                href={`/fornecedores/${supplier.supplier_uuid}`}
-              >
-                <FaEye />
-                <span>Visualizar</span>
-              </Link>
-            </td>
-          </tr>
-        ))}
-      </ListTemplate>
-      <Pagination maxPage={maxPage} />
+      <FilterContainer>
+        <InputText
+          type={"text"}
+          label={"Nome"}
+          filterTarget={"name"}
+          isSearch={true}
+          placeholder={"Fornecedor"}
+        />
+        <InputText
+          type={"text"}
+          label={"Email"}
+          filterTarget={"email"}
+          isSearch={true}
+          placeholder={"Email"}
+        />
+      </FilterContainer>
+      {isLoading ? (
+        <LoadingBlock />
+      ) : isListPopulated ? (
+        <>
+          <ListTemplate heads={tablesHeads}>
+            {displayList.map((supplier) => (
+              <tr key={supplier.supplier_uuid}>
+                <td>{supplier.supplier_name}</td>
+                <td>{supplier.supplier_cnpj}</td>
+                <td>{supplier.supplier_email}</td>
+                <td className={styles.contacts}>
+                  <span>{phoneFormatter(supplier.supplier_phone)}</span>
+                  <span>{supplier.supplier_landline}</span>
+                </td>
+                <td className={styles.buttonContainer}>
+                  <Link
+                    className={styles.linkButton}
+                    href={`/fornecedores/${supplier.supplier_uuid}`}
+                    onClick={() => setIsLoading(true)}
+                  >
+                    <FaEye />
+                    <span>Visualizar</span>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </ListTemplate>
+          <Pagination maxPage={maxPage} />
+        </>
+      ) : (
+        <EmptyList targetName={"fornecedor"} />
+      )}
     </>
   );
 };
