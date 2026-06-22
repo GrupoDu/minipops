@@ -59,6 +59,7 @@
       cursor: pointer;
       text-decoration: none;
       transition: background-color .2s ease;
+      outline: none;
 
       .menuIcon {
         width: 1.2rem;
@@ -81,6 +82,13 @@
         color: var(--dark-blue);
         font-weight: bold;
       }
+    }
+
+    .disabled {
+      opacity: .2;
+      cursor: not-allowed;
+      pointer-events: none;
+      user-select: none;
     }
   }
 
