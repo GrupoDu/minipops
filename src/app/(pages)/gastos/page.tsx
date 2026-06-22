@@ -1,4 +1,3 @@
-import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import FilterContainer from "@/components/filterContainer";
 import InputText from "@/components/inputs/inputText";
@@ -14,16 +13,6 @@ function ExpensesPage() {
         addButton={"Adicionar gasto"}
       />
       <div className="mainContent">
-        <FilterContainer>
-          <InputText
-            type={"text"}
-            label={"Nome"}
-            filterTarget={"name"}
-            isSearch={true}
-            placeholder={"Fornecedor"}
-          />
-          <InputDate label={"Data"} />
-        </FilterContainer>
         <ExpensesList />
       </div>
     </div>

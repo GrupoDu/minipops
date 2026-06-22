@@ -12,22 +12,6 @@ async function SuppliersPage() {
         addButton={"Adicionar fornecedor"}
       />
       <div className="mainContent">
-        <FilterContainer>
-          <InputText
-            type={"text"}
-            label={"Nome"}
-            filterTarget={"name"}
-            isSearch={true}
-            placeholder={"Fornecedor"}
-          />
-          <InputText
-            type={"text"}
-            label={"Email"}
-            filterTarget={"email"}
-            isSearch={true}
-            placeholder={"Email"}
-          />
-        </FilterContainer>
         <SuppliersList />
       </div>
     </div>
