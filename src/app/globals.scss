@@ -199,10 +199,11 @@ main {
   border: 1px solid #CECECE;
   padding: .5rem;
   flex: 1;
+  outline: none;
   transition: all .2s ease-in-out;
 
   &:focus {
-    outline-color: var(--select-green);
+    border: 1px solid var(--select-green);
     box-shadow: 0 0 0 2px var(--hover-green);
   }
 }
