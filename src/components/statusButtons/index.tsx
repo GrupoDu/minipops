@@ -10,6 +10,7 @@ import { Modal } from "@/components/modal";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { DEFAULT_PARAMS } from "@/constants/defaultParams.constant";
+import { useLoading } from "@/hooks/useLoading";
 
 export const StatusButtons = ({
   slug,
@@ -20,10 +21,13 @@ export const StatusButtons = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("");
+  const { setIsLoading } = useLoading();
   const router = useRouter();
   const pathname = usePathname();
 
   const changeStatus = async () => {
+    setIsLoading(true);
+
     enum acceptableStatus {
       DONE = "Concluído",
       CANCELED = "Cancelado",
@@ -50,6 +54,8 @@ export const StatusButtons = ({
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
