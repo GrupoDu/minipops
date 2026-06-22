@@ -114,6 +114,7 @@ const ClientForm = () => {
             type={"text"}
             label={"Fixo"}
             placeholder={"Telefone fixo (opcional)"}
+            max={10}
             value={String(client.client_landline)}
             onChange={(e) =>
               setClient((prev) => ({
