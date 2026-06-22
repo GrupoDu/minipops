@@ -3,6 +3,7 @@
 import styles from "./styles.module.scss";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useLoading } from "@/hooks/useLoading";
 
 type PaginationProps = {
   maxPage: number;
@@ -13,6 +14,7 @@ export const Pagination = (props: PaginationProps) => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
   const pathname = usePathname();
+  const { setIsLoading } = useLoading();
 
   const isSelected = (pageItem: number) => pageItem === Number(page);
 
@@ -27,6 +29,7 @@ export const Pagination = (props: PaginationProps) => {
           key={i}
           href={`${pathname}?page=${i}&per_page=7`}
           className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
+          onClick={() => setIsLoading(true)}
         >
           {i}
         </Link>,
@@ -43,6 +46,7 @@ export const Pagination = (props: PaginationProps) => {
         <Link
           href={`${pathname}?page=${maxPage}&per_page=7`}
           className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+          onClick={() => setIsLoading(true)}
         >
           {maxPage}
         </Link>
