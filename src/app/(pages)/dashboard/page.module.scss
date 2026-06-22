@@ -6,4 +6,13 @@
 }
 
 .recentOrders {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+
+  .pendingTitle {
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+  }
 }

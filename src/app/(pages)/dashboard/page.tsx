@@ -2,7 +2,7 @@ import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import { BsCart } from "react-icons/bs";
 import Card from "@/components/card";
-import { MdAttachMoney } from "react-icons/md";
+import { MdAttachMoney, MdOutlinePending } from "react-icons/md";
 import { CiClock1 } from "react-icons/ci";
 import DashboardCharts from "@/components/dashboardCharts";
 import OrderList from "@/components/orderList";
@@ -44,6 +44,10 @@ function DashboardPage() {
         </div>
         <DashboardCharts />
         <div className={styles.recentOrders}>
+          <div className={styles.pendingTitle}>
+            <MdOutlinePending size={20} />
+            <h4>Pedidos pendentes</h4>
+          </div>
           <OrderProvider>
             <OrderList />
           </OrderProvider>
