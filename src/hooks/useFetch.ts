@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { api } from "@/services/api";
 import debugLogger from "@/utils/debugLogger";
 import { AxiosError } from "axios";
+import { useLoading } from "@/hooks/useLoading";
 
 const useFetch = <T>(endpoint: string) => {
   const [data, setData] = useState<T | undefined>();
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState<string | undefined>();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, setIsLoading } = useLoading();
 
   useEffect(() => {
     debugLogger(["Iniciando fetch..."], "useFetch");
