@@ -5,6 +5,16 @@
   width: 100%;
 }
 
+.titleDev {
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+}
+
+.blur {
+  filter: blur(5px);
+}
+
 .recentOrders {
   display: flex;
   flex-direction: column;

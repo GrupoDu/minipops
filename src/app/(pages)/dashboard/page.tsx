@@ -7,6 +7,7 @@ import { CiClock1 } from "react-icons/ci";
 import DashboardCharts from "@/components/dashboardCharts";
 import OrderList from "@/components/orderList";
 import OrderProvider from "@/providers/order.provider";
+import { FaCogs } from "react-icons/fa";
 
 function DashboardPage() {
   const cards = [
@@ -37,12 +38,18 @@ function DashboardPage() {
         description="Visão rápida da operação comercial do mês."
       />
       <div className={"mainContent"}>
-        <div className={styles.cards}>
-          {cards.map((card) => (
-            <Card key={card.title} {...card} />
-          ))}
+        <div className={styles.titleDev}>
+          <FaCogs size={20} />
+          <h4>Análises de vendas em desenvolvimento</h4>
         </div>
-        <DashboardCharts />
+        <div className={styles.blur}>
+          <div className={styles.cards}>
+            {cards.map((card) => (
+              <Card key={card.title} {...card} />
+            ))}
+          </div>
+          <DashboardCharts />
+        </div>
         <div className={styles.recentOrders}>
           <div className={styles.pendingTitle}>
             <MdOutlinePending size={20} />
