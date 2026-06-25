@@ -89,8 +89,8 @@ api.interceptors.response.use(
       // Processa a fila com erro
       processQueue(refreshError);
 
-      // if (isNotLoginPage && refreshError.status === 401)
-      //   window.location.href = "/login";
+      if (isNotLoginPage && refreshError.status === 401)
+        window.location.href = "/login";
 
       return Promise.reject(refreshError);
     } finally {
