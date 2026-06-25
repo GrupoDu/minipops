@@ -71,6 +71,7 @@ const ClientsList = () => {
                 </td>
                 <td className={styles.buttonContainer}>
                   <DefaultButton
+                    prefetch={false}
                     type={"button"}
                     isLink={true}
                     href={`/clientes/${client.client_uuid}`}

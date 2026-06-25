@@ -15,11 +15,21 @@ type DefaultButtonProps = {
   style?: CSSProperties;
   className?: string;
   modal?: boolean;
+  prefetch?: boolean;
 };
 
 const DefaultButton = (props: DefaultButtonProps) => {
-  const { onClick, children, type, style, isLink, href, className, modal } =
-    props;
+  const {
+    onClick,
+    children,
+    type,
+    style,
+    isLink,
+    href,
+    className,
+    modal,
+    prefetch,
+  } = props;
   const { setShowModal } = useModal();
   const { isLoading } = useLoading();
 
@@ -33,6 +43,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
           cursor: isLoading ? "cell" : "pointer",
         }}
         className={`${styles.buttonDefault} ${className}`}
+        prefetch={prefetch}
       >
         {children}
       </Link>
