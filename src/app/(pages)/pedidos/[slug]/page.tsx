@@ -1,3 +1,4 @@
+import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import { OrderContainer } from "@/components/orderContainer";
 
