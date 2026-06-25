@@ -6,16 +6,7 @@ export async function getClient(
   client_uuid: string,
 ): Promise<Client | undefined> {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("access_token")?.value;
-
-    console.log(token);
-
-    const response = await api.get(`/clients/${client_uuid}`, {
-      headers: {
-        Cookie: `access_token=${token}`,
-      },
-    });
+    const response = await api.get(`/clients/${client_uuid}`);
     return response.data.data;
   } catch (err) {
     const error = err as Error;
