@@ -8,7 +8,8 @@ export async function getClient(
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token");
 
-  console.log(token);
+  console.log("token: ", token);
+  console.log("cookieStore: ", cookieStore);
 
   try {
     const response = await api.get(`/clients/${client_uuid}`, {
