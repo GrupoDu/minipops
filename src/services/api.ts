@@ -1,4 +1,4 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 interface CustomAxiosConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -84,12 +84,13 @@ api.interceptors.response.use(
       // Tenta a requisição original novamente
       return api(originalRequest);
     } catch (err) {
-      const refreshError = err as Error;
+      const refreshError = err as AxiosError;
       console.log("Não foi possível fazer o refresh");
       // Processa a fila com erro
       processQueue(refreshError);
 
-      // if (isNotLoginPage) window.location.href = "/login";
+      if (isNotLoginPage && refreshError.status === 401)
+        window.location.href = "/login";
 
       return Promise.reject(refreshError);
     } finally {
