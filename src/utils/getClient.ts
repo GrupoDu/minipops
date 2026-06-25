@@ -6,7 +6,7 @@ export async function getClient(
   client_uuid: string,
 ): Promise<Client | undefined> {
   const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
+  const token = cookieStore.get("access_token");
 
   console.log(token);
 
