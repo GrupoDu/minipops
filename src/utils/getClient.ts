@@ -7,11 +7,11 @@ export async function getClient(
 ): Promise<Client | undefined> {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("access_token");
+    const token = cookieStore.get("access_token")?.value;
 
     const response = await api.get(`/clients/${client_uuid}`, {
       headers: {
-        Cookie: `access_token=${token?.value}`,
+        Cookie: `access_token=${token}`,
       },
     });
     return response.data.data;
