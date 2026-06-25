@@ -4,13 +4,12 @@ import { cookies } from "next/headers";
 
 export async function getClient(
   client_uuid: string,
+  cookieStore: string,
 ): Promise<Client | undefined> {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.toString();
     const response = await api.get(`/clients/${client_uuid}`, {
       headers: {
-        Cookie: token,
+        Cookie: cookieStore,
       },
     });
     return response.data.data;

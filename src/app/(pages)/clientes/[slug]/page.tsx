@@ -9,14 +9,17 @@ import Image from "next/image";
 import PlaceholderImage from "@/assets/user-image-with-black-background.png";
 import Breadcrumb from "@/components/breadcrumb";
 import BackButton from "@/components/backButton";
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
 async function ClientPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const client = await getClient(slug);
 
-  console.log(client);
+  const cookieStore = await cookies();
+  const token = cookieStore.toString();
+
+  const client = await getClient(slug, token);
 
   if (!client) return <ClientNotFount />;
 
