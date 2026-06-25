@@ -9,6 +9,8 @@ export async function getClient(
     const cookieStore = await cookies();
     const token = cookieStore.get("access_token")?.value;
 
+    console.log(token);
+
     const response = await api.get(`/clients/${client_uuid}`, {
       headers: {
         Cookie: `access_token=${token}`,
