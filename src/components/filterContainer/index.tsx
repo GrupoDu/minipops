@@ -9,10 +9,11 @@ type FilterContainerProps = {
   children: ReactNode;
   setEndpoint?: (value: string) => void;
   target?: string;
+  isAvailable?: boolean;
 };
 
 const FilterContainer = (props: FilterContainerProps) => {
-  const { children, setEndpoint, target } = props;
+  const { children, setEndpoint, target, isAvailable } = props;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -36,18 +37,35 @@ const FilterContainer = (props: FilterContainerProps) => {
   };
 
   return (
-    <div className={styles.filterContainer}>
-      <h5 className={styles.filterTitle}>Filtros</h5>
-      <div className={styles.filters}>
-        {children}
-        <button className={styles.searchButton} onClick={handleSearch}>
-          <BsSearch />
-        </button>
-        <button className={styles.clearFilters} onClick={() => clearFilters()}>
-          <span>Limpar filtros</span>
-        </button>
-      </div>
-    </div>
+    <>
+      {isAvailable ? (
+        <div className={styles.filterContainer}>
+          <h5 className={styles.filterTitle}>Filtros</h5>
+          <div className={styles.filters}>
+            {children}
+            <button className={styles.searchButton} onClick={handleSearch}>
+              <BsSearch />
+            </button>
+            <button
+              className={styles.clearFilters}
+              onClick={() => clearFilters()}
+            >
+              <span>Limpar filtros</span>
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.unavailable}>
+          <span className={styles.unavailableText}>
+            <strong>Filtros não disponíveis</strong>
+          </span>
+          <div className={styles.filterContainer}>
+            <h5 className={styles.filterTitle}>Filtros</h5>
+            <div className={styles.filters}>{children}</div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

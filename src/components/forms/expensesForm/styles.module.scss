@@ -17,6 +17,29 @@
   }
 }
 
+.observation {
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  margin: .8rem;
+  padding: .6rem;
+  border-radius: .4rem;
+  background-color: #e8e8e8;
+  border: 1px solid #5e5e03;
+  border-left: 4px solid #5e5e03;
+
+  span {
+    color: #5e5e03;
+    opacity: .6;
+    font-size: .8rem;
+  }
+
+  .obsIcon {
+    color: #5e5e03;
+    font-size: 1.6rem;
+  }
+}
+
 .btnContainer {
   width: fit-content;
   padding: 0 1rem 1rem;

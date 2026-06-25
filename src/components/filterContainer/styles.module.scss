@@ -23,3 +23,22 @@
     box-sizing: border-box;
   }
 }
+
+.unavailable {
+  position: relative;
+  pointer-events: none;
+  user-select: none;
+
+  .unavailableText {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 25%;
+    z-index: 11;
+    color: var(--dark-blue);
+  }
+
+  .filterContainer {
+    filter: blur(6px);
+  }
+}

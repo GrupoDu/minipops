@@ -70,7 +70,11 @@ function OrderList() {
   return (
     <>
       {!isDashboard && (
-        <FilterContainer setEndpoint={setEndpoint} target={"orders"}>
+        <FilterContainer
+          isAvailable={true}
+          setEndpoint={setEndpoint}
+          target={"orders"}
+        >
           <InputSelect
             label={"Cliente"}
             options={clientsOptions}
