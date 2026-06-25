@@ -17,5 +17,7 @@ export interface ExpensesPagination {
 
 export interface ExpensesCreate extends Omit<
   Expenses,
-  "expense_uuid" | "suppliers"
-> {}
+  "expense_uuid" | "suppliers" | "price"
+> {
+  price: string;
+}

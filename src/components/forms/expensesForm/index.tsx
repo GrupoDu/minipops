@@ -13,6 +13,9 @@ import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import BackButton from "@/components/backButton";
+import { centsToNumber } from "@/utils/centsToNumber";
+import { centsFormatter } from "@/utils/centsFormatter";
+import { CiCircleInfo } from "react-icons/ci";
 
 export const ExpensesForm = () => {
   const { data: suppliers } = useFetch<Suppliers[]>("suppliers");
@@ -23,7 +26,7 @@ export const ExpensesForm = () => {
   const router = useRouter();
   const [expense, setExpense] = useState<ExpensesCreate>({
     amount: 0,
-    price: 0,
+    price: "",
     description: "",
     date: new Date().toISOString(),
     supplier_uuid: "",
@@ -36,6 +39,7 @@ export const ExpensesForm = () => {
       const response = await api.post("/expenses", {
         ...expense,
         date: new Date(expense.date),
+        price: centsToNumber(expense.price),
         supplier_uuid:
           expense.supplier_uuid === "" ? null : expense.supplier_uuid,
       });
@@ -54,6 +58,13 @@ export const ExpensesForm = () => {
     <form onSubmit={(e) => handleExpenseSubmit(e)} className={"formContainer"}>
       <div className={styles.formTitle}>
         <h5>Registrar gasto</h5>
+      </div>
+      <div className={styles.observation}>
+        <CiCircleInfo className={styles.obsIcon} />
+        <span>
+          Os centavos no preço são obrigatórios, e devem ser separados por
+          vírgula. Ex: 100,00
+        </span>
       </div>
       <div className={styles.formFields}>
         <InputDate
@@ -82,11 +93,13 @@ export const ExpensesForm = () => {
           <InputText
             label={"Preço"}
             type={"text"}
+            placeholder={"Ex: 100,00"}
             required={true}
+            value={expense.price}
             onChange={(e) =>
               setExpense((prev) => ({
                 ...prev,
-                price: parseInt(e.target.value, 10),
+                price: centsFormatter(e.target.value),
               }))
             }
           />
