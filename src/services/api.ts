@@ -1,5 +1,4 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { cookies } from "next/headers";
 
 interface CustomAxiosConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -9,15 +8,12 @@ const isProd = process.env.NODE_ENV === "production";
 const PROD_API_URL = process.env.NEXT_PUBLIC_API_URL;
 const DEV_API_URL = process.env.NEXT_PUBLIC_API_URL_DEV;
 const API_URL = isProd ? PROD_API_URL : DEV_API_URL;
-const cookieStore = await cookies();
-const token = cookieStore.get("access_token")?.value;
 
 export const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    Cookie: `access_token=${token}`,
   },
   timeout: 20000,
 });
