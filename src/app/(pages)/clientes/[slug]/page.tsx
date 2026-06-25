@@ -16,6 +16,8 @@ async function ClientPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const client = await getClient(slug);
 
+  console.log(client);
+
   if (!client) return <ClientNotFount />;
 
   return (
