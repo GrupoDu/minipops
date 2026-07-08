@@ -21,6 +21,10 @@ const ClientForm = () => {
     client_email: "",
     client_landline: "",
     client_logo: "",
+    client_city: "",
+    client_cep: "",
+    client_state: "",
+    address_number: 0,
   });
   const { setIsLoading } = useLoading();
   const router = useRouter();
@@ -60,7 +64,7 @@ const ClientForm = () => {
     try {
       await api.post("/clients", finalClientData);
       toast.success("Cliente registrado com sucesso");
-      router.push("/clientes");
+      router.push("/clientes?page=1&per_page=7");
     } catch (err) {
       const error = err as AxiosError<{ message?: string }>;
       const errorMessage = error.response?.data?.message || "";
@@ -72,6 +76,33 @@ const ClientForm = () => {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleCepChange = async (cep: string) => {
+    setClient((prev) => ({
+      ...prev,
+      client_cep: numberRgxFormatter(cep),
+    }));
+
+    if (cep.length < 8) return;
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+      const data = await response.json();
+
+      setClient((prev) => ({
+        ...prev,
+        client_address: data.logradouro,
+        client_city: data.bairro,
+        client_state: data.uf,
+      }));
+
+      console.log(data);
+    } catch (err) {
+      toast.error("Não foi possível buscar o endereço.");
+      console.error((err as Error).message);
     }
   };
 
@@ -139,16 +170,6 @@ const ClientForm = () => {
         </div>
         <InputText
           type={"text"}
-          label={"Endereço"}
-          placeholder={"Endereço"}
-          required={true}
-          value={client.client_address}
-          onChange={(e) =>
-            setClient((prev) => ({ ...prev, client_address: e.target.value }))
-          }
-        />
-        <InputText
-          type={"text"}
           label={"Email"}
           placeholder={"email@email.com (opcional)"}
           value={client.client_email}
@@ -156,6 +177,51 @@ const ClientForm = () => {
             setClient((prev) => ({ ...prev, client_email: e.target.value }))
           }
         />
+        <h4>Localização</h4>
+        <div className={styles.gridInputs}>
+          <InputText
+            type={"text"}
+            label={"CEP"}
+            placeholder={"CEP"}
+            required={true}
+            value={client.client_cep}
+            onChange={(e) => handleCepChange(e.target.value)}
+          />
+          <InputText
+            type={"text"}
+            label={"Cidade"}
+            placeholder={"Cidade"}
+            value={client.client_city}
+            onChange={(e) =>
+              setClient((prev) => ({ ...prev, client_city: e.target.value }))
+            }
+            required={true}
+          />
+          <InputText
+            type={"text"}
+            label={"Endereço"}
+            placeholder={"Endereço"}
+            value={client.client_address}
+            onChange={(e) =>
+              setClient((prev) => ({ ...prev, client_address: e.target.value }))
+            }
+            required={true}
+          />
+          <InputText
+            type={"text"}
+            label={"Número do endereção"}
+            placeholder={"123"}
+            value={client.address_number.toString()}
+            onChange={(e) =>
+              setClient((prev) => ({
+                ...prev,
+                address_number:
+                  parseInt(numberRgxFormatter(e.target.value)) || 0,
+              }))
+            }
+          />
+        </div>
+
         <div className={styles.fileInputContainer}>
           <h4>Enviar logo do cliente</h4>
           <input

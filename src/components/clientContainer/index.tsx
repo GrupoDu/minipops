@@ -11,11 +11,23 @@ import PlaceholderImage from "@/assets/user-image-with-black-background.png";
 import { Client } from "@/types/client.interface";
 import PageHeader from "@/components/pageHeader";
 import phoneFormatter from "@/utils/phoneFormatter";
+import { MdLocationOn } from "react-icons/md";
+import cepFormatter from "@/utils/cepFormatter";
+import { cnpjFormatter } from "@/utils/cnpjFormatter";
 
 export const ClientContainer = ({ client_uuid }: { client_uuid: string }) => {
   const { data: client } = useFetch<Client>(`/clients/${client_uuid}`);
 
   if (!client) return <ClientNotFount />;
+
+  const hasAddressNumber =
+    client.address_number !== 0 &&
+    client.address_number !== null &&
+    client.address_number !== undefined;
+
+  const addressNumber = hasAddressNumber ? `Nº ${client.address_number}` : "";
+
+  const fullLocation = `${client.client_address} ${addressNumber}, ${client.client_city} - ${cepFormatter(client.client_cep)} ${client.client_state}`;
 
   return (
     <div className={styles.clientContainer}>
@@ -29,7 +41,7 @@ export const ClientContainer = ({ client_uuid }: { client_uuid: string }) => {
         />
         <div className={styles.clientName}>
           <h3>{client.client_name}</h3>
-          <span>CNPJ: {client.client_cnpj}</span>
+          <span>CNPJ: {cnpjFormatter(client.client_cnpj)}</span>
         </div>
       </div>
       <ul className={styles.clientInfos}>
@@ -47,6 +59,11 @@ export const ClientContainer = ({ client_uuid }: { client_uuid: string }) => {
           Icon={<CgMail className={styles.icons} />}
           label={"Email"}
           value={client.client_email || ""}
+        />
+        <ClientInfoItem
+          Icon={<MdLocationOn className={styles.icons} />}
+          label={"Localização"}
+          value={fullLocation}
         />
       </ul>
       <div className={styles.button}>

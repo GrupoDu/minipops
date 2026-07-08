@@ -15,6 +15,7 @@ import InputText from "../inputs/inputText";
 import FilterContainer from "@/components/filterContainer";
 import { landlineFormatter } from "@/utils/landlineFormatter";
 import { CgEye } from "react-icons/cg";
+import { cnpjFormatter } from "@/utils/cnpjFormatter";
 
 const ClientsList = () => {
   const searchParams = useSearchParams();
@@ -55,7 +56,7 @@ const ClientsList = () => {
             {clients?.map((client) => (
               <tr key={client.client_uuid}>
                 <td>{client.client_name}</td>
-                <td>{client.client_cnpj}</td>
+                <td>{cnpjFormatter(client.client_cnpj)}</td>
                 <td>{client.client_email || "Email não fornecido"}</td>
                 <td className={"phone"}>
                   <div className={styles.landPhoneContainer}>

@@ -4,6 +4,10 @@ export interface Client {
   client_name: string;
   client_cnpj: string;
   client_address: string;
+  client_cep: string;
+  client_city: string;
+  client_state: string;
+  address_number: number;
   client_phone: string;
   client_email: string;
   client_landline?: string;
