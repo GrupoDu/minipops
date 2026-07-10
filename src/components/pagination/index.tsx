@@ -19,22 +19,25 @@ export const Pagination = (props: PaginationProps) => {
   const isSelected = (pageItem: number) => pageItem === Number(page);
 
   const displayPaginationNumbers = () => {
-    const paginationSpans = [];
+    let paginationSpans = [];
 
-    const maxPagePagination = parseInt(page) + 5;
+    const pageInt = parseInt(page);
 
-    for (let i = parseInt(page); i <= maxPagePagination; i++) {
-      if (i === maxPage) return;
-
-      paginationSpans.push(
-        <Link
-          key={i}
-          href={`${pathname}?page=${i}&per_page=7`}
-          className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
-          onClick={() => setIsLoading(true)}
-        >
-          {i}
-        </Link>,
+    if (pageInt > 1 && pageInt < maxPage - 5) {
+      paginationSpans = displayDefaultPagination(
+        pageInt,
+        maxPage,
+        pathname,
+        isSelected,
+        setIsLoading,
+      );
+    } else {
+      paginationSpans = displayFinalPages(
+        pageInt,
+        maxPage,
+        pathname,
+        isSelected,
+        setIsLoading,
       );
     }
 
@@ -43,6 +46,17 @@ export const Pagination = (props: PaginationProps) => {
 
   return (
     <div className={styles.pagination}>
+      {parseInt(page) > 1 || parseInt(page) === maxPage ? (
+        <>
+          <Link
+            href={`${pathname}?page=${parseInt(page) - 1}&per_page=7`}
+            className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+            onClick={() => setIsLoading(true)}
+          >
+            {maxPage - 1}
+          </Link>
+        </>
+      ) : null}
       {displayPaginationNumbers()}
       {maxPage > 5 && (
         <Link
@@ -56,3 +70,55 @@ export const Pagination = (props: PaginationProps) => {
     </div>
   );
 };
+
+function displayFinalPages(
+  page: number,
+  maxPage: number,
+  pathname: string,
+  isSelected: (page: number) => boolean,
+  setIsLoading: (isLoading: boolean) => void,
+) {
+  const paginationSpans = [];
+
+  for (let i = page; i < maxPage; i++) {
+    paginationSpans.push(
+      <Link
+        key={i}
+        href={`${pathname}?page=${i}&per_page=7`}
+        className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
+        onClick={() => setIsLoading(true)}
+      >
+        {i}
+      </Link>,
+    );
+  }
+
+  return paginationSpans;
+}
+
+function displayDefaultPagination(
+  page: number,
+  maxPage: number,
+  pathname: string,
+  isSelected: (page: number) => boolean,
+  setIsLoading: (isLoading: boolean) => void,
+) {
+  const paginationSpans = [];
+
+  const maxPagePagination = page + 5;
+
+  for (let i = page; i <= maxPagePagination; i++) {
+    paginationSpans.push(
+      <Link
+        key={i}
+        href={`${pathname}?page=${i}&per_page=7`}
+        className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
+        onClick={() => setIsLoading(true)}
+      >
+        {i}
+      </Link>,
+    );
+  }
+
+  return paginationSpans;
+}
