@@ -12,7 +12,7 @@ type PaginationProps = {
 export const Pagination = (props: PaginationProps) => {
   const { maxPage } = props;
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const page = searchParams.get("page") || "1";
   const pathname = usePathname();
   const { setIsLoading } = useLoading();
 
@@ -21,7 +21,7 @@ export const Pagination = (props: PaginationProps) => {
   const displayPaginationNumbers = () => {
     const paginationSpans = [];
 
-    for (let i = 1; i <= maxPage; i++) {
+    for (let i = parseInt(page); i <= maxPage; i++) {
       if (i > i + 5) return;
 
       paginationSpans.push(
