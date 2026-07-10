@@ -21,9 +21,7 @@ export const Pagination = (props: PaginationProps) => {
   const displayPaginationNumbers = () => {
     const paginationSpans = [];
 
-    for (let i = parseInt(page); i <= maxPage; i++) {
-      if (i > i + 5) return;
-
+    for (let i = parseInt(page); i <= i + 5; i++) {
       paginationSpans.push(
         <Link
           key={i}
