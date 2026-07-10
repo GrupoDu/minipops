@@ -55,7 +55,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.clients.client_name}</td>
+                <td>{order.clients.company_name}</td>
                 <td>{order.clients.client_cnpj}</td>
               </tr>
             </tbody>
@@ -82,7 +82,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             <tbody>
               <tr>
                 <td>{phoneFormatter(order.clients.client_phone)}</td>
-                <td>{order.clients.client_name}</td>
+                <td>{order.clients.company_name}</td>
               </tr>
             </tbody>
           </table>

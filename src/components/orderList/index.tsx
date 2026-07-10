@@ -60,7 +60,7 @@ function OrderList() {
   const clientsOptions =
     clients?.map((client) => ({
       value: client.client_uuid,
-      label: client.client_name,
+      label: client.company_name,
     })) || [];
   const statusOptions = Object.values(STATUS_CONSTANT).map((status) => ({
     value: status,
@@ -111,7 +111,7 @@ function OrderList() {
                     </span>
                   </div>
                 </td>
-                <td>{order.clients.client_name}</td>
+                <td>{order.clients.company_name}</td>
                 <td>{order.delivery.building}</td>
                 <td>
                   <div style={statusStyle(order.order_status)}>

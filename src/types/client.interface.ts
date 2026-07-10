@@ -1,7 +1,8 @@
 export interface Client {
   client_uuid: string;
   created_at: Date;
-  client_name: string;
+  company_name: string;
+  trading_name: string;
   client_cnpj: string;
   client_address: string;
   client_cep: string;

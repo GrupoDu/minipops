@@ -55,7 +55,7 @@ const ClientsList = () => {
           <ListTemplate heads={tableHeads}>
             {clients?.map((client) => (
               <tr key={client.client_uuid}>
-                <td>{client.client_name}</td>
+                <td>{client.trading_name}</td>
                 <td>{cnpjFormatter(client.client_cnpj)}</td>
                 <td>{client.client_email || "Email não fornecido"}</td>
                 <td className={"phone"}>

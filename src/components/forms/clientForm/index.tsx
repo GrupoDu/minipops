@@ -14,7 +14,8 @@ import { AxiosError } from "axios";
 
 const ClientForm = () => {
   const [client, setClient] = useState<ClientCreate>({
-    client_name: "",
+    company_name: "",
+    trading_name: "",
     client_cnpj: "",
     client_address: "",
     client_phone: "",
@@ -123,11 +124,11 @@ const ClientForm = () => {
             label={"Razão Social"}
             placeholder={"Razão social do cliente"}
             required={true}
-            value={client.client_name}
+            value={client.company_name}
             onChange={(e) =>
               setClient((prev) => ({
                 ...prev,
-                client_name: e.target.value,
+                company_name: e.target.value,
               }))
             }
           />
@@ -143,15 +144,11 @@ const ClientForm = () => {
           />
           <InputText
             type={"text"}
-            label={"Fixo"}
-            placeholder={"Telefone fixo (opcional)"}
-            max={10}
-            value={String(client.client_landline)}
+            label={"Nome Fantasia"}
+            required={true}
+            value={client.trading_name}
             onChange={(e) =>
-              setClient((prev) => ({
-                ...prev,
-                client_landline: e.target.value,
-              }))
+              setClient((prev) => ({ ...prev, trading_name: e.target.value }))
             }
           />
           <InputText
@@ -168,6 +165,19 @@ const ClientForm = () => {
             }
           />
         </div>
+        <InputText
+          type={"text"}
+          label={"Fixo"}
+          placeholder={"Telefone fixo (opcional)"}
+          max={10}
+          value={String(client.client_landline)}
+          onChange={(e) =>
+            setClient((prev) => ({
+              ...prev,
+              client_landline: e.target.value,
+            }))
+          }
+        />
         <InputText
           type={"text"}
           label={"Email"}

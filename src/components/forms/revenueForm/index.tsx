@@ -19,7 +19,7 @@ const RevenueForm = (props: RevenueProps) => {
   const clientsList =
     clients?.map((client) => ({
       value: client.client_uuid,
-      label: client.client_name,
+      label: client.company_name,
     })) || [];
 
   const handleClientSelect = (e: ChangeEvent<HTMLSelectElement>) => {

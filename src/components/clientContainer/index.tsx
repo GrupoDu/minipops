@@ -40,7 +40,7 @@ export const ClientContainer = ({ client_uuid }: { client_uuid: string }) => {
           className={styles.clientLogo}
         />
         <div className={styles.clientName}>
-          <h3>{client.client_name}</h3>
+          <h3>{client.company_name}</h3>
           <span>CNPJ: {cnpjFormatter(client.client_cnpj)}</span>
         </div>
       </div>

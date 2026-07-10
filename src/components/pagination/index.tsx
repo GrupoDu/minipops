@@ -22,7 +22,7 @@ export const Pagination = (props: PaginationProps) => {
     const paginationSpans = [];
 
     for (let i = 1; i <= maxPage; i++) {
-      if (i > 5) return;
+      if (i > i + 5) return;
 
       paginationSpans.push(
         <Link
