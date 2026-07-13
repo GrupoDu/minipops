@@ -71,7 +71,6 @@ const RevenueForm = (props: RevenueProps) => {
         label={"Celular"}
         max={11}
         placeholder={"00000000000"}
-        required={true}
         value={revenue.revenue_phone}
         onChange={(e) =>
           setRevenue((prev) => ({
@@ -95,7 +94,6 @@ const RevenueForm = (props: RevenueProps) => {
         label={"Email"}
         placeholder={"email@exemplo.com"}
         value={revenue.revenue_email}
-        required={true}
         onChange={(e) =>
           setRevenue((prev) => ({ ...prev, revenue_email: e.target.value }))
         }
