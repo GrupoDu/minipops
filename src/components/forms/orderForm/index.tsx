@@ -71,15 +71,19 @@ const OrderForm = () => {
     const body = {
       delivery: {
         ...delivery,
-        delivery_cep: Number(numberRgxFormatter(delivery.delivery_cep)),
+        delivery_cep: numberRgxFormatter(delivery.delivery_cep),
         address_number: Number(numberRgxFormatter(delivery.address_number)),
         contact_number: numberRgxFormatter(delivery.contact_number),
       },
-      revenue,
+      revenue: {
+        ...revenue,
+        revenue_email:
+          revenue.revenue_email === "" ? null : revenue.revenue_email,
+      },
       billing: {
         ...billing,
         client_uuid: revenue.client_uuid,
-        billing_cep: Number(numberRgxFormatter(billing.billing_cep)),
+        billing_cep: numberRgxFormatter(billing.billing_cep),
       },
       order_deadline: new Date(deadline),
       client_uuid: revenue.client_uuid,

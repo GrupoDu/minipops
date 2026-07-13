@@ -4,6 +4,8 @@ import styles from "./styles.module.scss";
 import { Dispatch, SetStateAction } from "react";
 import { DeliveryCreate } from "@/types/delivery.interface";
 import InputText from "@/components/inputs/inputText";
+import CepFormatter from "@/utils/cepFormatter";
+import numberRgxFormatter from "@/utils/numberRgxFormatter";
 
 type DeliveyProps = {
   setDelivery: Dispatch<SetStateAction<DeliveryCreate>>;
@@ -12,6 +14,22 @@ type DeliveyProps = {
 
 const DeliveryForm = (props: DeliveyProps) => {
   const { setDelivery, delivery } = props;
+
+  const findCep = async (cep: string) => {
+    setDelivery((prev) => ({ ...prev, delivery_cep: cep }));
+
+    if (cep.length < 8) return;
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+      const data = await response.json();
+
+      setDelivery((prev) => ({ ...prev, delivery_address: data.logradouro }));
+    } catch (err) {
+      console.error((err as Error).message);
+    }
+  };
 
   return (
     <div className={`multistepForm ${styles.deliveryForm}`}>
@@ -31,9 +49,7 @@ const DeliveryForm = (props: DeliveyProps) => {
         placeholder={"00000000"}
         required={true}
         value={delivery.delivery_cep}
-        onChange={(e) =>
-          setDelivery((prev) => ({ ...prev, delivery_cep: e.target.value }))
-        }
+        onChange={(e) => findCep(numberRgxFormatter(e.target.value))}
       />
       <InputText
         type={"text"}
