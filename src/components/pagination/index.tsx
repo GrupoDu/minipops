@@ -120,8 +120,6 @@ function prevPages(
   maxPage: number,
   setIsLoading: (isLoading: boolean) => void,
 ) {
-  if (page !== maxPage) return null;
-
   if (page > 1 && page < maxPage - 5) {
     return (
       <>
