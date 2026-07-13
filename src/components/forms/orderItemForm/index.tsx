@@ -110,6 +110,34 @@ const ProductsForm = (props: OrderItemProps) => {
     });
     debugLogger(["Save clicado."]);
   };
+  const setDiscountToZero = () => {
+    setNewOrderItem((prev) => ({
+      ...prev,
+      discount_percentage: 0,
+    }));
+  };
+  const setDiscountToMax = () => {
+    setNewOrderItem((prev) => ({
+      ...prev,
+      discount_percentage: 100,
+    }));
+  };
+  const handleDiscountChange = (value: number) => {
+    if (value > 100) {
+      setDiscountToMax();
+      return toast.error("Porcentagem máxima de 100%.");
+    }
+
+    if (value < 0) {
+      setDiscountToZero();
+      return;
+    }
+
+    setNewOrderItem((prev) => ({
+      ...prev,
+      discount_percentage: value,
+    }));
+  };
 
   return (
     <div className={"multistepForm"}>
@@ -144,12 +172,8 @@ const ProductsForm = (props: OrderItemProps) => {
           type={"number"}
           label={"Desconto(%)"}
           value={String(newOrderItem.discount_percentage)}
-          onChange={(e) =>
-            setNewOrderItem((prev) => ({
-              ...prev,
-              discount_percentage: Number(e.target.value),
-            }))
-          }
+          max={100}
+          onChange={(e) => handleDiscountChange(Number(e.target.value))}
         />
         <InputText
           type={"number"}

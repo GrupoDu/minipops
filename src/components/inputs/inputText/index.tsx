@@ -82,6 +82,7 @@ const InputText = (props: InputTextProps) => {
             readOnly={readonly}
             min={min}
             maxLength={max}
+            max={max}
             onChange={onChange}
             placeholder={placeholder}
             className={"input"}
