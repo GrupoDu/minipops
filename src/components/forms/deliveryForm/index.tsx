@@ -48,7 +48,7 @@ const DeliveryForm = (props: DeliveyProps) => {
         type={"text"}
         label={"Número"}
         placeholder={"000"}
-        max={3}
+        max={4}
         value={delivery.address_number}
         onChange={(e) =>
           setDelivery((prev) => ({
