@@ -46,17 +46,7 @@ export const Pagination = (props: PaginationProps) => {
 
   return (
     <div className={styles.pagination}>
-      {parseInt(page) > 1 || parseInt(page) === maxPage ? (
-        <>
-          <Link
-            href={`${pathname}?page=${parseInt(page) - 1}&per_page=7`}
-            className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-            onClick={() => setIsLoading(true)}
-          >
-            {maxPage - 1}
-          </Link>
-        </>
-      ) : null}
+      {prevPages(pathname, parseInt(page), isSelected, maxPage, setIsLoading)}
       {displayPaginationNumbers()}
       {maxPage > 5 && (
         <Link
@@ -121,4 +111,40 @@ function displayDefaultPagination(
   }
 
   return paginationSpans;
+}
+
+function prevPages(
+  pathname: string,
+  page: number,
+  isSelected: (value: number) => boolean,
+  maxPage: number,
+  setIsLoading: (isLoading: boolean) => void,
+) {
+  if (page !== maxPage) return null;
+
+  return (
+    <>
+      <Link
+        href={`${pathname}?page=${page - 1}&per_page=7`}
+        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+        onClick={() => setIsLoading(true)}
+      >
+        {maxPage - 1}
+      </Link>
+      <Link
+        href={`${pathname}?page=${page - 1}&per_page=7`}
+        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+        onClick={() => setIsLoading(true)}
+      >
+        {maxPage - 2}
+      </Link>
+      <Link
+        href={`${pathname}?page=1&per_page=7`}
+        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+        onClick={() => setIsLoading(true)}
+      >
+        1
+      </Link>
+    </>
+  );
 }
