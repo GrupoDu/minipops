@@ -9,6 +9,14 @@ type PaginationProps = {
   maxPage: number;
 };
 
+type DisplayPaginationsProps = {
+  pathname: string;
+  page: number;
+  isSelected: (value: number) => boolean;
+  maxPage: number;
+  setIsLoading: (isLoading: boolean) => void;
+};
+
 export const Pagination = (props: PaginationProps) => {
   const { maxPage } = props;
   const searchParams = useSearchParams();
@@ -24,21 +32,21 @@ export const Pagination = (props: PaginationProps) => {
     const pageInt = parseInt(page);
 
     if (pageInt >= 1 && pageInt < maxPage - 5) {
-      paginationSpans = displayDefaultPagination(
-        pageInt,
+      paginationSpans = displayDefaultPagination({
         maxPage,
+        page: pageInt,
         pathname,
         isSelected,
         setIsLoading,
-      );
+      });
     } else {
-      paginationSpans = displayFinalPages(
-        pageInt,
+      paginationSpans = displayFinalPages({
         maxPage,
+        page: pageInt,
         pathname,
         isSelected,
         setIsLoading,
-      );
+      });
     }
 
     return paginationSpans;
@@ -46,7 +54,13 @@ export const Pagination = (props: PaginationProps) => {
 
   return (
     <div className={styles.pagination}>
-      {prevPages(pathname, parseInt(page), isSelected, maxPage, setIsLoading)}
+      {prevPages({
+        maxPage,
+        page: parseInt(page),
+        pathname,
+        isSelected,
+        setIsLoading,
+      })}
       {displayPaginationNumbers()}
       {maxPage > 5 && (
         <Link
@@ -61,22 +75,16 @@ export const Pagination = (props: PaginationProps) => {
   );
 };
 
-function displayFinalPages(
-  page: number,
-  maxPage: number,
-  pathname: string,
-  isSelected: (page: number) => boolean,
-  setIsLoading: (isLoading: boolean) => void,
-) {
+function displayFinalPages(props: DisplayPaginationsProps) {
   const paginationSpans = [];
 
-  for (let i = page; i < maxPage; i++) {
+  for (let i = props.page; i < props.maxPage; i++) {
     paginationSpans.push(
       <Link
         key={i}
-        href={`${pathname}?page=${i}&per_page=7`}
-        className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
-        onClick={() => setIsLoading(true)}
+        href={`${props.pathname}?page=${i}&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(i) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
       >
         {i}
       </Link>,
@@ -86,24 +94,18 @@ function displayFinalPages(
   return paginationSpans;
 }
 
-function displayDefaultPagination(
-  page: number,
-  maxPage: number,
-  pathname: string,
-  isSelected: (page: number) => boolean,
-  setIsLoading: (isLoading: boolean) => void,
-) {
+function displayDefaultPagination(props: DisplayPaginationsProps) {
   const paginationSpans = [];
 
-  const maxPagePagination = page + 5;
+  const maxPagePagination = props.page + 5;
 
-  for (let i = page; i <= maxPagePagination; i++) {
+  for (let i = props.page; i <= maxPagePagination; i++) {
     paginationSpans.push(
       <Link
         key={i}
-        href={`${pathname}?page=${i}&per_page=7`}
-        className={`${styles.paginationItem} ${isSelected(i) && styles.isSelected}`}
-        onClick={() => setIsLoading(true)}
+        href={`${props.pathname}?page=${i}&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(i) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
       >
         {i}
       </Link>,
@@ -113,47 +115,48 @@ function displayDefaultPagination(
   return paginationSpans;
 }
 
-function prevPages(
-  pathname: string,
-  page: number,
-  isSelected: (value: number) => boolean,
-  maxPage: number,
-  setIsLoading: (isLoading: boolean) => void,
-) {
-  if (page > 1 && page < maxPage - 5) {
-    return (
-      <>
-        <Link
-          href={`${pathname}?page=${page - 1}&per_page=7`}
-          className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-          onClick={() => setIsLoading(true)}
-        ></Link>
-      </>
-    );
-  }
+function prevPages(props: DisplayPaginationsProps) {
+  if (props.page === 1) return null;
+
+  if (props.page > 1 && props.page < props.maxPage - 5)
+    return initialPrevPages(props);
 
   return (
     <>
       <Link
-        href={`${pathname}?page=${page - 1}&per_page=7`}
-        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-        onClick={() => setIsLoading(true)}
+        href={`${props.pathname}?page=${props.page - 2}&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
       >
-        {maxPage - 1}
+        {props.maxPage - 2}
       </Link>
       <Link
-        href={`${pathname}?page=${page - 1}&per_page=7`}
-        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-        onClick={() => setIsLoading(true)}
-      >
-        {maxPage - 2}
-      </Link>
-      <Link
-        href={`${pathname}?page=1&per_page=7`}
-        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-        onClick={() => setIsLoading(true)}
+        href={`${props.pathname}?page=1&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
       >
         1
+      </Link>
+      <Link
+        href={`${props.pathname}?page=${props.page - 1}&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
+      >
+        {props.maxPage - 1}
+      </Link>
+    </>
+  );
+}
+
+function initialPrevPages(props: DisplayPaginationsProps) {
+  return (
+    <>
+      <Link
+        href={`${props.pathname}?page=${props.page - 1}&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
+      >
+        {props.page - 1}
       </Link>
     </>
   );
