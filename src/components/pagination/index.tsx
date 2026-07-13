@@ -118,24 +118,24 @@ function displayDefaultPagination(props: DisplayPaginationsProps) {
 function prevPages(props: DisplayPaginationsProps) {
   if (props.page === 1) return null;
 
-  if (props.page > 1 && props.page < props.maxPage - 5)
+  if (props.page > 1 && props.page !== props.maxPage)
     return initialPrevPages(props);
 
   return (
     <>
-      <Link
-        href={`${props.pathname}?page=${props.page - 2}&per_page=7`}
-        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        {props.maxPage - 2}
-      </Link>
       <Link
         href={`${props.pathname}?page=1&per_page=7`}
         className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
         onClick={() => props.setIsLoading(true)}
       >
         1
+      </Link>
+      <Link
+        href={`${props.pathname}?page=${props.page - 2}&per_page=7`}
+        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
+        onClick={() => props.setIsLoading(true)}
+      >
+        {props.maxPage - 2}
       </Link>
       <Link
         href={`${props.pathname}?page=${props.page - 1}&per_page=7`}
