@@ -16,6 +16,7 @@ import FilterContainer from "@/components/filterContainer";
 import { landlineFormatter } from "@/utils/landlineFormatter";
 import { CgEye } from "react-icons/cg";
 import { cnpjFormatter } from "@/utils/cnpjFormatter";
+import { cpfFormatter } from "@/utils/cpfFormatter";
 
 const ClientsList = () => {
   const searchParams = useSearchParams();
@@ -29,6 +30,11 @@ const ClientsList = () => {
   const clients = data?.clients;
   const maxPage = data?.max_pages || 1;
   const isListPopulated = !!clients && clients.length > 0;
+  const cpfCnpjDisplay = (value: string) => {
+    if (value.length === 14) return cnpjFormatter(value);
+
+    return cpfFormatter(value);
+  };
 
   return (
     <>
@@ -56,7 +62,7 @@ const ClientsList = () => {
             {clients?.map((client) => (
               <tr key={client.client_uuid}>
                 <td>{client.trading_name}</td>
-                <td>{cnpjFormatter(client.client_cnpj)}</td>
+                <td>{cpfCnpjDisplay(client.client_cnpj)}</td>
                 <td>{client.client_email || "Email não fornecido"}</td>
                 <td className={"phone"}>
                   <div className={styles.landPhoneContainer}>
