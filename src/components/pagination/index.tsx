@@ -23,7 +23,7 @@ export const Pagination = (props: PaginationProps) => {
 
     const pageInt = parseInt(page);
 
-    if (pageInt > 1 && pageInt < maxPage - 5) {
+    if (pageInt >= 1 && pageInt < maxPage - 5) {
       paginationSpans = displayDefaultPagination(
         pageInt,
         maxPage,
