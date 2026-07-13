@@ -122,6 +122,18 @@ function prevPages(
 ) {
   if (page !== maxPage) return null;
 
+  if (page > 1 && page < maxPage - 5) {
+    return (
+      <>
+        <Link
+          href={`${pathname}?page=${page - 1}&per_page=7`}
+          className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+          onClick={() => setIsLoading(true)}
+        ></Link>
+      </>
+    );
+  }
+
   return (
     <>
       <Link
