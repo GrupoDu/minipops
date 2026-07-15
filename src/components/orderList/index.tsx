@@ -1,10 +1,8 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { Order, OrderPagination } from "@/types/order.interface";
-import { PaginationType } from "@/types/pagination.interface";
+import { Order } from "@/types/order.interface";
 import { usePathname, useSearchParams } from "next/navigation";
-import { dateFormatter } from "@/utils/dateFormatter";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { CSSProperties, useEffect, useState } from "react";
 import Link from "next/link";
@@ -20,7 +18,6 @@ import { STATUS_CONSTANT } from "@/constants/status.constant";
 import { Pagination } from "@/components/pagination";
 import { useLoading } from "@/hooks/useLoading";
 import { LoadingBlock } from "@/components/loadingBlock";
-import { FetchPayload } from "@/types/fetchPayload.interface";
 
 function OrderList() {
   const searchParams = useSearchParams();
