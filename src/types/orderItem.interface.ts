@@ -1,19 +1,19 @@
 import { Product } from "@/types/product.type";
 
 export interface OrderItem {
-  order_item_uuid: string;
-  product_uuid: string;
-  order_uuid: string;
-  unit_price: number;
+  orderItemUuid: string;
+  productUuid: string;
+  orderUuid: string;
+  unitPrice: number;
   quantity: number;
-  discount_percentage: number;
+  discountPercentage: number;
   ipi: number;
-  additional_amount: number;
+  additionalAmount: number;
   total: number;
   products: Product;
 }
 
 export interface OrderItemCreate extends Omit<
   OrderItem,
-  "order_item_uuid" | "total" | "order_uuid" | "products"
+  "orderItemUuid" | "total" | "orderUuid" | "products"
 > {}

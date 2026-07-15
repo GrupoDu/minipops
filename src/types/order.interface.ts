@@ -1,42 +1,43 @@
 import { OrderItem, OrderItemCreate } from "@/types/orderItem.interface";
-import { Client } from "@/types/client.interface";
+import { Customer } from "@/types/customer.interface";
 import { Revenue } from "@/types/revenue.interface";
 import { Billing, BillingCreate } from "@/types/billing.interface";
 import { Delivery, DeliveryCreate } from "@/types/delivery.interface";
 
 export interface Order {
-  custom_order_id: string;
-  created_at: Date;
-  order_status: string;
-  order_deadline: Date;
-  order_items: OrderItem[];
+  customOrderId: string;
+  createdAt: string;
+  orderStatus: string;
+  orderDeadline: Date;
+  orderItems: OrderItem[];
   billing: Billing;
   revenue: Revenue;
   delivery: Delivery;
-  client_uuid: string;
-  clients: Client;
-  total_price: number;
+  clientUuid: string;
+  customer: Customer;
+  totalPrice: number;
 }
 
 export interface OrderPagination {
-  orders: Order[];
-  max_pages: number;
+  data: Order[];
+  maxPages: number;
+  page: number;
 }
 
 type omitCreate =
-  | "created_at"
-  | "order_uuid"
-  | "order_status"
+  | "createdAt"
+  | "orderUuid"
+  | "orderStatus"
   | "totalPrice"
   | "clients"
   | "billing"
   | "revenue"
   | "delivery"
-  | "order_items";
+  | "orderItems";
 
 export interface OrderCreate extends Omit<Order, omitCreate> {
   delivery: DeliveryCreate;
   revenue: Revenue;
   billing: BillingCreate;
-  order_items: OrderItemCreate[];
+  orderItems: OrderItemCreate[];
 }
