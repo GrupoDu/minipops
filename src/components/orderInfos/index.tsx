@@ -14,18 +14,18 @@ export const OrderInfos = ({ order }: { order: Order }) => {
   const { setIsLoading, isLoading } = useLoading();
 
   const hasAddressNumber =
-    !!order?.delivery.address_number &&
-    order.delivery.address_number.toString().length === 3;
+    !!order?.delivery.addressNumber &&
+    order.delivery.addressNumber.toString().length <= 4;
 
   const renderOrderItems = (items: OrderItem[]) => {
     return items.map((item) => (
-      <tr key={item.order_item_uuid}>
+      <tr key={item.orderItemUuid}>
         <td>{item.products.acronym}</td>
-        <td>{priceFormatter(item.unit_price)}</td>
+        <td>{priceFormatter(item.unitPrice)}</td>
         <td>{item.quantity} und.</td>
-        <td>{item.discount_percentage}%</td>
+        <td>{item.discountPercentage}%</td>
         <td>{item.ipi}%</td>
-        <td>{item.additional_amount}%</td>
+        <td>{item.additionalAmount}%</td>
         <td>{priceFormatter(item.total)}</td>
       </tr>
     ));
@@ -55,8 +55,8 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.clients.company_name}</td>
-                <td>{order.clients.client_cnpj}</td>
+                <td>{order.customer.companyName}</td>
+                <td>{order.customer.customerCnpj}</td>
               </tr>
             </tbody>
           </table>
@@ -68,7 +68,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.clients.client_address}</td>
+                <td>{order.customer.customerAddress}</td>
               </tr>
             </tbody>
           </table>
@@ -81,11 +81,8 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>
-                  {phoneFormatter(order.clients.client_phone) ||
-                    "Não informado"}
-                </td>
-                <td>{order.clients.client_email || "Não informado"}</td>
+                <td>{phoneFormatter(order.customer.customerPhone)}</td>
+                <td>{order.customer.customerEmail || "Email não informado"}</td>
               </tr>
             </tbody>
           </table>
@@ -118,7 +115,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.billing.billing_address}</td>
+                <td>{order.billing.billingAddress}</td>
               </tr>
             </tbody>
           </table>
@@ -130,7 +127,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{cepFormatter(order.billing.billing_cep)}</td>
+                <td>{cepFormatter(order.billing.billingCep)}</td>
               </tr>
             </tbody>
           </table>
@@ -155,12 +152,12 @@ export const OrderInfos = ({ order }: { order: Order }) => {
           <tr>
             <td>{order.delivery.building}</td>
             <td>
-              {order.delivery.delivery_address}
+              {order.delivery.deliveryAddress}
               {hasAddressNumber &&
                 ` - n°
-                  ${order.delivery.address_number}`}
+                  ${order.delivery.addressNumber}`}
             </td>
-            <td>{cepFormatter(order.delivery.delivery_cep)}</td>
+            <td>{cepFormatter(order.delivery.deliveryCep)}</td>
           </tr>
         </tbody>
       </table>
@@ -173,7 +170,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
         </thead>
         <tbody>
           <tr>
-            <td>{phoneFormatter(order.delivery.contact_number)}</td>
+            <td>{phoneFormatter(order.delivery.contactNumber)}</td>
             <td>{order.delivery.reference || "Referência não informada."}</td>
           </tr>
         </tbody>
@@ -197,7 +194,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>{renderOrderItems(order.order_items)}</tbody>
+        <tbody>{renderOrderItems(order.orderItems)}</tbody>
       </table>
 
       {/* Total */}
@@ -213,7 +210,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
         <tbody>
           <tr>
             <td style={{ fontSize: "1rem", fontWeight: 600 }}>
-              {priceFormatter(order.total_price)}
+              {priceFormatter(order.totalPrice)}
             </td>
           </tr>
         </tbody>

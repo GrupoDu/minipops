@@ -1,4 +1,4 @@
-import { Suppliers } from "@/types/suppliers.type";
+import { Supplier } from "@/types/suppliers.interface";
 
 export interface Expenses {
   expenseUuid: string;
@@ -6,7 +6,7 @@ export interface Expenses {
   price: number;
   amount: number;
   date: string;
-  suppliers: Suppliers | null;
+  supplier: Supplier | null;
   supplierUuid?: string | null;
 }
 
@@ -17,7 +17,7 @@ export interface ExpensesPagination {
 
 export interface ExpensesCreate extends Omit<
   Expenses,
-  "expenseUuid" | "suppliers" | "price"
+  "expenseUuid" | "supplier" | "price"
 > {
   price: string;
 }

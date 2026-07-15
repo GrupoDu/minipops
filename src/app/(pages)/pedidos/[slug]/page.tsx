@@ -1,4 +1,3 @@
-import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import { OrderContainer } from "@/components/orderContainer";
 
@@ -16,7 +15,7 @@ export default async function OrderDetailsPage({
         description="Acompanhe pedidos por status, período, cliente e fornecedor."
       />
       <div className="mainContent">
-        <OrderContainer order_id={slug} />
+        <OrderContainer orderId={slug} />
       </div>
     </div>
   );

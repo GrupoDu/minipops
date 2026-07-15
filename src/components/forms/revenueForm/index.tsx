@@ -1,6 +1,6 @@
 "use client";
 
-import useClients from "@/hooks/useClients";
+import useCustomers from "@/hooks/useCustomers";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Revenue } from "@/types/revenue.interface";
 import InputText from "@/components/inputs/inputText";
@@ -15,27 +15,27 @@ type RevenueProps = {
 
 const RevenueForm = (props: RevenueProps) => {
   const { setRevenue, revenue } = props;
-  const { clients } = useClients();
-  const clientsList =
-    clients?.map((client) => ({
-      value: client.client_uuid,
-      label: client.company_name,
+  const { customers } = useCustomers();
+  const customersList =
+    customers?.map((customer) => ({
+      value: customer.customerUuid,
+      label: customer.companyName,
     })) || [];
 
   const handleClientSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedUuid = e.target.value;
-    const selectedClient = clients?.find(
-      (client) => client.client_uuid === selectedUuid,
+    const selectedClient = customers?.find(
+      (customer) => customer.customerUuid === selectedUuid,
     );
 
     setRevenue((prev) => ({
       ...prev,
-      client_uuid: selectedUuid,
-      revenue_phone: selectedClient?.client_phone || "",
-      revenue_landline: selectedClient?.client_landline || "",
-      revenue_cnpj: selectedClient?.client_cnpj || "",
-      revenue_address: selectedClient?.client_address || "",
-      revenue_email: selectedClient?.client_email || "",
+      customerUuid: selectedUuid,
+      revenuePhone: selectedClient?.customerPhone || "",
+      revenueLandline: selectedClient?.customerLandline || "",
+      revenueCnpj: selectedClient?.customerCnpj || "",
+      revenueAddress: selectedClient?.customerAddress || "",
+      revenueEmail: selectedClient?.customerEmail || "",
     }));
   };
 
@@ -43,27 +43,30 @@ const RevenueForm = (props: RevenueProps) => {
     <div className={`${styles.revenueForm} multistepForm`}>
       <InputSelect
         label={"Cliente"}
-        options={clientsList}
-        value={revenue.client_uuid}
+        options={customersList}
+        value={revenue.customerUuid}
         onChange={(e) => handleClientSelect(e)}
       />
       <InputText
         type={"text"}
         label={"Endereço"}
         required={true}
-        value={revenue.revenue_address}
+        value={revenue.revenueAddress}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenue_address: e.target.value }))
+          setRevenue((prev) => ({ ...prev, revenueAddress: e.target.value }))
         }
       />
       <InputText
         type={"text"}
-        label={"CNPJ"}
-        placeholder={"00.000.000/0000-00"}
+        label={"CNPJ/CPF"}
+        placeholder={"00.000.000/0000-00 ou 000.000.000-00"}
         required={true}
-        value={revenue.revenue_cnpj}
+        value={revenue.revenueCnpj}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenue_cnpj: e.target.value }))
+          setRevenue((prev) => ({
+            ...prev,
+            revenueCnpj: numberRgxFormatter(e.target.value),
+          }))
         }
       />
       <InputText
@@ -71,11 +74,11 @@ const RevenueForm = (props: RevenueProps) => {
         label={"Celular"}
         max={11}
         placeholder={"00000000000"}
-        value={revenue.revenue_phone}
+        value={revenue.revenuePhone}
         onChange={(e) =>
           setRevenue((prev) => ({
             ...prev,
-            revenue_phone: numberRgxFormatter(e.target.value),
+            revenuePhone: numberRgxFormatter(e.target.value),
           }))
         }
       />
@@ -84,18 +87,18 @@ const RevenueForm = (props: RevenueProps) => {
         label={"Fixo"}
         max={10}
         placeholder={"0000000000"}
-        value={revenue.revenue_landline}
+        value={revenue.revenueLandline}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenue_landline: e.target.value }))
+          setRevenue((prev) => ({ ...prev, revenueLandline: e.target.value }))
         }
       />
       <InputText
         type={"text"}
         label={"Email"}
         placeholder={"email@exemplo.com"}
-        value={revenue.revenue_email}
+        value={revenue.revenueEmail}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenue_email: e.target.value }))
+          setRevenue((prev) => ({ ...prev, revenueEmail: e.target.value }))
         }
       />
     </div>

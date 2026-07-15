@@ -8,57 +8,57 @@ import { AiOutlinePhone } from "react-icons/ai";
 import Image from "next/image";
 import useFetch from "@/hooks/useFetch";
 import PlaceholderImage from "@/assets/user-image-with-black-background.png";
-import { Client } from "@/types/client.interface";
+import { Customer } from "@/types/customer.interface";
 import PageHeader from "@/components/pageHeader";
 import phoneFormatter from "@/utils/phoneFormatter";
 import { MdLocationOn } from "react-icons/md";
 import cepFormatter from "@/utils/cepFormatter";
 import { cnpjFormatter } from "@/utils/cnpjFormatter";
 
-export const ClientContainer = ({ client_uuid }: { client_uuid: string }) => {
-  const { data: client } = useFetch<Client>(`/clients/${client_uuid}`);
+export const ClientContainer = ({ customerUuid }: { customerUuid: string }) => {
+  const { data: customer } = useFetch<Customer>(`/customer/${customerUuid}`);
 
-  if (!client) return <ClientNotFount />;
+  if (!customer) return <CustomerNotFound />;
 
   const hasAddressNumber =
-    client.address_number !== 0 &&
-    client.address_number !== null &&
-    client.address_number !== undefined;
+    customer.addressNumber !== "" &&
+    customer.addressNumber !== null &&
+    customer.addressNumber !== undefined;
 
-  const addressNumber = hasAddressNumber ? `Nº ${client.address_number}` : "";
+  const addressNumber = hasAddressNumber ? `Nº ${customer.addressNumber}` : "";
 
-  const fullLocation = `${client.client_address} ${addressNumber}, ${client.client_city} - ${cepFormatter(client.client_cep)} ${client.client_state}`;
+  const fullLocation = `${customer.customerAddress} ${addressNumber}, ${customer.customerCity} - ${cepFormatter(customer.customerCep)} ${customer.customerState}`;
 
   return (
-    <div className={styles.clientContainer}>
-      <div className={styles.clientProfile}>
+    <div className={styles.customerContainer}>
+      <div className={styles.customerProfile}>
         <Image
-          src={client.client_logo || PlaceholderImage}
-          alt={"client-logo"}
+          src={customer.customerLogo || PlaceholderImage}
+          alt={"customer-logo"}
           width={100}
           height={100}
           className={styles.clientLogo}
         />
         <div className={styles.clientName}>
-          <h3>{client.company_name}</h3>
-          <span>CNPJ: {cnpjFormatter(client.client_cnpj)}</span>
+          <h3>{customer.companyName}</h3>
+          <span>CNPJ: {cnpjFormatter(customer.customerCnpj)}</span>
         </div>
       </div>
       <ul className={styles.clientInfos}>
         <ClientInfoItem
           Icon={<AiOutlinePhone className={styles.icons} />}
           label={"Telefone fixo"}
-          value={client.client_landline || ""}
+          value={customer.customerLandline || ""}
         />
         <ClientInfoItem
           Icon={<CgSmartphone className={styles.icons} />}
           label={"Celular"}
-          value={phoneFormatter(client.client_phone) || ""}
+          value={phoneFormatter(customer.customerPhone || "")}
         />
         <ClientInfoItem
           Icon={<CgMail className={styles.icons} />}
           label={"Email"}
-          value={client.client_email || ""}
+          value={customer.customerEmail || ""}
         />
         <ClientInfoItem
           Icon={<MdLocationOn className={styles.icons} />}
@@ -73,7 +73,7 @@ export const ClientContainer = ({ client_uuid }: { client_uuid: string }) => {
   );
 };
 
-function ClientNotFount() {
+function CustomerNotFound() {
   return (
     <div className={"pageContainer"}>
       <PageHeader title={"Clientes"} description={"Informações de clientes"} />

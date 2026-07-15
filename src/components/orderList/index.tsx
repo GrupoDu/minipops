@@ -1,7 +1,8 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { OrderPagination } from "@/types/order.interface";
+import { Order, OrderPagination } from "@/types/order.interface";
+import { PaginationType } from "@/types/pagination.interface";
 import { usePathname, useSearchParams } from "next/navigation";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { priceFormatter } from "@/utils/priceFormatter";
@@ -13,59 +14,64 @@ import { EmptyList } from "@/components/emptyList";
 import useFetch from "@/hooks/useFetch";
 import FilterContainer from "@/components/filterContainer";
 import { InputDate } from "@/components/inputs/inputDate";
-import { Client } from "@/types/client.interface";
+import { Customer } from "@/types/customer.interface";
 import InputSelect from "@/components/inputs/inputSelect";
 import { STATUS_CONSTANT } from "@/constants/status.constant";
 import { Pagination } from "@/components/pagination";
 import { useLoading } from "@/hooks/useLoading";
 import { LoadingBlock } from "@/components/loadingBlock";
+import { FetchPayload } from "@/types/fetchPayload.interface";
 
 function OrderList() {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const per_page = searchParams.get("per_page");
-  const client = searchParams.get("client");
+  const pageSize = searchParams.get("pageSize");
+  const customer = searchParams.get("customer");
   const date = searchParams.get("date");
   const { setIsLoading } = useLoading();
-  const [clientFilter, setClientFilter] = useState("");
+  const [clientFilter, setCustomerFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [endpoint, setEndpoint] = useState(
-    `orders?page=${page ? page : 1}&per_page=${per_page ? per_page : 7}${client ? `&client=${client}` : ""}${date ? `&created_at=${date}` : ""}`,
+    `order/offset?page=${page ? page : 1}&pageSize=${pageSize ? pageSize : 7}${customer ? `&customer=${customer}` : ""}${date ? `&created_at=${date}` : ""}`,
   );
 
   useEffect(() => {
     // TODO Pensar numa forma de remover esse useState daqui
     setEndpoint(
-      `orders?page=${page ? page : 1}&per_page=${per_page ? per_page : 7}${client ? `&client=${client}` : ""}${date ? `&created_at=${date}` : ""}`,
+      `order/offset?page=${page ? page : 1}&pageSize=${pageSize ? pageSize : 7}${customer ? `&customer=${customer}` : ""}${date ? `&created_at=${date}` : ""}`,
     );
-  }, [page, per_page, client, date]);
 
-  const { data, isLoading } = useFetch<OrderPagination>(endpoint);
-  const { data: clients } = useFetch<Client[]>("clients");
+    console.log();
+  }, [page, pageSize, customer, date]);
+
+  const { data: orders, isLoading, maxPages } = useFetch<Order[]>(endpoint);
+  const { data: customers } = useFetch<Customer[]>("customer");
   const pathname = usePathname();
   const isDashboard = pathname.includes("dashboard");
-  const pendingOrders = data?.orders.filter(
-    (order) => order.order_status === "Pendente",
+  const pendingOrders = orders?.filter(
+    (order) => order.orderStatus === "Pendente",
   );
-  const ordersToUse = isDashboard ? pendingOrders : data?.orders;
+  const ordersToUse = isDashboard ? pendingOrders : orders;
   const isOrdersEmpty = !ordersToUse || ordersToUse.length < 1;
   const tableHeads = {
     id: "ID",
-    client: "Cliente",
+    customer: "Cliente",
     building: "Obra",
     status: "Status",
     total: "Total",
     actions: "Ações",
   } as const;
-  const clientsOptions =
-    clients?.map((client) => ({
-      value: client.client_uuid,
-      label: client.company_name,
+  const customersOptions =
+    customers?.map((customer) => ({
+      value: customer.customerUuid,
+      label: customer.tradingName,
     })) || [];
   const statusOptions = Object.values(STATUS_CONSTANT).map((status) => ({
     value: status,
     label: status,
   }));
+
+  console.log(customers);
 
   return (
     <>
@@ -77,10 +83,10 @@ function OrderList() {
         >
           <InputSelect
             label={"Cliente"}
-            options={clientsOptions}
+            options={customersOptions}
             value={clientFilter}
-            filterTarget={"client"}
-            onChange={(e) => setClientFilter(e.target.value)}
+            filterTarget={"customer"}
+            onChange={(e) => setCustomerFilter(e.target.value)}
           />
           <InputSelect
             label={"Status"}
@@ -89,7 +95,7 @@ function OrderList() {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           />
-          <InputDate label={"Data de emissão"} param={"created_at"} />
+          <InputDate label={"Data de emissão"} param={"createdAt"} />
         </FilterContainer>
       )}
       {isLoading ? (
@@ -100,30 +106,28 @@ function OrderList() {
         <>
           <ListTemplate heads={Object.values(tableHeads)}>
             {ordersToUse.map((order) => (
-              <tr key={order.custom_order_id}>
+              <tr key={order.customOrderId}>
                 <td>
                   <div className={styles.orderIdContainer}>
                     <span className={styles.orderId}>
-                      {order.custom_order_id}
+                      {order.customOrderId}
                     </span>
-                    <span className={styles.orderDate}>
-                      {dateFormatter(order.created_at)}
-                    </span>
+                    <span className={styles.orderDate}>{order.createdAt}</span>
                   </div>
                 </td>
-                <td>{order.clients.company_name}</td>
+                <td>{order.customer.companyName}</td>
                 <td>{order.delivery.building}</td>
                 <td>
-                  <div style={statusStyle(order.order_status)}>
-                    {order.order_status}
+                  <div style={statusStyle(order.orderStatus)}>
+                    {order.orderStatus}
                   </div>
                 </td>
 
-                <td>{priceFormatter(order.total_price)}</td>
+                <td>{priceFormatter(order.totalPrice)}</td>
                 <td>
                   <Link
                     className={styles.buttonContainer}
-                    href={`/pedidos/${order.custom_order_id}`}
+                    href={`/pedidos/${order.customOrderId}`}
                     onClick={() => setIsLoading(true)}
                   >
                     <CgDetailsMore color={"#000000"} />
@@ -133,7 +137,7 @@ function OrderList() {
               </tr>
             ))}
           </ListTemplate>
-          {!isDashboard && <Pagination maxPage={data?.max_pages || 1} />}
+          {!isDashboard && <Pagination maxPage={maxPages || 1} />}
         </>
       )}
     </>

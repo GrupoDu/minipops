@@ -2,11 +2,11 @@ import { calculateDiscount } from "@/utils/calculateDiscount";
 
 export function calculateProductTotalPrice(item: {
   quantity: number;
-  unit_price: number;
-  discount_percentage?: number;
+  unitPrice: number;
+  discountPercentage?: number;
 }): number {
-  const total = item.quantity * item.unit_price;
-  const discount = calculateDiscount(total, item.discount_percentage);
+  const total = item.quantity * item.unitPrice;
+  const discount = calculateDiscount(total, item.discountPercentage);
 
   return total - discount;
 }

@@ -3,7 +3,7 @@
 import { SuppliersContext } from "@/contexts/suppliers.context";
 import React, { useMemo } from "react";
 import useFetch from "@/hooks/useFetch";
-import { Suppliers } from "@/types/suppliers.type";
+import { Supplier } from "@/types/suppliers.interface";
 
 export const SupplierProvider = ({
   children,
@@ -11,7 +11,7 @@ export const SupplierProvider = ({
   children: React.ReactNode;
 }) => {
   const { data, status, error, isLoading } = useFetch<{
-    suppliers: Suppliers[];
+    suppliers: Supplier[];
     page: number;
   }>("suppliers");
 

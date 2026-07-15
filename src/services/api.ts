@@ -41,26 +41,16 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest: CustomAxiosConfig = error.config;
+    const status = error.response?.status;
+
+    if (status === 503) throw new Error("Tente novamente em alguns minutos.");
+
+    if (status !== 401) return Promise.reject(error);
 
     if (originalRequest._retry) return Promise.reject(error);
 
-    const isNotLoginPage =
-      typeof window !== "undefined" &&
-      !window.location.pathname.includes("login");
-
     // Se já está fazendo refresh, coloca na fila
-    if (isRefreshing) {
-      return new Promise((resolve, reject) => {
-        failedQueue.push({ resolve, reject });
-      })
-        .then(() => {
-          return api(originalRequest);
-        })
-        .catch((err) => {
-          console.log("Mensagem de erro: ", err.message);
-          return Promise.reject(err);
-        });
-    }
+    if (isRefreshing) return addPromiseToQueue(originalRequest);
 
     // Marca que vai tentar refresh
     originalRequest._retry = true;
@@ -78,6 +68,8 @@ api.interceptors.response.use(
         },
       );
 
+      isRefreshing = false;
+
       // Processa a fila com sucesso
       processQueue();
 
@@ -85,16 +77,38 @@ api.interceptors.response.use(
       return api(originalRequest);
     } catch (err) {
       const refreshError = err as AxiosError;
-      console.log("Não foi possível fazer o refresh");
+      console.error("Não foi possível fazer o refresh");
+
+      isRefreshing = false;
+
       // Processa a fila com erro
       processQueue(refreshError);
 
-      if (isNotLoginPage && refreshError.status === 401)
-        window.location.href = "/login";
+      redirectToLogin(refreshError.status);
 
       return Promise.reject(refreshError);
-    } finally {
-      isRefreshing = false;
     }
   },
 );
+
+function addPromiseToQueue(originalRequest: CustomAxiosConfig) {
+  return new Promise((resolve, reject) => {
+    failedQueue.push({ resolve, reject });
+  })
+    .then(() => {
+      return api(originalRequest);
+    })
+    .catch((err) => {
+      console.log("Mensagem de erro: ", err.message);
+      return Promise.reject(err);
+    });
+}
+
+function redirectToLogin(resStatus?: number) {
+  const isLoginPage =
+    typeof window !== "undefined" && window.location.pathname.includes("login");
+
+  if (isLoginPage && resStatus !== 401) return;
+
+  window.location.href = "/login";
+}

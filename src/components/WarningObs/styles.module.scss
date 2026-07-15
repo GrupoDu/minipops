@@ -1,0 +1,17 @@
+.warningObsContainer {
+  padding: .6rem 1rem;
+  border: 1px solid #c19742;
+  background-color: #fffaed;
+  color: #c19742;
+  border-radius: .4rem;
+  
+  .warningTitle {
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+  }
+  
+  span {
+    font-size: .8rem;
+  }
+}

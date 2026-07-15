@@ -17,10 +17,10 @@ export default function LoginForm() {
     setIsLoading(true);
 
     try {
-      await api.post("/login", {
+      await api.post("/auth/login", {
         email,
         password,
-        user_role: "admin",
+        userRole: "Admin",
       });
 
       router.push("/dashboard");

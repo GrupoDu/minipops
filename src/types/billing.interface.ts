@@ -1,7 +1,7 @@
 export interface Billing {
   billingUuid: string;
   createdAt: Date;
-  clientUuid: string;
+  customerUuid: string;
   billingAddress: string;
   billingCep: string;
   name?: string | null;

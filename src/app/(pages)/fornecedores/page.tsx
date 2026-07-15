@@ -1,6 +1,4 @@
 import PageHeader from "@/components/pageHeader";
-import FilterContainer from "@/components/filterContainer";
-import InputText from "@/components/inputs/inputText";
 import { SuppliersList } from "@/components/suppliersList";
 
 async function SuppliersPage() {

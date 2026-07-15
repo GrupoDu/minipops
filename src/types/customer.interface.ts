@@ -8,7 +8,7 @@ export interface Customer {
   customerCep: string;
   customerCity: string;
   customerState: string;
-  addressNumber: number;
+  addressNumber: string;
   customerPhone?: string | null;
   customerEmail?: string | null;
   customerLandline?: string;

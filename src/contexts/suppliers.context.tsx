@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext } from "react";
-import { Suppliers } from "@/types/suppliers.type";
+import { Supplier } from "@/types/suppliers.interface";
 
 type SuppliersContextType = {
-  suppliers?: Suppliers[];
+  suppliers?: Supplier[];
   page: number;
   status: string;
   isLoading: boolean;

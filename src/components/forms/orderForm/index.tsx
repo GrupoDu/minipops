@@ -14,7 +14,6 @@ import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import OrderItemForm from "@/components/forms/orderItemForm";
 import { OrderItemCreate } from "@/types/orderItem.interface";
-import debugLogger from "@/utils/debugLogger";
 import DefaultButton from "@/components/defaultButton";
 import numberRgxFormatter from "@/utils/numberRgxFormatter";
 import { useLoading } from "@/hooks/useLoading";
@@ -24,25 +23,25 @@ import BackButton from "@/components/backButton";
 const OrderForm = () => {
   const [deadline, setDeadline] = useState<string>("");
   const [revenue, setRevenue] = useState<Revenue>({
-    client_uuid: "",
-    revenue_address: "",
-    revenue_cnpj: "",
-    revenue_email: "",
-    revenue_landline: "",
-    revenue_phone: "",
+    customerUuid: "",
+    revenueAddress: "",
+    revenueCnpj: "",
+    revenueEmail: "",
+    revenueLandline: "",
+    revenuePhone: "",
   });
   const [billing, setBilling] = useState<BillingCreate>({
-    billing_address: "",
-    client_uuid: "",
-    billing_cep: "",
+    billingAddress: "",
+    customerUuid: "",
+    billingCep: "",
     name: "",
   });
   const [delivery, setDelivery] = useState<DeliveryCreate>({
     building: "",
-    delivery_address: "",
-    address_number: "",
-    contact_number: "",
-    delivery_cep: "",
+    deliveryAddress: "",
+    addressNumber: "",
+    contactNumber: "",
+    deliveryCep: "",
     reference: "",
   });
   const [orderItem, setOrderItem] = useState<OrderItemCreate[]>([]);
@@ -57,41 +56,29 @@ const OrderForm = () => {
 
     setIsLoading(true);
 
-    debugLogger([
-      JSON.stringify({
-        delivery,
-        revenue,
-        billing,
-        order_deadline: new Date(deadline),
-        client_uuid: billing.client_uuid,
-        order_items: orderItem,
-      }),
-    ]);
-
     const body = {
       delivery: {
         ...delivery,
-        delivery_cep: numberRgxFormatter(delivery.delivery_cep),
-        address_number: Number(numberRgxFormatter(delivery.address_number)),
-        contact_number: numberRgxFormatter(delivery.contact_number),
+        deliveryCep: numberRgxFormatter(delivery.deliveryCep),
+        addressNumber: numberRgxFormatter(delivery.addressNumber),
+        contactNumber: numberRgxFormatter(delivery.contactNumber),
       },
       revenue: {
         ...revenue,
-        revenue_email:
-          revenue.revenue_email === "" ? null : revenue.revenue_email,
+        revenueEmail: revenue.revenueEmail === "" ? null : revenue.revenueEmail,
       },
       billing: {
         ...billing,
-        client_uuid: revenue.client_uuid,
-        billing_cep: numberRgxFormatter(billing.billing_cep),
+        customerUuid: revenue.customerUuid,
+        billingCep: numberRgxFormatter(billing.billingCep),
       },
-      order_deadline: new Date(deadline),
-      client_uuid: revenue.client_uuid,
-      order_items: orderItem,
+      orderDeadline: new Date(deadline),
+      customerUuid: revenue.customerUuid,
+      orderItems: orderItem,
     };
 
     try {
-      await api.post("/orders", body);
+      await api.post("/order", body);
       toast.success("Pedido registrado com sucesso!");
       router.push("/pedidos");
     } catch (err) {

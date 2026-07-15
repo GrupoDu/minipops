@@ -1,4 +1,4 @@
-import { Product } from "@/types/product.type";
+import { Product } from "@/types/product.interface";
 
 export interface OrderItem {
   orderItemUuid: string;

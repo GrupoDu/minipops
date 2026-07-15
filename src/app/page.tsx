@@ -1,4 +1,3 @@
-import LoginForm from "@/components/loginForm";
 import styles from "./page.module.scss";
 
 export default function Home() {

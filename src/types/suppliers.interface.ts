@@ -1,6 +1,7 @@
-export interface Suppliers {
+export interface Supplier {
   supplierUuid: string;
-  supplierName: string;
+  companyName: string;
+  tradingName: string;
   supplierCnpj: string;
   supplierCep: string;
   supplierAddress: string;
@@ -13,7 +14,7 @@ export interface Suppliers {
 }
 
 export interface SupplierCreate extends Omit<
-  Suppliers,
+  Supplier,
   "supplierUuid" | "addressNumber" | "supplierCep"
 > {
   addressNumber: string;

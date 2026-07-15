@@ -18,23 +18,23 @@ type OrderItemProps = {
 
 type AddOrderItemType = {
   product: string;
-  unitprice: number;
+  unitPrice: number;
   quantity: number;
   descount: number;
   ipi: number;
-  additionalamount: number;
+  additionalAmount: number;
   total: number;
 };
 
 const ProductsForm = (props: OrderItemProps) => {
   const { products } = useProducts();
   const [newOrderItem, setNewOrderItem] = useState<OrderItemCreate>({
-    product_uuid: "",
-    unit_price: 0,
+    productUuid: "",
+    unitPrice: 0,
     quantity: 1,
     ipi: 0,
-    discount_percentage: 0,
-    additional_amount: 0,
+    discountPercentage: 0,
+    additionalAmount: 0,
   });
   const [addProductsList, setAddProductsList] = useState<AddOrderItemType[]>(
     [],
@@ -48,7 +48,7 @@ const ProductsForm = (props: OrderItemProps) => {
   ];
   const tableTitles = [
     "Produto",
-    "Valor unit.",
+    "Preço unit.",
     "Quantidade",
     "Desconto(%)",
     "IPI(%)",
@@ -57,21 +57,21 @@ const ProductsForm = (props: OrderItemProps) => {
 
   const productsList =
     products?.map((product) => ({
-      value: product.product_uuid || "",
+      value: product.productUuid || "",
       label: product.name || "",
     })) || emptyList;
 
-  const getProduct = (target: { product_uuid: string }) =>
-    products?.find((product) => product.product_uuid === target.product_uuid);
+  const getProduct = (target: { productUuid: string }) =>
+    products?.find((product) => product.productUuid === target.productUuid);
   const selectProduct = (e: ChangeEvent<HTMLSelectElement>) => {
     const productTarget = products?.find(
-      (product) => product.product_uuid === e.target.value,
+      (product) => product.productUuid === e.target.value,
     );
 
     setNewOrderItem((prev) => ({
       ...prev,
-      product_uuid: e.target.value,
-      unit_price: productTarget?.unit_price || 0,
+      productUuid: e.target.value,
+      unitPrice: productTarget?.unitPrice || 0,
     }));
   };
   const handleSave = () => {
@@ -80,7 +80,7 @@ const ProductsForm = (props: OrderItemProps) => {
     if (newOrderItem.quantity < 1)
       return toast.error("Quantidade de produtos inválida.");
 
-    if (!newOrderItem.product_uuid || newOrderItem.product_uuid === "")
+    if (!newOrderItem.productUuid || newOrderItem.productUuid === "")
       return toast.error("Por favor, selecione um produto.");
 
     setOrderItem((prevState) => [...prevState, newOrderItem]);
@@ -90,36 +90,36 @@ const ProductsForm = (props: OrderItemProps) => {
         product: product?.name || "",
         ipi: newOrderItem.ipi,
         quantity: newOrderItem.quantity,
-        descount: newOrderItem.discount_percentage,
-        unitprice: newOrderItem.unit_price,
-        additionalamount: newOrderItem.additional_amount,
+        descount: newOrderItem.discountPercentage,
+        unitPrice: newOrderItem.unitPrice,
+        additionalAmount: newOrderItem.additionalAmount,
         total: calculateProductTotalPrice({
           quantity: newOrderItem.quantity,
-          unit_price: newOrderItem.unit_price,
-          discount_percentage: newOrderItem.discount_percentage,
+          unitPrice: newOrderItem.unitPrice,
+          discountPercentage: newOrderItem.discountPercentage,
         }),
       },
     ]);
     setNewOrderItem({
-      product_uuid: "",
-      unit_price: 0,
+      productUuid: "",
+      unitPrice: 0,
       quantity: 1,
       ipi: 0,
-      discount_percentage: 0,
-      additional_amount: 0,
+      discountPercentage: 0,
+      additionalAmount: 0,
     });
     debugLogger(["Save clicado."]);
   };
   const setDiscountToZero = () => {
     setNewOrderItem((prev) => ({
       ...prev,
-      discount_percentage: 0,
+      discountPercentage: 0,
     }));
   };
   const setDiscountToMax = () => {
     setNewOrderItem((prev) => ({
       ...prev,
-      discount_percentage: 100,
+      discountPercentage: 100,
     }));
   };
   const handleDiscountChange = (value: number) => {
@@ -135,7 +135,7 @@ const ProductsForm = (props: OrderItemProps) => {
 
     setNewOrderItem((prev) => ({
       ...prev,
-      discount_percentage: value,
+      discountPercentage: value,
     }));
   };
 
@@ -145,7 +145,7 @@ const ProductsForm = (props: OrderItemProps) => {
         <InputSelect
           label={"Selecionar produto"}
           options={productsList}
-          value={newOrderItem.product_uuid}
+          value={newOrderItem.productUuid}
           onChange={(e) => selectProduct(e)}
         />
         <InputText
@@ -165,13 +165,13 @@ const ProductsForm = (props: OrderItemProps) => {
           type={"text"}
           label={"Preço unitário"}
           required={true}
-          value={priceFormatter(newOrderItem.unit_price)}
+          value={priceFormatter(newOrderItem.unitPrice)}
           readonly={true}
         />
         <InputText
           type={"number"}
           label={"Desconto(%)"}
-          value={String(newOrderItem.discount_percentage)}
+          value={String(newOrderItem.discountPercentage)}
           max={100}
           onChange={(e) => handleDiscountChange(Number(e.target.value))}
         />
@@ -218,7 +218,7 @@ function displayAddOrderItems(orderItems?: AddOrderItemType[]) {
       {orderItems?.map((item, index) => (
         <tr key={index}>
           <td>{item.product}</td>
-          <td>{priceFormatter(item.unitprice)}</td>
+          <td>{priceFormatter(item.unitPrice)}</td>
           <td>{item.quantity}</td>
           <td>{item.descount}</td>
           <td>{item.ipi}</td>

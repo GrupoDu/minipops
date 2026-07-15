@@ -1,12 +1,12 @@
 "use client";
 
 import useFetch from "@/hooks/useFetch";
-import { Product } from "@/types/product.type";
+import { Product } from "@/types/product.interface";
 import React, { useMemo } from "react";
 import { ProductsContext } from "@/contexts/products.context";
 
 const ProductsProvider = ({ children }: { children: React.ReactNode }) => {
-  const { status, data, error, isLoading } = useFetch<Product[]>("/products");
+  const { status, data, error, isLoading } = useFetch<Product[]>("/product");
 
   const products = useMemo(() => {
     return {
