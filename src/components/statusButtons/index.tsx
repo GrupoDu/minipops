@@ -43,7 +43,7 @@ export const StatusButtons = ({
     }
 
     try {
-      const response = await api.put(`/orders/${slug}`, {
+      const response = await api.put(`/order/${slug}`, {
         order_status: status,
       });
 

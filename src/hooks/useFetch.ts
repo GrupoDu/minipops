@@ -28,8 +28,6 @@ const useFetch = <T>(endpoint: string) => {
         setMaxPages(fetchedData.maxPages);
         setPage(fetchedData.page);
 
-        debugLogger([`Dados carregados: ${fetchedData}`], "useFetch");
-
         setStatus("success");
       } catch (err) {
         const error = err as AxiosError;

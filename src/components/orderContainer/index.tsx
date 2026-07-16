@@ -11,7 +11,7 @@ import { Order } from "@/types/order.interface";
 import Breadcrumb from "@/components/breadcrumb";
 
 export const OrderContainer = ({ orderId }: { orderId: string }) => {
-  const { data: order } = useFetch<Order>(`orders/${orderId}`);
+  const { data: order } = useFetch<Order>(`order/${orderId}`);
   const isOrderDone =
     order?.orderStatus === "Concluído" || order?.orderStatus === "Cancelado";
 

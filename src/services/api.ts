@@ -45,6 +45,22 @@ api.interceptors.response.use(
 
     if (status === 503) throw new Error("Tente novamente em alguns minutos.");
 
+    if (status === 403) {
+      await axios.post(
+        "/auth/logout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      redirectToLogin(401);
+      return;
+    }
+
     if (status !== 401) return Promise.reject(error);
 
     if (originalRequest._retry) return Promise.reject(error);
@@ -58,7 +74,7 @@ api.interceptors.response.use(
 
     try {
       await axios.post(
-        `${API_URL}/login/refresh`,
+        `${API_URL}/auth/refresh`,
         {},
         {
           withCredentials: true,

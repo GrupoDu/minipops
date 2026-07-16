@@ -20,7 +20,7 @@ export default function LoginForm() {
       await api.post("/auth/login", {
         email,
         password,
-        userRole: "Admin",
+        userRole: "Vendas",
       });
 
       router.push("/dashboard");

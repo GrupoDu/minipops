@@ -40,8 +40,6 @@ function OrderList() {
     setEndpoint(
       `order/offset?page=${page ? page : 1}&pageSize=${pageSize ? pageSize : 7}${customer ? `&customer=${customer}` : ""}${date ? `&created_at=${date}` : ""}`,
     );
-
-    console.log();
   }, [page, pageSize, customer, date]);
 
   const { data: orders, isLoading, maxPages } = useFetch<Order[]>(endpoint);
@@ -70,8 +68,6 @@ function OrderList() {
     value: status,
     label: status,
   }));
-
-  console.log(customers);
 
   return (
     <>
