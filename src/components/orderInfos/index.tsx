@@ -81,10 +81,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>
-                  {phoneFormatter(order.clients.client_phone) ||
-                    "Não informado"}
-                </td>
+                <td>{phoneFormatter(order.clients.client_phone)}</td>
                 <td>{order.clients.client_email || "Não informado"}</td>
               </tr>
             </tbody>
