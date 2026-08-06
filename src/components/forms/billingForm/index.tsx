@@ -9,32 +9,14 @@ import { cepFinder } from "@/utils/cepFinder";
 type BillingProps = {
   setBilling: Dispatch<SetStateAction<BillingCreate>>;
   billing: BillingCreate;
+  handleCepChange: (cep: string) => Promise<void>;
 };
 
-const BillingForm = (props: BillingProps) => {
-  const { billing, setBilling } = props;
-
-  const handleCepChange = async (cep: string) => {
-    const formatedCep = cep.replace(/\D/g, "");
-
-    setBilling((prev) => ({
-      ...prev,
-      billingCep: formatedCep,
-    }));
-
-    try {
-      const addressInfo = await cepFinder(cep);
-
-      setBilling((prev) => ({
-        ...prev,
-        billingAddress: addressInfo.logradouro,
-      }));
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message);
-    }
-  };
-
+const BillingForm = ({
+  billing,
+  setBilling,
+  handleCepChange,
+}: BillingProps) => {
   return (
     <div className="multistepForm">
       <InputText

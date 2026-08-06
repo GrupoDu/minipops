@@ -19,6 +19,7 @@ import numberRgxFormatter from "@/utils/numberRgxFormatter";
 import { useLoading } from "@/hooks/useLoading";
 import { BiCheck } from "react-icons/bi";
 import BackButton from "@/components/backButton";
+import { cepFinder } from "@/utils/cepFinder";
 
 const OrderForm = () => {
   const [deadline, setDeadline] = useState<string>("");
@@ -47,6 +48,27 @@ const OrderForm = () => {
   const [orderItem, setOrderItem] = useState<OrderItemCreate[]>([]);
   const router = useRouter();
   const { setIsLoading } = useLoading();
+
+  const handleCepChange = async (cep: string) => {
+    const formatedCep = cep.replace(/\D/g, "");
+
+    setBilling((prev) => ({
+      ...prev,
+      billingCep: formatedCep,
+    }));
+
+    try {
+      const addressInfo = await cepFinder(cep);
+
+      setBilling((prev) => ({
+        ...prev,
+        billingAddress: addressInfo.logradouro,
+      }));
+    } catch (err) {
+      const error = err as Error;
+      toast.error(error.message);
+    }
+  };
 
   const handleSubmit = async () => {
     if (!deadline) {
@@ -109,11 +131,21 @@ const OrderForm = () => {
         <div className={styles.grid}>
           <section className={styles.revenueForm}>
             <Tab>Faturamento</Tab>
-            <RevenueForm setRevenue={setRevenue} revenue={revenue} key={0} />
+            <RevenueForm
+              setRevenue={setRevenue}
+              revenue={revenue}
+              handleCepChange={handleCepChange}
+              key={0}
+            />
           </section>
           <section className={styles.billingForm}>
             <Tab>Cobrança</Tab>
-            <BillingForm setBilling={setBilling} billing={billing} key={1} />
+            <BillingForm
+              setBilling={setBilling}
+              billing={billing}
+              handleCepChange={handleCepChange}
+              key={1}
+            />
           </section>
         </div>
         <section className={styles.deliveryForm}>

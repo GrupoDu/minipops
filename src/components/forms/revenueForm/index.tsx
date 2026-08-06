@@ -7,14 +7,19 @@ import InputText from "@/components/inputs/inputText";
 import InputSelect from "@/components/inputs/inputSelect";
 import styles from "./styles.module.scss";
 import numberRgxFormatter from "@/utils/numberRgxFormatter";
+import { BillingCreate } from "@/types/billing.interface";
 
 type RevenueProps = {
   setRevenue: Dispatch<SetStateAction<Revenue>>;
   revenue: Revenue;
+  handleCepChange: (cep: string) => Promise<void>;
 };
 
-const RevenueForm = (props: RevenueProps) => {
-  const { setRevenue, revenue } = props;
+const RevenueForm = ({
+  setRevenue,
+  revenue,
+  handleCepChange,
+}: RevenueProps) => {
   const { customers } = useCustomers();
   const customersList =
     customers?.map((customer) => ({
@@ -37,6 +42,8 @@ const RevenueForm = (props: RevenueProps) => {
       revenueAddress: selectedClient?.customerAddress || "",
       revenueEmail: selectedClient?.customerEmail || "",
     }));
+
+    handleCepChange(selectedClient?.customerCep || "");
   };
 
   return (
