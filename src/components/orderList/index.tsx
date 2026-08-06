@@ -105,7 +105,7 @@ function OrderList() {
                     <span className={styles.orderId}>
                       {order.customOrderId}
                     </span>
-                    <span className={styles.orderDate}>{order.createdAt}</span>
+                    <span className={styles.orderDate}>{order.issuedAt}</span>
                   </div>
                 </td>
                 <td>{order.customer.companyName}</td>
@@ -120,7 +120,7 @@ function OrderList() {
                 <td>
                   <Link
                     className={styles.buttonContainer}
-                    href={`/pedidos/${order.customOrderId}`}
+                    href={`/pedidos/${order.orderId}`}
                     onClick={() => setIsLoading(true)}
                   >
                     <CgDetailsMore color={"#000000"} />
@@ -160,7 +160,7 @@ function statusStyle(status: string): CSSProperties {
         border: "1px solid var(--on-going-color)",
         backgroundColor: "var(--on-going-bg)",
       };
-    case "Concluído":
+    case "Concluido":
       return {
         ...defaultStyle,
         color: "var(--done-color)",
