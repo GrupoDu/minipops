@@ -10,10 +10,10 @@ export interface OrderItem {
   ipi: number;
   additionalAmount: number;
   total: number;
-  products: Product;
+  product: Product;
 }
 
 export interface OrderItemCreate extends Omit<
   OrderItem,
-  "orderItemUuid" | "total" | "orderUuid" | "products"
+  "orderItemUuid" | "total" | "orderUuid" | "product"
 > {}

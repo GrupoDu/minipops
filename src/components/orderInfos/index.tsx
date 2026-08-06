@@ -20,7 +20,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
   const renderOrderItems = (items: OrderItem[]) => {
     return items.map((item) => (
       <tr key={item.orderItemUuid}>
-        <td>{item.products.acronym}</td>
+        <td>{item.product.acronym}</td>
         <td>{priceFormatter(item.unitPrice)}</td>
         <td>{item.quantity} und.</td>
         <td>{item.discountPercentage}%</td>
