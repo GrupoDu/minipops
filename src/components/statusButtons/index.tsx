@@ -29,7 +29,7 @@ export const StatusButtons = ({
     setIsLoading(true);
 
     enum acceptableStatus {
-      DONE = "Concluído",
+      DONE = "Concluido",
       CANCELED = "Cancelado",
     }
 
@@ -43,14 +43,13 @@ export const StatusButtons = ({
     }
 
     try {
-      const response = await api.put(`/orders/${slug}`, {
-        order_status: status,
-      });
+      const response = await api.patch(`/order/${slug}?status=${status}`);
 
       const data = await response.data;
 
       toast.success(data.message);
-      router.push(`${pathname}?${DEFAULT_PARAMS}`);
+      setShowModal(false);
+      router.push(`/pedidos?${DEFAULT_PARAMS}`);
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
@@ -79,7 +78,7 @@ export const StatusButtons = ({
             type={"button"}
             className={styles.doneButton}
             onClick={() => {
-              setStatus("Concluído");
+              setStatus("Concluido");
               setShowModal(true);
             }}
           >

@@ -1,20 +1,19 @@
 import { cookies } from "next/headers";
 import { api } from "@/services/api";
-import { Suppliers } from "@/types/suppliers.type";
-import { AxiosResponse } from "axios";
+import { Supplier } from "@/types/suppliers.interface";
 
-export async function getSupplier(supplier_uuid: string) {
+export async function getSupplier(supplierUuid: string) {
   try {
-    if (!supplier_uuid) return;
+    if (!supplierUuid) return;
 
     const cookiesStorage = await cookies();
     const token = cookiesStorage.get("access_token");
-    const supplier = await api.get(`/suppliers/${supplier_uuid}`, {
+    const supplier = await api.get(`/suppliers/${supplierUuid}`, {
       headers: {
-        Cookie: `access_token=${token?.value}`,
+        Cookie: `accessToken=${token?.value}`,
       },
     });
-    const data: Suppliers = await supplier.data.data;
+    const data: Supplier = await supplier.data.data;
 
     return data;
   } catch (err) {

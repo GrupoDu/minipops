@@ -1,6 +1,6 @@
 "use client";
 
-import { Suppliers } from "@/types/suppliers.type";
+import { Supplier } from "@/types/suppliers.interface";
 import styles from "./styles.module.scss";
 import { CgPin, CgProfile, CgSmartphone } from "react-icons/cg";
 import cepFormatter from "@/utils/cepFormatter";
@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useLoading } from "@/hooks/useLoading";
 import { useEffect } from "react";
 
-export const SupplierInfos = ({ supplier }: { supplier: Suppliers }) => {
+export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
   const { setIsLoading } = useLoading();
 
   useEffect(() => {
@@ -22,9 +22,9 @@ export const SupplierInfos = ({ supplier }: { supplier: Suppliers }) => {
     <>
       <div className={styles.supplierInfoContainer}>
         <div className={styles.topInformation}>
-          {supplier.supplier_image ? (
+          {supplier.supplierImage ? (
             <Image
-              src={supplier.supplier_image}
+              src={supplier.supplierImage}
               alt={"imagem-do-fornecedor"}
               className={styles.supplierLogo}
             />
@@ -32,10 +32,10 @@ export const SupplierInfos = ({ supplier }: { supplier: Suppliers }) => {
             <CgProfile className={styles.supplierLogo} />
           )}
           <div className={styles.texts}>
-            <h3>{supplier.supplier_name}</h3>
-            <span>{supplier.supplier_cnpj}</span>
+            <h3>{supplier.companyName}</h3>
+            <span>{supplier.supplierCnpj}</span>
             <div className={styles.segment}>
-              <span>{supplier.supplier_segment}</span>
+              <span>{supplier.supplierSegment}</span>
             </div>
           </div>
         </div>
@@ -46,21 +46,21 @@ export const SupplierInfos = ({ supplier }: { supplier: Suppliers }) => {
               <MdOutlineEmail className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Email</h5>
-                <span>{supplier.supplier_email}</span>
+                <span>{supplier.supplierEmail}</span>
               </div>
             </div>
             <div className={styles.contact}>
               <CgSmartphone className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Celular</h5>
-                <span>{supplier.supplier_phone}</span>
+                <span>{supplier.supplierPhone}</span>
               </div>
             </div>
             <div className={styles.contact}>
               <TbDeviceLandlinePhone className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Fixo</h5>
-                <span>{supplier.supplier_landline}</span>
+                <span>{supplier.supplierLandline}</span>
               </div>
             </div>
           </section>
@@ -70,7 +70,7 @@ export const SupplierInfos = ({ supplier }: { supplier: Suppliers }) => {
               <BsPostcard className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>CEP</h5>
-                <span>{cepFormatter(supplier.supplier_cep)}</span>
+                <span>{cepFormatter(supplier.supplierCep)}</span>
               </div>
             </div>
             <div className={styles.address}>
@@ -78,7 +78,7 @@ export const SupplierInfos = ({ supplier }: { supplier: Suppliers }) => {
               <div className={styles.textDescription}>
                 <h5>Endereço</h5>
                 <span>
-                  {supplier.supplier_address} - n°{supplier.address_number}
+                  {supplier.supplierAddress} - n°{supplier.addressNumber}
                 </span>
               </div>
             </div>

@@ -6,7 +6,7 @@ import useFetch from "@/hooks/useFetch";
 import { Order } from "@/types/order.interface";
 
 function OrderProvider({ children }: { children: ReactNode }) {
-  const { data, status, isLoading, error } = useFetch<Order[]>("/orders");
+  const { data, status, isLoading, error } = useFetch<Order[]>("/order");
 
   const orders = useMemo(() => {
     return {

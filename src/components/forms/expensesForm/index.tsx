@@ -5,8 +5,8 @@ import { InputDate } from "@/components/inputs/inputDate";
 import InputText from "@/components/inputs/inputText";
 import InputSelect from "@/components/inputs/inputSelect";
 import React, { useState } from "react";
-import { ExpensesCreate } from "@/types/expenses.type";
-import { Suppliers } from "@/types/suppliers.type";
+import { ExpensesCreate } from "@/types/expenses.interface";
+import { Supplier } from "@/types/suppliers.interface";
 import useFetch from "@/hooks/useFetch";
 import DefaultButton from "@/components/defaultButton";
 import { api } from "@/services/api";
@@ -15,13 +15,13 @@ import { useRouter } from "next/navigation";
 import BackButton from "@/components/backButton";
 import { centsToNumber } from "@/utils/centsToNumber";
 import { centsFormatter } from "@/utils/centsFormatter";
-import { CiCircleInfo } from "react-icons/ci";
+import { WarningObs } from "@/components/WarningObs";
 
 export const ExpensesForm = () => {
-  const { data: suppliers } = useFetch<Suppliers[]>("suppliers");
+  const { data: suppliers } = useFetch<Supplier[]>("supplier");
   const suppliersOptions = suppliers?.map((supplier) => ({
-    label: supplier.supplier_name,
-    value: supplier.supplier_uuid,
+    label: supplier.companyName,
+    value: supplier.supplierUuid,
   }));
   const router = useRouter();
   const [expense, setExpense] = useState<ExpensesCreate>({
@@ -29,24 +29,23 @@ export const ExpensesForm = () => {
     price: "",
     description: "",
     date: new Date().toISOString(),
-    supplier_uuid: "",
+    supplierUuid: "",
   });
 
   const handleExpenseSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await api.post("/expenses", {
+      const response = await api.post("/expense", {
         ...expense,
         date: new Date(expense.date),
         price: centsToNumber(expense.price),
-        supplier_uuid:
-          expense.supplier_uuid === "" ? null : expense.supplier_uuid,
+        supplierUuid: expense.supplierUuid === "" ? null : expense.supplierUuid,
       });
 
       const message = await response.data.message;
 
-      router.push("/gastos?page=1&per_page=10");
+      router.push("/gastos?page=1&pageSize=7");
       toast.success(message);
     } catch (err) {
       const error = err as Error;
@@ -59,24 +58,23 @@ export const ExpensesForm = () => {
       <div className={styles.formTitle}>
         <h5>Registrar gasto</h5>
       </div>
-      <div className={styles.observation}>
-        <CiCircleInfo className={styles.obsIcon} />
-        <span>
-          Os centavos no preço são obrigatórios, e devem ser separados por
-          vírgula. Ex: 100,00
-        </span>
-      </div>
+      <WarningObs
+        warning={
+          "Os centavos no preço são obrigatórios, e devem ser separados por vírgula. Ex: 100,00"
+        }
+        style={{ margin: ".6rem" }}
+      />
       <div className={styles.formFields}>
         <InputDate
           label={"Data"}
           required={true}
           value={expense.date}
-          onChange={(e) =>
+          onChange={(e) => {
             setExpense((prev) => ({
               ...prev,
-              date: new Date(e.target.value).toISOString().split("T")[0],
-            }))
-          }
+              date: e.target.value.split("T")[0],
+            }));
+          }}
         />
         <div className={styles.grid}>
           <InputText
@@ -117,9 +115,9 @@ export const ExpensesForm = () => {
           <InputSelect
             label={"Fornecedor"}
             options={suppliersOptions || []}
-            value={expense.supplier_uuid || ""}
+            value={expense.supplierUuid || ""}
             onChange={(e) =>
-              setExpense((prev) => ({ ...prev, supplier_uuid: e.target.value }))
+              setExpense((prev) => ({ ...prev, supplierUuid: e.target.value }))
             }
           />
         </div>

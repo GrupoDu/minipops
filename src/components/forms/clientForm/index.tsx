@@ -3,7 +3,7 @@
 import styles from "./styles.module.scss";
 import InputText from "@/components/inputs/inputText";
 import React, { useState } from "react";
-import { ClientCreate } from "@/types/client.interface";
+import { CustomerCreate } from "@/types/customer.interface";
 import DefaultButton from "@/components/defaultButton";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
@@ -11,21 +11,24 @@ import { toast } from "react-toastify";
 import numberRgxFormatter from "@/utils/numberRgxFormatter";
 import { useLoading } from "@/hooks/useLoading";
 import { AxiosError } from "axios";
+import { cepFinder } from "@/utils/cepFinder";
+import { hasContactInfo } from "@/utils/hasContactInfo";
+import { WarningObs } from "@/components/WarningObs";
 
 const ClientForm = () => {
-  const [client, setClient] = useState<ClientCreate>({
-    company_name: "",
-    trading_name: "",
-    client_cnpj: "",
-    client_address: "",
-    client_phone: "",
-    client_email: "",
-    client_landline: "",
-    client_logo: "",
-    client_city: "",
-    client_cep: "",
-    client_state: "",
-    address_number: 0,
+  const [customer, setCustomer] = useState<CustomerCreate>({
+    companyName: "",
+    tradingName: "",
+    customerCnpj: "",
+    customerAddress: "",
+    customerPhone: "",
+    customerEmail: "",
+    customerLandline: "",
+    customerLogo: "",
+    customerCity: "",
+    customerCep: "",
+    customerState: "",
+    addressNumber: "",
   });
   const { setIsLoading } = useLoading();
   const router = useRouter();
@@ -42,6 +45,7 @@ const ClientForm = () => {
         headers: { "Content-Type": "multipart/form-data" },
         skipToast: true,
       });
+
       return imageUploadResponse.data.data.imageUrl;
     } catch (err) {
       toast.warning(
@@ -57,50 +61,44 @@ const ClientForm = () => {
     const imageUrl = await handleImageSubmit();
 
     const finalClientData = {
-      ...client,
-      client_logo: imageUrl || client.client_logo,
-      client_phone: numberRgxFormatter(client.client_phone),
+      ...customer,
+      clientLogo: imageUrl || customer.customerLogo,
+      clientPhone: numberRgxFormatter(customer.customerPhone || ""),
     };
 
     try {
-      await api.post("/clients", finalClientData);
-      toast.success("Cliente registrado com sucesso");
-      router.push("/clientes?page=1&per_page=7");
-    } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      const errorMessage = error.response?.data?.message || "";
+      hasContactInfo(
+        customer.customerEmail,
+        customer.customerPhone,
+        customer.customerLandline,
+      );
 
-      if (errorMessage.includes("Campos obrigatórios")) {
-        return toast.error("Campos obrigatórios faltando.");
-      } else {
-        toast.error(error.message);
-      }
+      await api.post("/customer", finalClientData);
+      toast.success("Cliente registrado com sucesso");
+      router.push("/clientes?page=1&pageSize=7");
+    } catch (err) {
+      const error = err as Error;
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleCepChange = async (cep: string) => {
-    setClient((prev) => ({
+    setCustomer((prev) => ({
       ...prev,
-      client_cep: numberRgxFormatter(cep),
+      customerCep: numberRgxFormatter(cep),
     }));
 
-    if (cep.length < 8) return;
-
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const addressInfo = await cepFinder(cep);
 
-      const data = await response.json();
-
-      setClient((prev) => ({
+      setCustomer((prev) => ({
         ...prev,
-        client_address: data.logradouro,
-        client_city: data.bairro,
-        client_state: data.uf,
+        customerAddress: addressInfo.logradouro,
+        customerCity: addressInfo.bairro,
+        customerState: addressInfo.uf,
       }));
-
-      console.log(data);
     } catch (err) {
       toast.error("Não foi possível buscar o endereço.");
       console.error((err as Error).message);
@@ -117,18 +115,24 @@ const ClientForm = () => {
       <div className={styles.formHeader}>
         <h5>Adicionar novo cliente</h5>
       </div>
+      <div>
+        <WarningObs
+          warning={"Pelo menos um contato deve ser informado"}
+          style={{ margin: ".6rem" }}
+        />
+      </div>
       <div className={styles.inputs}>
         <div className={styles.gridInputs}>
           <InputText
             type={"text"}
             label={"Razão Social"}
-            placeholder={"Razão social do cliente"}
+            placeholder={"Razão Social"}
             required={true}
-            value={client.company_name}
+            value={customer.companyName}
             onChange={(e) =>
-              setClient((prev) => ({
+              setCustomer((prev) => ({
                 ...prev,
-                company_name: e.target.value,
+                companyName: e.target.value,
               }))
             }
           />
@@ -137,30 +141,31 @@ const ClientForm = () => {
             label={"CNPJ"}
             placeholder={"CNPJ"}
             required={true}
-            value={client.client_cnpj}
+            value={customer.customerCnpj}
             onChange={(e) =>
-              setClient((prev) => ({ ...prev, client_cnpj: e.target.value }))
+              setCustomer((prev) => ({ ...prev, customerCnpj: e.target.value }))
             }
           />
           <InputText
             type={"text"}
             label={"Nome Fantasia"}
+            placeholder={"Nome Fantasia"}
             required={true}
-            value={client.trading_name}
+            value={customer.tradingName}
             onChange={(e) =>
-              setClient((prev) => ({ ...prev, trading_name: e.target.value }))
+              setCustomer((prev) => ({ ...prev, tradingName: e.target.value }))
             }
           />
           <InputText
             type={"text"}
             label={"Celular"}
-            required={true}
-            placeholder={"Telefone celular"}
-            value={client.client_phone}
+            placeholder={"Telefone celular (opcional)"}
+            max={11}
+            value={customer.customerPhone || ""}
             onChange={(e) =>
-              setClient((prev) => ({
+              setCustomer((prev) => ({
                 ...prev,
-                client_phone: e.target.value,
+                customerPhone: e.target.value,
               }))
             }
           />
@@ -170,21 +175,21 @@ const ClientForm = () => {
           label={"Fixo"}
           placeholder={"Telefone fixo (opcional)"}
           max={10}
-          value={String(client.client_landline)}
+          value={String(customer.customerLandline)}
           onChange={(e) =>
-            setClient((prev) => ({
+            setCustomer((prev) => ({
               ...prev,
-              client_landline: e.target.value,
+              customerLandline: e.target.value,
             }))
           }
         />
         <InputText
-          type={"text"}
+          type={"email"}
           label={"Email"}
-          placeholder={"email@email.com (opcional)"}
-          value={client.client_email}
+          placeholder={"email@exemplo.com (opcional)"}
+          value={customer.customerEmail || ""}
           onChange={(e) =>
-            setClient((prev) => ({ ...prev, client_email: e.target.value }))
+            setCustomer((prev) => ({ ...prev, customerEmail: e.target.value }))
           }
         />
         <h4>Localização</h4>
@@ -194,16 +199,16 @@ const ClientForm = () => {
             label={"CEP"}
             placeholder={"CEP"}
             required={true}
-            value={client.client_cep}
+            value={customer.customerCep}
             onChange={(e) => handleCepChange(e.target.value)}
           />
           <InputText
             type={"text"}
             label={"Cidade"}
             placeholder={"Cidade"}
-            value={client.client_city}
+            value={customer.customerCity}
             onChange={(e) =>
-              setClient((prev) => ({ ...prev, client_city: e.target.value }))
+              setCustomer((prev) => ({ ...prev, customerCity: e.target.value }))
             }
             required={true}
           />
@@ -211,22 +216,25 @@ const ClientForm = () => {
             type={"text"}
             label={"Endereço"}
             placeholder={"Endereço"}
-            value={client.client_address}
+            value={customer.customerAddress}
             onChange={(e) =>
-              setClient((prev) => ({ ...prev, client_address: e.target.value }))
+              setCustomer((prev) => ({
+                ...prev,
+                customerAddress: e.target.value,
+              }))
             }
             required={true}
           />
           <InputText
             type={"text"}
-            label={"Número do endereção"}
-            placeholder={"123"}
-            value={client.address_number.toString()}
+            label={"Número do endereço"}
+            placeholder={"1233"}
+            max={4}
+            value={customer.addressNumber.toString()}
             onChange={(e) =>
-              setClient((prev) => ({
+              setCustomer((prev) => ({
                 ...prev,
-                address_number:
-                  parseInt(numberRgxFormatter(e.target.value)) || 0,
+                addressNumber: numberRgxFormatter(e.target.value) || "",
               }))
             }
           />

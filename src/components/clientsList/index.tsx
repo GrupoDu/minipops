@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { Client } from "@/types/client.interface";
 import DefaultButton from "@/components/defaultButton";
 import phoneFormatter from "@/utils/phoneFormatter";
 import { EmptyList } from "@/components/emptyList";
@@ -17,19 +16,19 @@ import { landlineFormatter } from "@/utils/landlineFormatter";
 import { CgEye } from "react-icons/cg";
 import { cnpjFormatter } from "@/utils/cnpjFormatter";
 import { cpfFormatter } from "@/utils/cpfFormatter";
+import { Customer } from "@/types/customer.interface";
 
 const ClientsList = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
   const { isLoading, setIsLoading } = useLoading();
-  const { data } = useFetch<{ clients: Client[]; max_pages: number }>(
-    `clients?page=${page}`,
+  const { data: customers, maxPages } = useFetch<Customer[]>(
+    `customer/offset?page=${page}&pageSize=7`,
   );
   const tableHeads = ["Nome", "CNPJ", "Email", "Contato", "Ações"];
 
-  const clients = data?.clients;
-  const maxPage = data?.max_pages || 1;
-  const isListPopulated = !!clients && clients.length > 0;
+  const maxPage = maxPages;
+  const isListPopulated = !!customers && customers.length > 0;
   const cpfCnpjDisplay = (value: string) => {
     if (value.length === 14) return cnpjFormatter(value);
 
@@ -59,19 +58,25 @@ const ClientsList = () => {
       ) : isListPopulated ? (
         <>
           <ListTemplate heads={tableHeads}>
-            {clients?.map((client) => (
-              <tr key={client.client_uuid}>
-                <td>{client.trading_name}</td>
-                <td>{cpfCnpjDisplay(client.client_cnpj)}</td>
-                <td>{client.client_email || "Email não fornecido"}</td>
+            {customers?.map((customer) => (
+              <tr key={customer.customerUuid}>
+                <td>{customer.tradingName}</td>
+                <td>{cpfCnpjDisplay(customer.customerCnpj)}</td>
+                <td>{customer.customerEmail || "Email não fornecido"}</td>
                 <td className={"phone"}>
                   <div className={styles.landPhoneContainer}>
-                    <span>{phoneFormatter(client.client_phone)}</span>
+                    <span>
+                      {customer.customerPhone
+                        ? phoneFormatter(customer.customerPhone)
+                        : "Telefone não informado"}
+                    </span>
                     <span
-                      className={!client.client_landline ? "isNotInformed" : ""}
+                      className={
+                        !customer.customerLandline ? "isNotInformed" : ""
+                      }
                     >
-                      {client.client_landline
-                        ? landlineFormatter(client.client_landline)
+                      {customer.customerLandline
+                        ? landlineFormatter(customer.customerLandline)
                         : "Fixo não informado"}
                     </span>
                   </div>
@@ -81,7 +86,7 @@ const ClientsList = () => {
                     prefetch={false}
                     type={"button"}
                     isLink={true}
-                    href={`/clientes/${client.client_uuid}`}
+                    href={`/clientes/${customer.customerUuid}`}
                   >
                     <CgEye />
                     <span>Visualizar</span>

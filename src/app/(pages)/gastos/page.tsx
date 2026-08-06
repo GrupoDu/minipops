@@ -1,7 +1,4 @@
 import PageHeader from "@/components/pageHeader";
-import FilterContainer from "@/components/filterContainer";
-import InputText from "@/components/inputs/inputText";
-import { InputDate } from "@/components/inputs/inputDate";
 import { ExpensesList } from "@/components/expensesList";
 
 function ExpensesPage() {

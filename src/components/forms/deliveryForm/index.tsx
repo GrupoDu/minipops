@@ -16,7 +16,7 @@ const DeliveryForm = (props: DeliveyProps) => {
   const { setDelivery, delivery } = props;
 
   const findCep = async (cep: string) => {
-    setDelivery((prev) => ({ ...prev, delivery_cep: cep }));
+    setDelivery((prev) => ({ ...prev, deliveryCep: cep }));
 
     if (cep.length < 8) return;
 
@@ -25,7 +25,7 @@ const DeliveryForm = (props: DeliveyProps) => {
 
       const data = await response.json();
 
-      setDelivery((prev) => ({ ...prev, delivery_address: data.logradouro }));
+      setDelivery((prev) => ({ ...prev, deliveryAddress: data.logradouro }));
     } catch (err) {
       console.error((err as Error).message);
     }
@@ -48,16 +48,16 @@ const DeliveryForm = (props: DeliveyProps) => {
         max={8}
         placeholder={"00000000"}
         required={true}
-        value={delivery.delivery_cep}
+        value={delivery.deliveryCep}
         onChange={(e) => findCep(numberRgxFormatter(e.target.value))}
       />
       <InputText
         type={"text"}
         label={"Local de entrega"}
         required={true}
-        value={delivery.delivery_address}
+        value={delivery.deliveryAddress}
         onChange={(e) =>
-          setDelivery((prev) => ({ ...prev, delivery_address: e.target.value }))
+          setDelivery((prev) => ({ ...prev, deliveryAddress: e.target.value }))
         }
       />
       <InputText
@@ -65,11 +65,11 @@ const DeliveryForm = (props: DeliveyProps) => {
         label={"Número"}
         placeholder={"000"}
         max={4}
-        value={delivery.address_number}
+        value={delivery.addressNumber}
         onChange={(e) =>
           setDelivery((prev) => ({
             ...prev,
-            address_number: e.target.value,
+            addressNumber: e.target.value,
           }))
         }
       />
@@ -79,11 +79,11 @@ const DeliveryForm = (props: DeliveyProps) => {
         max={11}
         placeholder={"00000000000"}
         required={true}
-        value={delivery.contact_number}
+        value={delivery.contactNumber}
         onChange={(e) =>
           setDelivery((prev) => ({
             ...prev,
-            contact_number: e.target.value,
+            contactNumber: e.target.value,
           }))
         }
       />

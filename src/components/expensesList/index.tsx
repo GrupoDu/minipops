@@ -1,7 +1,7 @@
 "use client";
 
 import useFetch from "@/hooks/useFetch";
-import { Expenses, ExpensesPagination } from "@/types/expenses.type";
+import { Expenses } from "@/types/expenses.interface";
 import { useState } from "react";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { dateFormatter } from "@/utils/dateFormatter";
@@ -19,31 +19,31 @@ import { useLoading } from "@/hooks/useLoading";
 export const ExpensesList = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const per_page = searchParams.get("per_page");
+  const pageSize = searchParams.get("pageSize");
   const tableHeads = ["Descrição", "Preço", "Quantidade", "Fornecedor", "Data"];
   const { isLoading, setIsLoading } = useLoading();
-  const { data } = useFetch<ExpensesPagination>(
-    `expenses?page=${page}&per_page=${per_page}`,
+  const { data: expenses, maxPages } = useFetch<Expenses[]>(
+    `expense/offset?page=${page}&pageSize=${pageSize}`,
   );
   const [filteredExpenses, setFilteredExpenses] = useState<Expenses[]>([]);
   const isListPopulated = (
-    data: ExpensesPagination | undefined,
-  ): data is ExpensesPagination => !!data && data.expenses.length > 0;
+    expenses: Expenses[] | undefined,
+  ): expenses is Expenses[] => !!expenses && expenses.length > 0;
 
   if (!page) return <h2>Página não encontrada</h2>;
 
   const displayExpenses = (expenses: Expenses[] | undefined) => {
     return expenses?.map((expense) => (
-      <tr key={expense.expense_uuid}>
+      <tr key={expense.expenseUuid}>
         <td>{expense.description}</td>
         <td>{priceFormatter(expense.price)}</td>
         <td>{expense.amount}</td>
         <td
-          style={expense.suppliers ? {} : { opacity: 0.6, fontStyle: "italic" }}
+          style={expense.supplier ? {} : { opacity: 0.6, fontStyle: "italic" }}
         >
-          {expense.suppliers ? (
-            <Link href={`/fornecedores/${expense.suppliers?.supplier_uuid}`}>
-              {expense.suppliers.supplier_name}
+          {expense.supplier ? (
+            <Link href={`/fornecedores/${expense.supplier?.supplierUuid}`}>
+              {expense.supplier.companyName}
             </Link>
           ) : (
             "Fornecedor não informado"
@@ -68,14 +68,14 @@ export const ExpensesList = () => {
       </FilterContainer>
       {isLoading ? (
         <LoadingBlock />
-      ) : isListPopulated(data) ? (
+      ) : isListPopulated(expenses) ? (
         <>
           <ListTemplate heads={tableHeads}>
             {filteredExpenses.length > 0
               ? displayExpenses(filteredExpenses)
-              : displayExpenses(data.expenses)}
+              : displayExpenses(expenses)}
           </ListTemplate>
-          <Pagination maxPage={data.max_pages} />
+          <Pagination maxPage={maxPages} />
         </>
       ) : (
         <EmptyList targetName={"gasto"} />

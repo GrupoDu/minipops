@@ -26,6 +26,9 @@ export const Pagination = (props: PaginationProps) => {
 
   const isSelected = (pageItem: number) => pageItem === Number(page);
 
+  if (maxPage < 2)
+    return uniquePage(pathname, isSelected, maxPage, setIsLoading);
+
   const displayPaginationNumbers = () => {
     let paginationSpans = [];
 
@@ -64,7 +67,7 @@ export const Pagination = (props: PaginationProps) => {
       {displayPaginationNumbers()}
       {maxPage > 5 && (
         <Link
-          href={`${pathname}?page=${maxPage}&per_page=7`}
+          href={`${pathname}?page=${maxPage}&pageSize=7`}
           className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
           onClick={() => setIsLoading(true)}
         >
@@ -82,7 +85,7 @@ function displayFinalPages(props: DisplayPaginationsProps) {
     paginationSpans.push(
       <Link
         key={i}
-        href={`${props.pathname}?page=${i}&per_page=7`}
+        href={`${props.pathname}?page=${i}&pageSize=7`}
         className={`${styles.paginationItem} ${props.isSelected(i) && styles.isSelected}`}
         onClick={() => props.setIsLoading(true)}
       >
@@ -124,21 +127,21 @@ function prevPages(props: DisplayPaginationsProps) {
   return (
     <>
       <Link
-        href={`${props.pathname}?page=1&per_page=7`}
+        href={`${props.pathname}?page=1&pageSize=7`}
         className={`${styles.paginationItem} ${props.isSelected(1) && styles.isSelected}`}
         onClick={() => props.setIsLoading(true)}
       >
         1
       </Link>
       <Link
-        href={`${props.pathname}?page=${props.page - 2}&per_page=7`}
+        href={`${props.pathname}?page=${props.page - 2}&pageSize=7`}
         className={`${styles.paginationItem} ${props.isSelected(props.page - 2) && styles.isSelected}`}
         onClick={() => props.setIsLoading(true)}
       >
         {props.maxPage - 2}
       </Link>
       <Link
-        href={`${props.pathname}?page=${props.page - 1}&per_page=7`}
+        href={`${props.pathname}?page=${props.page - 1}&pageSize=7`}
         className={`${styles.paginationItem} ${props.isSelected(props.page - 1) && styles.isSelected}`}
         onClick={() => props.setIsLoading(true)}
       >
@@ -152,12 +155,31 @@ function initialPrevPages(props: DisplayPaginationsProps) {
   return (
     <>
       <Link
-        href={`${props.pathname}?page=${props.page - 1}&per_page=7`}
+        href={`${props.pathname}?page=${props.page - 1}&pageSize=7`}
         className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
         onClick={() => props.setIsLoading(true)}
       >
         {props.page - 1}
       </Link>
     </>
+  );
+}
+
+function uniquePage(
+  pathname: string,
+  isSelected: (value: number) => boolean,
+  maxPage: number,
+  setIsLoading: (isLoading: boolean) => void,
+) {
+  return (
+    <div className={styles.pagination}>
+      <Link
+        href={`${pathname}?page=1&pageSize=7`}
+        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
+        onClick={() => setIsLoading(true)}
+      >
+        1
+      </Link>
+    </div>
   );
 }

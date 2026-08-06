@@ -1,16 +1,16 @@
 export interface Delivery {
-  delivery_uuid?: string;
-  created_at?: Date;
+  deliveryUuid?: string;
+  createdAt?: Date;
   building: string;
-  delivery_address: string;
-  delivery_cep: string;
-  address_number: string;
-  contact_number: string;
+  deliveryAddress: string;
+  deliveryCep: string;
+  addressNumber: string;
+  contactNumber: string;
   reference?: string | null;
-  delivery_observation?: string | null;
+  deliveryObservation?: string | null;
 }
 
 export interface DeliveryCreate extends Omit<
   Delivery,
-  "delivery_uuid" | "created_at"
+  "deliveryUuid" | "createdAt"
 > {}

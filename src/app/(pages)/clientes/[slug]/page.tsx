@@ -1,5 +1,4 @@
 import PageHeader from "@/components/pageHeader";
-import styles from "./page.module.scss";
 import Breadcrumb from "@/components/breadcrumb";
 import { ClientContainer } from "@/components/clientContainer";
 
@@ -13,7 +12,7 @@ async function ClientPage({ params }: { params: Promise<{ slug: string }> }) {
       <PageHeader title={"Clientes"} description={"Informações de clientes"} />
       <Breadcrumb />
       <div className={"mainContent"}>
-        <ClientContainer client_uuid={slug} />
+        <ClientContainer customerUuid={slug} />
       </div>
     </div>
   );
