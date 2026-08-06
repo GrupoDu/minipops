@@ -40,7 +40,7 @@ export const OrderContainer = ({ orderId }: { orderId: string }) => {
           <div className={styles.textInfo}>
             <h3>GrupoDu</h3>
             <div className={styles.date}>
-              <span>Data de emissão: {dateFormatter(order.createdAt)}</span>
+              <span>Data de emissão: {dateFormatter(order.issuedAt)}</span>
             </div>
           </div>
         </div>

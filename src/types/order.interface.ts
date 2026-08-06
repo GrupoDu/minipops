@@ -5,8 +5,9 @@ import { Billing, BillingCreate } from "@/types/billing.interface";
 import { Delivery, DeliveryCreate } from "@/types/delivery.interface";
 
 export interface Order {
+  orderId: number;
   customOrderId: string;
-  createdAt: string;
+  issuedAt: string;
   orderStatus: string;
   orderDeadline: Date;
   orderItems: OrderItem[];
@@ -25,7 +26,7 @@ export interface OrderPagination {
 }
 
 type omitCreate =
-  | "createdAt"
+  | "issuedAt"
   | "orderUuid"
   | "orderStatus"
   | "totalPrice"
