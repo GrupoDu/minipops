@@ -105,6 +105,8 @@ function displayDefaultPagination(props: DisplayPaginationsProps) {
   const maxPagePagination = props.page + 5;
 
   for (let i = props.page; i <= maxPagePagination; i++) {
+    if (i > props.maxPage) return;
+
     paginationSpans.push(
       <Link
         key={i}
@@ -115,8 +117,6 @@ function displayDefaultPagination(props: DisplayPaginationsProps) {
         {i}
       </Link>,
     );
-
-    if (i === props.maxPage) return;
   }
 
   return paginationSpans;
