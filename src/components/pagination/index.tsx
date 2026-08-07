@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useLoading } from "@/hooks/useLoading";
+import { JSX } from "react";
 
 type PaginationProps = {
   maxPage: number;
@@ -30,18 +31,19 @@ export const Pagination = (props: PaginationProps) => {
     return uniquePage(pathname, isSelected, maxPage, setIsLoading);
 
   const displayPaginationNumbers = () => {
-    let paginationSpans = [];
+    let paginationSpans: JSX.Element[];
 
     const pageInt = parseInt(page);
 
     if (pageInt >= 1 && (pageInt < maxPage - 5 || maxPage < 5)) {
-      paginationSpans = displayDefaultPagination({
-        maxPage,
-        page: pageInt,
-        pathname,
-        isSelected,
-        setIsLoading,
-      });
+      paginationSpans =
+        displayDefaultPagination({
+          maxPage,
+          page: pageInt,
+          pathname,
+          isSelected,
+          setIsLoading,
+        }) || [];
     } else {
       paginationSpans = displayFinalPages({
         maxPage,
@@ -113,6 +115,8 @@ function displayDefaultPagination(props: DisplayPaginationsProps) {
         {i}
       </Link>,
     );
+
+    if (i === props.maxPage) return;
   }
 
   return paginationSpans;
@@ -132,13 +136,6 @@ function prevPages(props: DisplayPaginationsProps) {
         onClick={() => props.setIsLoading(true)}
       >
         1
-      </Link>
-      <Link
-        href={`${props.pathname}?page=${props.page - 2}&pageSize=7`}
-        className={`${styles.paginationItem} ${props.isSelected(props.page - 2) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        {props.maxPage - 2}
       </Link>
       <Link
         href={`${props.pathname}?page=${props.page - 1}&pageSize=7`}
