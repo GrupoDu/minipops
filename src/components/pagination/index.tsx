@@ -35,7 +35,7 @@ export const Pagination = (props: PaginationProps) => {
 
     const pageInt = parseInt(page);
 
-    if (pageInt >= 1 && (pageInt < maxPage - 5 || maxPage < 5)) {
+    if (pageInt >= 1 && pageInt < maxPage) {
       paginationSpans =
         displayDefaultPagination({
           maxPage,
@@ -105,7 +105,7 @@ function displayDefaultPagination(props: DisplayPaginationsProps) {
   const maxPagePagination = props.page + 5;
 
   for (let i = props.page; i <= maxPagePagination; i++) {
-    if (i > props.maxPage) return;
+    if (i > props.maxPage) break;
 
     paginationSpans.push(
       <Link

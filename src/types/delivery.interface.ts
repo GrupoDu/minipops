@@ -4,7 +4,7 @@ export interface Delivery {
   building: string;
   deliveryAddress: string;
   deliveryCep: string;
-  addressNumber: string;
+  addressNumber: number;
   contactNumber: string;
   reference?: string | null;
   deliveryObservation?: string | null;

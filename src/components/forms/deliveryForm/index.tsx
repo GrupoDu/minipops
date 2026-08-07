@@ -65,11 +65,11 @@ const DeliveryForm = (props: DeliveyProps) => {
         label={"Número"}
         placeholder={"000"}
         max={4}
-        value={delivery.addressNumber}
+        value={delivery.addressNumber.toString()}
         onChange={(e) =>
           setDelivery((prev) => ({
             ...prev,
-            addressNumber: e.target.value,
+            addressNumber: parseInt(e.target.value),
           }))
         }
       />

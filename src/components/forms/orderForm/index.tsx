@@ -40,7 +40,7 @@ const OrderForm = () => {
   const [delivery, setDelivery] = useState<DeliveryCreate>({
     building: "",
     deliveryAddress: "",
-    addressNumber: "",
+    addressNumber: 0,
     contactNumber: "",
     deliveryCep: "",
     reference: "",
@@ -82,7 +82,8 @@ const OrderForm = () => {
       delivery: {
         ...delivery,
         deliveryCep: numberRgxFormatter(delivery.deliveryCep),
-        addressNumber: numberRgxFormatter(delivery.addressNumber),
+        addressNumber:
+          delivery.addressNumber !== 0 ? delivery.addressNumber : null,
         contactNumber: numberRgxFormatter(delivery.contactNumber),
       },
       revenue: {
