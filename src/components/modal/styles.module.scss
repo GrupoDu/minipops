@@ -49,6 +49,11 @@
     padding: .8rem;
     gap: .6rem;
   }
+  
+  .disable {
+    user-select: none;
+    pointer-events: none;
+  }
 }
 
 .show {

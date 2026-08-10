@@ -36,7 +36,9 @@ export const Modal = (props: ModalProps) => {
           <p>{text}</p>
         </div>
       </header>
-      <div className={styles.actionButtons}>
+      <div
+        className={`${styles.actionButtons} ${!showModal && styles.disable}`}
+      >
         <DefaultButton onClick={() => setShowModal(false)} type={"button"}>
           Cancelar
         </DefaultButton>
