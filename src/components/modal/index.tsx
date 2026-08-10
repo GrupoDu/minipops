@@ -39,10 +39,18 @@ export const Modal = (props: ModalProps) => {
       <div
         className={`${styles.actionButtons} ${!showModal && styles.disable}`}
       >
-        <DefaultButton onClick={() => setShowModal(false)} type={"button"}>
+        <DefaultButton
+          onClick={() => setShowModal(false)}
+          type={"button"}
+          className={`${!showModal && styles.disable}`}
+        >
           Cancelar
         </DefaultButton>
-        <DefaultButton onClick={onClickConfirm} type={"submit"}>
+        <DefaultButton
+          onClick={onClickConfirm}
+          type={"submit"}
+          className={`${!showModal && styles.disable}`}
+        >
           Confirmar
         </DefaultButton>
       </div>

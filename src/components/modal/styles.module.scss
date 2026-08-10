@@ -24,6 +24,7 @@
   border-radius: .8rem;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
   opacity: 0;
+  display: none;
   transition: all .3s ease-in-out;
 
   header {
@@ -51,6 +52,7 @@
   }
   
   .disable {
+    display: none;
     user-select: none;
     pointer-events: none;
   }
