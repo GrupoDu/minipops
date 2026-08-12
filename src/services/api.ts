@@ -47,7 +47,7 @@ api.interceptors.response.use(
 
     if (status === 403) {
       await axios.post(
-        "/auth/logout",
+        `${API_URL}/auth/logout`,
         {},
         {
           withCredentials: true,
