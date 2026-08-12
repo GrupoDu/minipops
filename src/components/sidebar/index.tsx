@@ -72,7 +72,7 @@ function Sidebar() {
   };
   const handleLogout = async () => {
     try {
-      await api.post("/login/logout");
+      await api.post("/auth/logout");
       toast.success("Logout realizado com sucesso");
     } catch (err) {
       const error = err as Error;
