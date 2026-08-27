@@ -126,7 +126,6 @@ function OrderList() {
                     {order.orderStatus}
                   </div>
                 </td>
-
                 <td>{priceFormatter(order.totalPrice)}</td>
                 <td>
                   <Link
