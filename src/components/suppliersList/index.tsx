@@ -3,71 +3,78 @@
 import styles from "./styles.module.scss";
 import ListTemplate from "@/components/listTemplate";
 import { Supplier } from "@/types/suppliers.interface";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { EmptyList } from "@/components/emptyList";
 import Link from "next/link";
 import phoneFormatter from "@/utils/phoneFormatter";
 import { FaEye } from "react-icons/fa6";
-import React, { useEffect, useState } from "react";
-import { api } from "@/services/api";
+import React, { useState } from "react";
 import { Pagination } from "@/components/pagination";
 import { useLoading } from "@/hooks/useLoading";
 import { LoadingBlock } from "@/components/loadingBlock";
 import FilterContainer from "@/components/filterContainer";
 import InputText from "@/components/inputs/inputText";
 import { landlineFormatter } from "@/utils/landlineFormatter";
+import useFetch from "@/hooks/useFetch";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { isListPopulated } from "@/utils/isListPopulated";
+import { SUPPLIER_TABLE_HEADS } from "@/constants/tableHeads.constant";
+import { setQueryParams } from "@/utils/setQueryParams";
 
 export const SuppliersList = () => {
   const searchParams = useSearchParams();
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const page = searchParams.get("page") || 1;
-  const name = searchParams.get("name");
-  const email = searchParams.get("email");
-  const [maxPage, setMaxPage] = useState(0);
+  const pathname = usePathname();
+  const router = useRouter();
+  const [nameFilter, setNameFilter] = useState("");
+  const [emailFilter, setEmailFilter] = useState("");
+  const [cnpjFilter, setCnpjFilter] = useState("");
   const { setIsLoading, isLoading } = useLoading();
-  const filteredSuppliers = suppliers?.filter(
-    (supplier) =>
-      (name ? supplier.tradingName === name : true) &&
-      (email ? supplier.supplierEmail === email : true),
+  const hasFilters = searchParams.size > 2;
+  const endpoint = `supplier${hasFilters ? `/filter` : `/offset`}`;
+  const { data: suppliers, maxPages } = useFetch<Supplier[]>(
+    endpoint,
+    TRACK_PARAMS,
   );
-  const isFilterActive = !!name || !!email;
-  const displayList = isFilterActive ? filteredSuppliers : suppliers;
-  const isListPopulated = !!displayList && displayList.length > 0;
-  const tablesHeads = ["Fornecedor", "CNPJ", "Email", "Contatos", "Ações"];
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    const fetchData = async () => {
-      try {
-        const response = await api.get(
-          `/supplier/offset?page=${page}&pageSize=7`,
-        );
-
-        const data = await response.data;
-
-        setSuppliers(data.data);
-        setMaxPage(data.maxPages);
-      } catch (err) {
-        const error = err as Error;
-        console.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [page]);
+  const handleNameChange = (value: string) => {
+    setNameFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "tradingName",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
+  const handleEmailChange = (value: string) => {
+    setEmailFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "email",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
+  const handleCnpjChange = (value: string) => {
+    setCnpjFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "cnpj",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <>
-      <FilterContainer>
+      <FilterContainer isFiltersAvailable={true}>
         <InputText
           type={"text"}
           label={"Nome"}
           filterTarget={"name"}
           isSearch={true}
           placeholder={"Fornecedor"}
+          value={nameFilter}
+          onChange={(e) => handleNameChange(e.target.value)}
         />
         <InputText
           type={"text"}
@@ -75,14 +82,25 @@ export const SuppliersList = () => {
           filterTarget={"email"}
           isSearch={true}
           placeholder={"Email"}
+          value={emailFilter}
+          onChange={(e) => handleEmailChange(e.target.value)}
+        />
+        <InputText
+          type={"text"}
+          label={"Cnpj"}
+          filterTarget={"cnpj"}
+          isSearch={true}
+          placeholder={"CNPJ"}
+          value={cnpjFilter}
+          onChange={(e) => handleCnpjChange(e.target.value)}
         />
       </FilterContainer>
       {isLoading ? (
         <LoadingBlock />
-      ) : isListPopulated ? (
+      ) : isListPopulated(suppliers) ? (
         <>
-          <ListTemplate heads={tablesHeads}>
-            {displayList.map((supplier) => (
+          <ListTemplate heads={SUPPLIER_TABLE_HEADS}>
+            {suppliers?.map((supplier) => (
               <tr key={supplier.supplierUuid}>
                 <td>{supplier.tradingName}</td>
                 <td>{supplier.supplierCnpj}</td>
@@ -104,7 +122,7 @@ export const SuppliersList = () => {
               </tr>
             ))}
           </ListTemplate>
-          <Pagination maxPage={maxPage} />
+          <Pagination maxPage={maxPages} />
         </>
       ) : (
         <EmptyList targetName={"fornecedor"} />
