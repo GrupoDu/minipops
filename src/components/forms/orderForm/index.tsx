@@ -78,32 +78,18 @@ const OrderForm = () => {
 
     setIsLoading(true);
 
-    const body = {
-      delivery: {
-        ...delivery,
-        deliveryCep: numberRgxFormatter(delivery.deliveryCep),
-        addressNumber:
-          delivery.addressNumber !== 0 ? delivery.addressNumber : null,
-        contactNumber: numberRgxFormatter(delivery.contactNumber),
-      },
-      revenue: {
-        ...revenue,
-        revenueEmail: revenue.revenueEmail === "" ? null : revenue.revenueEmail,
-      },
-      billing: {
-        ...billing,
-        customerUuid: revenue.customerUuid,
-        billingCep: numberRgxFormatter(billing.billingCep),
-      },
-      orderDeadline: new Date(deadline),
-      customerUuid: revenue.customerUuid,
-      orderItems: orderItem,
-    };
+    const payload = mountOrderPayload(
+      delivery,
+      revenue,
+      billing,
+      deadline,
+      orderItem,
+    );
 
     try {
-      await api.post("/order", body);
+      await api.post("/order", payload);
       toast.success("Pedido registrado com sucesso!");
-      router.push("/pedidos");
+      router.push("/pedidos?page=1&pageSize=7");
     } catch (err) {
       const error = err as Error;
       toast.error(error.message);
@@ -178,6 +164,36 @@ function Tab({ children }: { children: React.ReactNode }) {
       <span>{children}</span>
     </div>
   );
+}
+
+function mountOrderPayload(
+  delivery: DeliveryCreate,
+  revenue: Revenue,
+  billing: BillingCreate,
+  deadline: string,
+  orderItem: OrderItemCreate[],
+) {
+  return {
+    delivery: {
+      ...delivery,
+      deliveryCep: numberRgxFormatter(delivery.deliveryCep),
+      addressNumber:
+        delivery.addressNumber !== 0 ? delivery.addressNumber : null,
+      contactNumber: numberRgxFormatter(delivery.contactNumber),
+    },
+    revenue: {
+      ...revenue,
+      revenueEmail: revenue.revenueEmail === "" ? null : revenue.revenueEmail,
+    },
+    billing: {
+      ...billing,
+      customerUuid: revenue.customerUuid,
+      billingCep: numberRgxFormatter(billing.billingCep),
+    },
+    orderDeadline: new Date(deadline),
+    customerUuid: revenue.customerUuid,
+    orderItems: orderItem,
+  };
 }
 
 export default OrderForm;
