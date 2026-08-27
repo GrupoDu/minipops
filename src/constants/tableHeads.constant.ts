@@ -14,3 +14,11 @@ export const CUSTOMER_TABLE_HEADS = [
   "Contato",
   "Ações",
 ];
+
+export const SUPPLIER_TABLE_HEADS = [
+  "Fornecedor",
+  "CNPJ",
+  "Email",
+  "Contato",
+  "Ações",
+];
