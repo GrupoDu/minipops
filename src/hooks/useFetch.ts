@@ -6,9 +6,11 @@ import debugLogger from "@/utils/debugLogger";
 import { AxiosError } from "axios";
 import { useLoading } from "@/hooks/useLoading";
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
 
-const useFetch = <T>(endpoint: string) => {
+const useFetch = <T>(endpoint: string, trackParams?: boolean) => {
   const [data, setData] = useState<T | undefined>();
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState<string | undefined>();
   const [maxPages, setMaxPages] = useState(0);
@@ -17,10 +19,14 @@ const useFetch = <T>(endpoint: string) => {
 
   useEffect(() => {
     debugLogger(["Iniciando fetch..."], "useFetch");
+    const params = new URLSearchParams(searchParams);
+    const hasFilters = params.size > 2;
 
     const fetchData = async () => {
       try {
-        const response = await api.get(endpoint);
+        const url = `${endpoint}${trackParams && hasFilters ? `?${params.toString()}` : ""}`;
+
+        const response = await api.get(url);
         debugLogger(["Dados carregados com sucesso."], "useFetch");
 
         const fetchedData = await response.data;
@@ -40,7 +46,7 @@ const useFetch = <T>(endpoint: string) => {
     };
 
     fetchData();
-  }, [endpoint]);
+  }, [endpoint, searchParams, trackParams]);
 
   return { data, status, isLoading, error, maxPages, page };
 };
