@@ -26,7 +26,7 @@ export const ExpensesForm = () => {
   const router = useRouter();
   const [expense, setExpense] = useState<ExpensesCreate>({
     amount: 0,
-    price: "",
+    price: 0,
     description: "",
     date: new Date().toISOString(),
     supplierUuid: "",
@@ -39,7 +39,7 @@ export const ExpensesForm = () => {
       const response = await api.post("/expense", {
         ...expense,
         date: new Date(expense.date),
-        price: centsToNumber(expense.price),
+        price: expense.price,
         supplierUuid: expense.supplierUuid === "" ? null : expense.supplierUuid,
       });
 
@@ -58,12 +58,6 @@ export const ExpensesForm = () => {
       <div className={styles.formTitle}>
         <h5>Registrar gasto</h5>
       </div>
-      <WarningObs
-        warning={
-          "Os centavos no preço são obrigatórios, e devem ser separados por vírgula. Ex: 100,00"
-        }
-        style={{ margin: ".6rem" }}
-      />
       <div className={styles.formFields}>
         <InputDate
           label={"Data"}
@@ -90,15 +84,12 @@ export const ExpensesForm = () => {
           />
           <InputText
             label={"Preço"}
-            type={"text"}
+            type={"number"}
             placeholder={"Ex: 100,00"}
             required={true}
-            value={expense.price}
+            value={expense.price.toString()}
             onChange={(e) =>
-              setExpense((prev) => ({
-                ...prev,
-                price: centsFormatter(e.target.value),
-              }))
+              setExpense((prev) => setExpenseValue(prev, e.target.value))
             }
           />
           <InputText
@@ -129,3 +120,13 @@ export const ExpensesForm = () => {
     </form>
   );
 };
+
+function setExpenseValue(prev: ExpensesCreate, value: string) {
+  const parsedValue = parseInt(value);
+  if (parsedValue < 0) return prev;
+
+  return {
+    ...prev,
+    price: parseFloat(value),
+  };
+}
