@@ -4,12 +4,18 @@ import styles from "./styles.module.scss";
 import { Dispatch, SetStateAction } from "react";
 import { DeliveryCreate } from "@/types/delivery.interface";
 import InputText from "@/components/inputs/inputText";
-import CepFormatter from "@/utils/cepFormatter";
 import numberRgxFormatter from "@/utils/numberRgxFormatter";
 
 type DeliveyProps = {
   setDelivery: Dispatch<SetStateAction<DeliveryCreate>>;
   delivery: DeliveryCreate;
+};
+
+const EMPTY_ADDRESS_NUMBER = (prev: DeliveryCreate) => {
+  return {
+    ...prev,
+    addressNumber: 0,
+  };
 };
 
 const DeliveryForm = (props: DeliveyProps) => {
@@ -67,10 +73,7 @@ const DeliveryForm = (props: DeliveyProps) => {
         max={4}
         value={delivery.addressNumber.toString()}
         onChange={(e) =>
-          setDelivery((prev) => ({
-            ...prev,
-            addressNumber: parseInt(e.target.value),
-          }))
+          setDelivery((prev) => checkDeliveryNumberValue(prev, e.target.value))
         }
       />
       <InputText
@@ -98,5 +101,20 @@ const DeliveryForm = (props: DeliveyProps) => {
     </div>
   );
 };
+
+function checkDeliveryNumberValue(prev: DeliveryCreate, value: string) {
+  if (value.trim() === "") return EMPTY_ADDRESS_NUMBER(prev);
+
+  if (isNaN(parseInt(value))) {
+    return {
+      ...prev,
+    };
+  }
+
+  return {
+    ...prev,
+    addressNumber: parseInt(value),
+  };
+}
 
 export default DeliveryForm;
