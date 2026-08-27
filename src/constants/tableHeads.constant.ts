@@ -22,3 +22,11 @@ export const SUPPLIER_TABLE_HEADS = [
   "Contato",
   "Ações",
 ];
+
+export const EXPENSE_TABLE_HEADS = [
+  "Descrição",
+  "Preço",
+  "Quantidade",
+  "Fornecedor",
+  "Data",
+];
