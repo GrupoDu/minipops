@@ -10,14 +10,7 @@ export interface Expenses {
   supplierUuid?: string | null;
 }
 
-export interface ExpensesPagination {
-  expenses: Expenses[];
-  maxPages: number;
-}
-
 export interface ExpensesCreate extends Omit<
   Expenses,
-  "expenseUuid" | "supplier" | "price"
-> {
-  price: string;
-}
+  "expenseUuid" | "supplier"
+> {}

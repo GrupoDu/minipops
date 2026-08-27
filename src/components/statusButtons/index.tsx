@@ -8,7 +8,7 @@ import { BiCheck } from "react-icons/bi";
 import BackButton from "@/components/backButton";
 import { Modal } from "@/components/modal";
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { DEFAULT_PARAMS } from "@/constants/defaultParams.constant";
 import { useLoading } from "@/hooks/useLoading";
 
@@ -23,19 +23,13 @@ export const StatusButtons = ({
   const [status, setStatus] = useState("");
   const { setIsLoading } = useLoading();
   const router = useRouter();
-  const pathname = usePathname();
 
   const changeStatus = async () => {
     setIsLoading(true);
 
-    enum acceptableStatus {
-      DONE = "Concluido",
-      CANCELED = "Cancelado",
-    }
+    const acceptableStatus = ["Concluido", "Cancelado"];
 
-    const isValidStatus = Object.values(acceptableStatus).includes(
-      status as acceptableStatus,
-    );
+    const isValidStatus = acceptableStatus.includes(status);
 
     if (!isValidStatus) {
       toast.error("Status inválido.");

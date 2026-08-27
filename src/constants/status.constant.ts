@@ -1,5 +1,6 @@
-export const STATUS_CONSTANT = {
-  PENDING: "Pendente",
-  DONE: "Concluído",
-  CANCELED: "Cancelado",
-} as const;
+export const STATUS_CONSTANT = [
+  { label: "Concluído", value: "Concluido" },
+  { label: "Pendente", value: "Pendente" },
+  { label: "Cancelado", value: "Cancelado" },
+  { label: "Atrasado", value: "Atrasado" },
+];

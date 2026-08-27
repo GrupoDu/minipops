@@ -162,10 +162,10 @@ const ProductsForm = (props: OrderItemProps) => {
           }
         />
         <InputText
-          type={"text"}
+          type={"number"}
           label={"Preço unitário"}
           required={true}
-          value={priceFormatter(newOrderItem.unitPrice)}
+          value={newOrderItem.unitPrice.toString()}
           readonly={true}
         />
         <InputText
@@ -219,7 +219,7 @@ function displayAddOrderItems(orderItems?: AddOrderItemType[]) {
         <tr key={index}>
           <td>{item.product}</td>
           <td>{priceFormatter(item.unitPrice)}</td>
-          <td>{item.quantity}</td>
+          <td>{item.quantity} und.</td>
           <td>{item.descount}</td>
           <td>{item.ipi}</td>
           <td>{priceFormatter(item.total)}</td>

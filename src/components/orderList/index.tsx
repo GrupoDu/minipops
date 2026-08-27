@@ -1,94 +1,103 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { Order } from "@/types/order.interface";
-import { usePathname, useSearchParams } from "next/navigation";
-import { priceFormatter } from "@/utils/priceFormatter";
-import { CSSProperties, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { CSSProperties, useState } from "react";
 import Link from "next/link";
-import { CgDetailsMore } from "react-icons/cg";
+import { useLoading } from "@/hooks/useLoading";
+import useFetch from "@/hooks/useFetch";
 import ListTemplate from "@/components/listTemplate";
 import { EmptyList } from "@/components/emptyList";
-import useFetch from "@/hooks/useFetch";
 import FilterContainer from "@/components/filterContainer";
-import { InputDate } from "@/components/inputs/inputDate";
-import { Customer } from "@/types/customer.interface";
 import InputSelect from "@/components/inputs/inputSelect";
-import { STATUS_CONSTANT } from "@/constants/status.constant";
 import { Pagination } from "@/components/pagination";
-import { useLoading } from "@/hooks/useLoading";
 import { LoadingBlock } from "@/components/loadingBlock";
+import { setQueryParams } from "@/utils/setQueryParams";
+import { extractOptionsArray } from "@/utils/extractOptionsArray";
+import { priceFormatter } from "@/utils/priceFormatter";
+import { CgDetailsMore } from "react-icons/cg";
+import { Customer } from "@/types/customer.interface";
+import { Order } from "@/types/order.interface";
+import { STATUS_CONSTANT } from "@/constants/status.constant";
+import { ORDER_TABLE_HEADS } from "@/constants/tableHeads.constant";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { MONTH_OPTIONS } from "@/constants/monthsOptions.constant";
+import { dateFormatter } from "@/utils/dateFormatter";
+import { hasFilters } from "@/utils/hasFilters";
 
 function OrderList() {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
-  const pageSize = searchParams.get("pageSize");
-  const customer = searchParams.get("customer");
-  const date = searchParams.get("date");
   const { setIsLoading } = useLoading();
   const [clientFilter, setCustomerFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  const [endpoint, setEndpoint] = useState(
-    `order/offset?page=${page ? page : 1}&pageSize=${pageSize ? pageSize : 7}${customer ? `&customer=${customer}` : ""}${date ? `&created_at=${date}` : ""}`,
-  );
+  const [monthFilter, setMonthFilter] = useState("");
+  const endpoint = `order${hasFilters(searchParams) ? "/filter" : `/offset?${searchParams.toString()}`}`;
+  const router = useRouter();
 
-  useEffect(() => {
-    // TODO Pensar numa forma de remover esse useState daqui
-    setEndpoint(
-      `order/offset?page=${page ? page : 1}&pageSize=${pageSize ? pageSize : 7}${customer ? `&customer=${customer}` : ""}${date ? `&created_at=${date}` : ""}`,
-    );
-  }, [page, pageSize, customer, date]);
-
-  const { data: orders, isLoading, maxPages } = useFetch<Order[]>(endpoint);
+  const {
+    data: orders,
+    isLoading,
+    maxPages,
+  } = useFetch<Order[]>(endpoint, TRACK_PARAMS);
   const { data: customers } = useFetch<Customer[]>("customer");
   const pathname = usePathname();
   const isDashboard = pathname.includes("dashboard");
-  const pendingOrders = orders?.filter(
-    (order) => order.orderStatus === "Pendente",
-  );
-  const ordersToUse = isDashboard ? pendingOrders : orders;
-  const isOrdersEmpty = !ordersToUse || ordersToUse.length < 1;
-  const tableHeads = {
-    id: "ID",
-    customer: "Cliente",
-    building: "Obra",
-    status: "Status",
-    total: "Total",
-    actions: "Ações",
-  } as const;
+  const isOrdersEmpty = !orders || orders.length < 1;
   const customersOptions =
     customers?.map((customer) => ({
       value: customer.customerUuid,
       label: customer.tradingName,
     })) || [];
-  const statusOptions = Object.values(STATUS_CONSTANT).map((status) => ({
-    value: status,
-    label: status,
-  }));
+
+  const handleCustomerChange = (value: string) => {
+    setCustomerFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "customerUuid",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
+  const handleStatusChange = (value: string) => {
+    setStatusFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "status",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
+  const handleMonthChange = (value: string) => {
+    setMonthFilter(value);
+    const params = setQueryParams({ searchParams, key: "month", value });
+    router.push(`${pathname}?${params}`);
+  };
 
   return (
     <>
       {!isDashboard && (
-        <FilterContainer
-          isAvailable={true}
-          setEndpoint={setEndpoint}
-          target={"orders"}
-        >
+        <FilterContainer isFiltersAvailable={true} target={"orders"}>
           <InputSelect
             label={"Cliente"}
             options={customersOptions}
             value={clientFilter}
-            filterTarget={"customer"}
-            onChange={(e) => setCustomerFilter(e.target.value)}
+            filterTarget={"customerUuid"}
+            onChange={(e) => handleCustomerChange(e.target.value)}
           />
           <InputSelect
             label={"Status"}
-            options={statusOptions}
+            options={STATUS_CONSTANT}
             filterTarget={"status"}
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(e) => handleStatusChange(e.target.value)}
           />
-          <InputDate label={"Data de emissão"} param={"createdAt"} />
+          <InputSelect
+            label={"Mês de emissão"}
+            options={extractOptionsArray(MONTH_OPTIONS)}
+            filterTarget={"month"}
+            value={monthFilter}
+            onChange={(e) => handleMonthChange(e.target.value)}
+          />
         </FilterContainer>
       )}
       {isLoading ? (
@@ -97,15 +106,17 @@ function OrderList() {
         <EmptyList targetName={"pedido"} />
       ) : (
         <>
-          <ListTemplate heads={Object.values(tableHeads)}>
-            {ordersToUse.map((order) => (
+          <ListTemplate heads={ORDER_TABLE_HEADS}>
+            {orders.map((order) => (
               <tr key={order.customOrderId}>
                 <td>
                   <div className={styles.orderIdContainer}>
                     <span className={styles.orderId}>
                       {order.customOrderId}
                     </span>
-                    <span className={styles.orderDate}>{order.issuedAt}</span>
+                    <span className={styles.orderDate}>
+                      {dateFormatter(order.issuedAt)}
+                    </span>
                   </div>
                 </td>
                 <td>{order.customer.companyName}</td>
@@ -115,7 +126,6 @@ function OrderList() {
                     {order.orderStatus}
                   </div>
                 </td>
-
                 <td>{priceFormatter(order.totalPrice)}</td>
                 <td>
                   <Link

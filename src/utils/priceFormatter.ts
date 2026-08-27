@@ -1,9 +1,7 @@
 export function priceFormatter(price: number) {
-  if (!price) return "0,00";
+  if (price === 0) return "0,00";
 
-  const formattedPrice = price / 100;
-
-  return formattedPrice.toLocaleString("pt-BR", {
+  return price.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
   });

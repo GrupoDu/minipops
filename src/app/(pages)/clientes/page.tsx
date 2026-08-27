@@ -1,7 +1,5 @@
 import PageHeader from "@/components/pageHeader";
 import ClientsList from "@/components/clientsList";
-import InputText from "@/components/inputs/inputText";
-import FilterContainer from "@/components/filterContainer";
 
 function CustomersPage() {
   return (
