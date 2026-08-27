@@ -23,6 +23,7 @@ import { ORDER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 import { MONTH_OPTIONS } from "@/constants/monthsOptions.constant";
 import { dateFormatter } from "@/utils/dateFormatter";
+import { hasFilters } from "@/utils/hasFilters";
 
 function OrderList() {
   const searchParams = useSearchParams();
@@ -30,8 +31,7 @@ function OrderList() {
   const [clientFilter, setCustomerFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [monthFilter, setMonthFilter] = useState("");
-  const hasFilter = searchParams.size > 2;
-  const endpoint = `order${hasFilter ? "/filter" : `/offset?${searchParams.toString()}`}`;
+  const endpoint = `order${hasFilters(searchParams) ? "/filter" : `/offset?${searchParams.toString()}`}`;
   const router = useRouter();
 
   const {
