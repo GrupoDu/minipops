@@ -21,7 +21,7 @@ import { Customer } from "@/types/customer.interface";
 const ClientsList = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
-  const { isLoading, setIsLoading } = useLoading();
+  const { isLoading } = useLoading();
   const { data: customers, maxPages } = useFetch<Customer[]>(
     `customer/offset?page=${page}&pageSize=7`,
   );
