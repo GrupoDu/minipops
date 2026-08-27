@@ -7,7 +7,7 @@ import { EmptyList } from "@/components/emptyList";
 import useFetch from "@/hooks/useFetch";
 import ListTemplate from "@/components/listTemplate";
 import { Pagination } from "@/components/pagination";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLoading } from "@/hooks/useLoading";
 import { LoadingBlock } from "@/components/loadingBlock";
 import InputText from "../inputs/inputText";
@@ -17,33 +17,74 @@ import { CgEye } from "react-icons/cg";
 import { cnpjFormatter } from "@/utils/cnpjFormatter";
 import { cpfFormatter } from "@/utils/cpfFormatter";
 import { Customer } from "@/types/customer.interface";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { CUSTOMER_TABLE_HEADS } from "@/constants/tableHeads.constant";
+import { useState } from "react";
+import { setQueryParams } from "@/utils/setQueryParams";
+
+function cpfCnpjDisplay(value: string) {
+  if (value.length === 14) return cnpjFormatter(value);
+
+  return cpfFormatter(value);
+}
 
 const ClientsList = () => {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const router = useRouter();
+  const pathname = usePathname();
+  const [nameFilter, setNameFilter] = useState("");
+  const [emailFilter, setEmailFilter] = useState("");
+  const [cnpjFilter, setCnpjFilter] = useState("");
   const { isLoading } = useLoading();
+  const hasFilters = searchParams.size > 2;
+  const endpoint = `customer${hasFilters ? "/filter" : "/offset"}`;
   const { data: customers, maxPages } = useFetch<Customer[]>(
-    `customer/offset?page=${page}&pageSize=7`,
+    endpoint,
+    TRACK_PARAMS,
   );
-  const tableHeads = ["Nome", "CNPJ", "Email", "Contato", "Ações"];
 
-  const maxPage = maxPages;
   const isListPopulated = !!customers && customers.length > 0;
-  const cpfCnpjDisplay = (value: string) => {
-    if (value.length === 14) return cnpjFormatter(value);
 
-    return cpfFormatter(value);
+  const handleNameChange = (value: string) => {
+    setNameFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "tradingName",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
+  const handleEmailChange = (value: string) => {
+    setEmailFilter(value);
+    const params = setQueryParams({
+      searchParams,
+      key: "email",
+      value,
+    });
+    router.push(`${pathname}?${params}`);
+  };
+  const handleCnpjChange = (value: string) => {
+    const formatedValue = value.replace(/\D/g, "");
+    setCnpjFilter(formatedValue);
+    const params = setQueryParams({
+      searchParams,
+      key: "cnpj",
+      value: formatedValue,
+    });
+    router.push(`${pathname}?${params}`);
   };
 
   return (
     <>
-      <FilterContainer>
+      <FilterContainer isFiltersAvailable={true}>
         <InputText
           type={"text"}
           label={"Nome"}
           placeholder={"Pesquisar nome do cliente"}
           isSearch={true}
           filterTarget={"cliente"}
+          onChange={(e) => handleNameChange(e.target.value)}
+          value={nameFilter}
         />
         <InputText
           type={"text"}
@@ -51,13 +92,24 @@ const ClientsList = () => {
           placeholder={"Pesquisar email do cliente"}
           isSearch={true}
           filterTarget={"email"}
+          onChange={(e) => handleEmailChange(e.target.value)}
+          value={emailFilter}
+        />
+        <InputText
+          type={"text"}
+          label={"CNPJ"}
+          placeholder={"CNPJ do cliente"}
+          isSearch={true}
+          filterTarget={"cnpj"}
+          onChange={(e) => handleCnpjChange(e.target.value)}
+          value={cnpjFilter}
         />
       </FilterContainer>
       {isLoading ? (
         <LoadingBlock />
       ) : isListPopulated ? (
         <>
-          <ListTemplate heads={tableHeads}>
+          <ListTemplate heads={CUSTOMER_TABLE_HEADS}>
             {customers?.map((customer) => (
               <tr key={customer.customerUuid}>
                 <td>{customer.tradingName}</td>
@@ -95,7 +147,7 @@ const ClientsList = () => {
               </tr>
             ))}
           </ListTemplate>
-          <Pagination maxPage={maxPage} />
+          <Pagination maxPage={maxPages} />
         </>
       ) : (
         <EmptyList targetName={"cliente"} />
