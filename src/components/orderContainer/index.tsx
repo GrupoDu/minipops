@@ -13,7 +13,7 @@ import Breadcrumb from "@/components/breadcrumb";
 export const OrderContainer = ({ orderId }: { orderId: string }) => {
   const { data: order } = useFetch<Order>(`order/${orderId}`);
   const isOrderDone =
-    order?.orderStatus === "Concluído" || order?.orderStatus === "Cancelado";
+    order?.orderStatus === "Concluido" || order?.orderStatus === "Cancelado";
 
   if (!order) return <OrderNotFound slug={orderId} />;
 
