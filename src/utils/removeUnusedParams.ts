@@ -3,5 +3,8 @@ export const removeUnusedParams = (
   value: string,
   key: string,
 ) => {
-  if (value.trim() === "") params.delete(key);
+  const isValueEmpty = value.trim() === "";
+  const isValueZero = value === "0";
+
+  if (isValueEmpty || isValueZero) params.delete(key);
 };
