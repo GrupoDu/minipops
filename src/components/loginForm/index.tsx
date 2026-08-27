@@ -27,6 +27,7 @@ export default function LoginForm() {
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
+      toast.error(error.message);
       setIsLoading(false);
     }
   };
