@@ -1,25 +1,25 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import ListTemplate from "@/components/listTemplate";
-import { Supplier } from "@/types/suppliers.interface";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { EmptyList } from "@/components/emptyList";
-import Link from "next/link";
-import phoneFormatter from "@/utils/phoneFormatter";
-import { FaEye } from "react-icons/fa6";
 import React, { useState } from "react";
-import { Pagination } from "@/components/pagination";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLoading } from "@/hooks/useLoading";
+import useFetch from "@/hooks/useFetch";
+import { FaEye } from "react-icons/fa6";
+import { EmptyList } from "@/components/emptyList";
+import { Pagination } from "@/components/pagination";
 import { LoadingBlock } from "@/components/loadingBlock";
 import FilterContainer from "@/components/filterContainer";
+import ListTemplate from "@/components/listTemplate";
 import InputText from "@/components/inputs/inputText";
-import { landlineFormatter } from "@/utils/landlineFormatter";
-import useFetch from "@/hooks/useFetch";
-import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { Supplier } from "@/types/suppliers.interface";
 import { isListPopulated } from "@/utils/isListPopulated";
-import { SUPPLIER_TABLE_HEADS } from "@/constants/tableHeads.constant";
+import { landlineFormatter } from "@/utils/landlineFormatter";
 import { setQueryParams } from "@/utils/setQueryParams";
+import phoneFormatter from "@/utils/phoneFormatter";
+import { SUPPLIER_TABLE_HEADS } from "@/constants/tableHeads.constant";
+import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 
 export const SuppliersList = () => {
   const searchParams = useSearchParams();
