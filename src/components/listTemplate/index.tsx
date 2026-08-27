@@ -6,7 +6,7 @@ const ListTemplate = ({
   heads,
 }: {
   children: React.ReactNode;
-  heads: string[];
+  readonly heads: string[];
 }) => {
   return (
     <div className="listWrapper">
