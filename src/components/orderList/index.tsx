@@ -19,7 +19,7 @@ import { CgDetailsMore } from "react-icons/cg";
 import { Customer } from "@/types/customer.interface";
 import { Order } from "@/types/order.interface";
 import { STATUS_CONSTANT } from "@/constants/status.constant";
-import { ORDER_TABLE_HEADS } from "@/constants/orderTableHeads.constant";
+import { ORDER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 import { MONTH_OPTIONS } from "@/constants/monthsOptions.constant";
 import { dateFormatter } from "@/utils/dateFormatter";
