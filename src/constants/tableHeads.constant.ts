@@ -6,3 +6,11 @@ export const ORDER_TABLE_HEADS = [
   "Total",
   "Ações",
 ];
+
+export const CUSTOMER_TABLE_HEADS = [
+  "Nome",
+  "CNPJ",
+  "Email",
+  "Contato",
+  "Ações",
+];
