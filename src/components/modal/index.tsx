@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect } from "react";
 import { ImWarning } from "react-icons/im";
 import DefaultButton from "@/components/defaultButton";
 
@@ -9,6 +9,13 @@ type ModalProps = {
   setShowModal: (show: boolean) => void;
   onClickConfirm: () => void;
 };
+
+function escapeKeyHandler(
+  e: KeyboardEvent,
+  setShowModal: (show: boolean) => void,
+) {
+  if (e.key === "Escape") setShowModal(false);
+}
 
 export const Modal = (props: ModalProps) => {
   const { type, onClickConfirm, showModal, setShowModal } = props;
@@ -26,6 +33,14 @@ export const Modal = (props: ModalProps) => {
   };
 
   const titleStyle = type === "warning" ? warningStyle : confirmStyle;
+
+  useEffect(() => {
+    if (document !== undefined) {
+      document.addEventListener("keydown", (e) =>
+        escapeKeyHandler(e, setShowModal),
+      );
+    }
+  }, []);
 
   return (
     <div className={`${styles.modalContainer} ${showModal && styles.show}`}>
