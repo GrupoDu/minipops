@@ -53,7 +53,7 @@ function DashboardPage() {
         <div className={styles.recentOrders}>
           <div className={styles.pendingTitle}>
             <MdOutlinePending size={20} />
-            <h4>Pedidos pendentes</h4>
+            <h4>Pedidos</h4>
           </div>
           <OrderProvider>
             <OrderList />
