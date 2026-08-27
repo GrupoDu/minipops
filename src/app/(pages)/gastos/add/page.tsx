@@ -1,4 +1,3 @@
-import styles from "./page.module.scss";
 import PageHeader from "@/components/pageHeader";
 import { ExpensesForm } from "@/components/forms/expensesForm";
 
