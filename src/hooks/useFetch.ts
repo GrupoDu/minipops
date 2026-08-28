@@ -23,6 +23,8 @@ const useFetch = <T>(endpoint: string, trackParams?: boolean) => {
     const hasFilters = params.size > 2;
 
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
         const url = `${endpoint}${trackParams && hasFilters ? `?${params.toString()}` : ""}`;
 
