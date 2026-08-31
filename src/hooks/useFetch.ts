@@ -11,8 +11,6 @@ import { useSearchParams } from "next/navigation";
 const useFetch = <T>(endpoint: string, trackParams?: boolean) => {
   const [data, setData] = useState<T | undefined>();
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState("idle");
-  const [error, setError] = useState<string | undefined>();
   const [maxPages, setMaxPages] = useState(0);
   const [page, setPage] = useState(0);
   const { isLoading, setIsLoading } = useLoading();
@@ -35,12 +33,8 @@ const useFetch = <T>(endpoint: string, trackParams?: boolean) => {
         setData(fetchedData.data);
         setMaxPages(fetchedData.maxPages);
         setPage(fetchedData.page);
-
-        setStatus("success");
       } catch (err) {
         const error = err as AxiosError;
-        setStatus("error");
-        setError(error.message);
         toast.error(error.message);
       } finally {
         setIsLoading(false);
@@ -50,7 +44,7 @@ const useFetch = <T>(endpoint: string, trackParams?: boolean) => {
     fetchData();
   }, [endpoint, searchParams, trackParams]);
 
-  return { data, status, isLoading, error, maxPages, page };
+  return { data, isLoading, maxPages, page };
 };
 
 export default useFetch;
