@@ -6,6 +6,7 @@ export interface Delivery {
   deliveryCep: string;
   addressNumber: number;
   contactNumber: string;
+  deliveryStatus: string;
   reference?: string | null;
   deliveryObservation?: string | null;
 }
