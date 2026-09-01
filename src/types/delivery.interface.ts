@@ -13,5 +13,5 @@ export interface Delivery {
 
 export interface DeliveryCreate extends Omit<
   Delivery,
-  "deliveryUuid" | "createdAt"
+  "deliveryUuid" | "createdAt" | "deliveryStatus"
 > {}

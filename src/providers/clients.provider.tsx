@@ -6,16 +6,14 @@ import { Customer } from "@/types/customer.interface";
 import React, { useMemo } from "react";
 
 function ClientsProvider({ children }: { children: React.ReactNode }) {
-  const { status, data, error, isLoading } = useFetch<Customer[]>("/customer");
+  const { data, isLoading } = useFetch<Customer[]>("/customer");
 
   const customers = useMemo(() => {
     return {
       customers: data,
-      status: status || undefined,
-      error,
       isLoading,
     };
-  }, [data, error, isLoading, status]);
+  }, [data, isLoading]);
 
   return (
     <CustomersContext.Provider value={customers}>

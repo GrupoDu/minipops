@@ -10,7 +10,7 @@ export const SupplierProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { data, status, error, isLoading } = useFetch<{
+  const { data, isLoading } = useFetch<{
     suppliers: Supplier[];
     page: number;
   }>("suppliers");
@@ -19,11 +19,9 @@ export const SupplierProvider = ({
     () => ({
       suppliers: data?.suppliers,
       page: data?.page || 1,
-      status,
-      error,
       isLoading,
     }),
-    [data, error, isLoading, status],
+    [data, isLoading],
   );
 
   return (
