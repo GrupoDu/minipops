@@ -11,7 +11,7 @@ import { OrderItem } from "@/types/orderItem.interface";
 import { useEffect } from "react";
 
 export const OrderInfos = ({ order }: { order: Order }) => {
-  const { setIsLoading, isLoading } = useLoading();
+  const { setIsLoading } = useLoading();
 
   const hasAddressNumber =
     !!order?.delivery.addressNumber &&
@@ -64,24 +64,24 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             <thead>
               <tr>
                 <th>Endereço</th>
+                <th>Telefone</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>{order.customer.customerAddress}</td>
+                <td>{phoneFormatter(order.customer.customerPhone)}</td>
               </tr>
             </tbody>
           </table>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th className={styles.bottomInfo}>Telefone</th>
                 <th className={styles.bottomInfo}>Email</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{phoneFormatter(order.customer.customerPhone)}</td>
                 <td>{order.customer.customerEmail || "Email não informado"}</td>
               </tr>
             </tbody>
@@ -164,14 +164,16 @@ export const OrderInfos = ({ order }: { order: Order }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.bottomInfo}>Celular</th>
+            <th className={styles.bottomInfo}>Contato</th>
             <th className={styles.bottomInfo}>Referência</th>
+            <th className={styles.bottomInfo}>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>{phoneFormatter(order.delivery.contactNumber)}</td>
             <td>{order.delivery.reference || "Referência não informada."}</td>
+            <td>{order.delivery.deliveryStatus}</td>
           </tr>
         </tbody>
       </table>
