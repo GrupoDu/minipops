@@ -12,10 +12,11 @@
   transition: opacity 0.2s;
   width: fit-content;
   margin-top: 1rem;
+}
 
-  &:hover {
-    opacity: 0.9;
-  }
+.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 @media print {
