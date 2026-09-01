@@ -1,182 +1,58 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useLoading } from "@/hooks/useLoading";
-import { JSX } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type PaginationProps = {
   maxPage: number;
-};
-
-type DisplayPaginationsProps = {
-  pathname: string;
-  page: number;
-  isSelected: (value: number) => boolean;
-  maxPage: number;
-  setIsLoading: (isLoading: boolean) => void;
 };
 
 export const Pagination = (props: PaginationProps) => {
   const { maxPage } = props;
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "1";
-  const pathname = usePathname();
-  const { setIsLoading } = useLoading();
-
-  const isSelected = (pageItem: number) => pageItem === Number(page);
-
-  if (maxPage < 2)
-    return uniquePage(pathname, isSelected, maxPage, setIsLoading);
-
-  const displayPaginationNumbers = () => {
-    let paginationSpans: JSX.Element[];
-
-    const pageInt = parseInt(page);
-
-    if (pageInt >= 1 && pageInt < maxPage) {
-      paginationSpans =
-        displayDefaultPagination({
-          maxPage,
-          page: pageInt,
-          pathname,
-          isSelected,
-          setIsLoading,
-        }) || [];
-    } else {
-      paginationSpans = displayFinalPages({
-        maxPage,
-        page: pageInt,
-        pathname,
-        isSelected,
-        setIsLoading,
-      });
-    }
-
-    return paginationSpans;
-  };
+  const allPages = Array.from({ length: maxPage }, (_, i) => i + 1);
+  const currentSequence = getCurrentSequence(parseInt(page), allPages);
 
   return (
     <div className={styles.pagination}>
-      {prevPages({
-        maxPage,
-        page: parseInt(page),
-        pathname,
-        isSelected,
-        setIsLoading,
-      })}
-      {displayPaginationNumbers()}
-      {maxPage > 5 && (
-        <Link
-          href={`${pathname}?page=${maxPage}&pageSize=7`}
-          className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-          onClick={() => setIsLoading(true)}
-        >
-          {maxPage}
-        </Link>
-      )}
+      <DisplayPages currentSequence={currentSequence} />
     </div>
   );
 };
 
-function displayFinalPages(props: DisplayPaginationsProps) {
-  const paginationSpans = [];
+function DisplayPages({ currentSequence }: { currentSequence: number[] }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  for (let i = props.page; i < props.maxPage; i++) {
-    paginationSpans.push(
-      <Link
-        key={i}
-        href={`${props.pathname}?page=${i}&pageSize=7`}
-        className={`${styles.paginationItem} ${props.isSelected(i) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        {i}
-      </Link>,
-    );
-  }
+  const handleChangeParams = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
-  return paginationSpans;
-}
-
-function displayDefaultPagination(props: DisplayPaginationsProps) {
-  const paginationSpans = [];
-
-  const maxPagePagination = props.page + 5;
-
-  for (let i = props.page; i <= maxPagePagination; i++) {
-    if (i > props.maxPage) break;
-
-    paginationSpans.push(
-      <Link
-        key={i}
-        href={`${props.pathname}?page=${i}&pageSize=7`}
-        className={`${styles.paginationItem} ${props.isSelected(i) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        {i}
-      </Link>,
-    );
-  }
-
-  return paginationSpans;
-}
-
-function prevPages(props: DisplayPaginationsProps) {
-  if (props.page === 1) return null;
-
-  if (props.page > 1 && props.page !== props.maxPage)
-    return initialPrevPages(props);
+  const isSelected = (page: number) =>
+    page === Number(searchParams.get("page"));
 
   return (
     <>
-      <Link
-        href={`${props.pathname}?page=1&pageSize=7`}
-        className={`${styles.paginationItem} ${props.isSelected(1) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        1
-      </Link>
-      <Link
-        href={`${props.pathname}?page=${props.page - 1}&pageSize=7`}
-        className={`${styles.paginationItem} ${props.isSelected(props.page - 1) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        {props.maxPage - 1}
-      </Link>
+      {currentSequence.map((page) => (
+        <button
+          key={page}
+          onClick={() => handleChangeParams(page)}
+          className={`${styles.paginationItem} ${isSelected(page) ? styles.isSelected : ""}`}
+        >
+          {page}
+        </button>
+      ))}
     </>
   );
 }
 
-function initialPrevPages(props: DisplayPaginationsProps) {
-  return (
-    <>
-      <Link
-        href={`${props.pathname}?page=${props.page - 1}&pageSize=7`}
-        className={`${styles.paginationItem} ${props.isSelected(props.maxPage) && styles.isSelected}`}
-        onClick={() => props.setIsLoading(true)}
-      >
-        {props.page - 1}
-      </Link>
-    </>
-  );
-}
-
-function uniquePage(
-  pathname: string,
-  isSelected: (value: number) => boolean,
-  maxPage: number,
-  setIsLoading: (isLoading: boolean) => void,
-) {
-  return (
-    <div className={styles.pagination}>
-      <Link
-        href={`${pathname}?page=1&pageSize=7`}
-        className={`${styles.paginationItem} ${isSelected(maxPage) && styles.isSelected}`}
-        onClick={() => setIsLoading(true)}
-      >
-        1
-      </Link>
-    </div>
-  );
+function getCurrentSequence(page: number, allPages: number[]) {
+  const isFirstPage = page === 1;
+  const sequenceEnd = page + 4;
+  const sequenceStart = isFirstPage ? page - 1 : page - 2;
+  return allPages.slice(sequenceStart, sequenceEnd);
 }
