@@ -15,7 +15,11 @@ import { MdLocationOn } from "react-icons/md";
 import cepFormatter from "@/utils/cepFormatter";
 import { cnpjFormatter } from "@/utils/cnpjFormatter";
 
-export const ClientContainer = ({ customerUuid }: { customerUuid: string }) => {
+export const CustomerContainer = ({
+  customerUuid,
+}: {
+  customerUuid: string;
+}) => {
   const { data: customer } = useFetch<Customer>(`/customer/${customerUuid}`);
 
   if (!customer) return <CustomerNotFound />;
@@ -44,7 +48,7 @@ export const ClientContainer = ({ customerUuid }: { customerUuid: string }) => {
           <span>CNPJ: {cnpjFormatter(customer.customerCnpj)}</span>
         </div>
       </div>
-      <ul className={styles.clientInfos}>
+      <ul className={styles.customerInfos}>
         <ClientInfoItem
           Icon={<AiOutlinePhone className={styles.icons} />}
           label={"Telefone fixo"}
