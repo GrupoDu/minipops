@@ -20,6 +20,12 @@
     transition: all .2s ease-in-out;
   }
 
+  .spaceDots {
+    opacity: .5;
+    width: 1rem;
+    text-align: center;
+  }
+
   .isSelected {
     border: 1px solid var(--select-green);
     background-color: var(--select-green);
