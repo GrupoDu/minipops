@@ -1,6 +1,6 @@
 import PageHeader from "@/components/pageHeader";
 import Breadcrumb from "@/components/breadcrumb";
-import { ClientContainer } from "@/components/clientContainer";
+import { CustomerContainer } from "@/components/customerContainer";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,7 @@ async function ClientPage({ params }: { params: Promise<{ slug: string }> }) {
       <PageHeader title={"Clientes"} description={"Informações de clientes"} />
       <Breadcrumb />
       <div className={"mainContent"}>
-        <ClientContainer customerUuid={slug} />
+        <CustomerContainer customerUuid={slug} />
       </div>
     </div>
   );
