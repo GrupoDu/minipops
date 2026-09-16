@@ -7,8 +7,8 @@ export async function getSupplier(supplierUuid: string) {
     if (!supplierUuid) return;
 
     const cookiesStorage = await cookies();
-    const token = cookiesStorage.get("access_token");
-    const supplier = await api.get(`/suppliers/${supplierUuid}`, {
+    const token = cookiesStorage.get("accessToken");
+    const supplier = await api.get(`/supplier/${supplierUuid}`, {
       headers: {
         Cookie: `accessToken=${token?.value}`,
       },
