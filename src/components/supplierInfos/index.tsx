@@ -46,21 +46,21 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
               <MdOutlineEmail className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Email</h5>
-                <span>{supplier.email}</span>
+                <span>{supplier.email || "Email não informado"}</span>
               </div>
             </div>
             <div className={styles.contact}>
               <CgSmartphone className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Celular</h5>
-                <span>{supplier.phone}</span>
+                <span>{supplier.phone || "Celular não informado"}</span>
               </div>
             </div>
             <div className={styles.contact}>
               <TbDeviceLandlinePhone className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Fixo</h5>
-                <span>{supplier.landline}</span>
+                <span>{supplier.landline || "Fixo não informado"}</span>
               </div>
             </div>
           </section>
