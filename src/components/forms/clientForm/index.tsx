@@ -3,31 +3,30 @@
 import styles from "./styles.module.scss";
 import InputText from "@/components/inputs/inputText";
 import React, { useState } from "react";
-import { CustomerCreate } from "@/types/customer.interface";
+import { ClientCreate } from "@/types/client.interface";
 import DefaultButton from "@/components/defaultButton";
 import { useRouter } from "next/navigation";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
 import numberRgxFormatter from "@/utils/numberRgxFormatter";
 import { useLoading } from "@/hooks/useLoading";
-import { AxiosError } from "axios";
 import { cepFinder } from "@/utils/cepFinder";
 import { hasContactInfo } from "@/utils/hasContactInfo";
 import { WarningObs } from "@/components/WarningObs";
 
 const ClientForm = () => {
-  const [customer, setCustomer] = useState<CustomerCreate>({
-    companyName: "",
+  const [client, setClient] = useState<ClientCreate>({
+    name: "",
     tradingName: "",
-    customerCnpj: "",
-    customerAddress: "",
-    customerPhone: "",
-    customerEmail: "",
-    customerLandline: "",
-    customerLogo: "",
-    customerCity: "",
-    customerCep: "",
-    customerState: "",
+    cnpj: "",
+    address: "",
+    phone: "",
+    email: "",
+    landline: "",
+    logo: "",
+    city: "",
+    cep: "",
+    state: "",
     addressNumber: "",
   });
   const { setIsLoading } = useLoading();
@@ -61,19 +60,19 @@ const ClientForm = () => {
     const imageUrl = await handleImageSubmit();
 
     const finalClientData = {
-      ...customer,
-      clientLogo: imageUrl || customer.customerLogo,
-      clientPhone: numberRgxFormatter(customer.customerPhone || ""),
+      ...client,
+      logo: imageUrl || client.logo,
+      phone: numberRgxFormatter(client.phone || ""),
     };
 
     try {
       hasContactInfo(
-        customer.customerEmail,
-        customer.customerPhone,
-        customer.customerLandline,
+        client.email,
+        client.phone,
+        client.landline,
       );
 
-      await api.post("/customer", finalClientData);
+      await api.post("/client", finalClientData);
       toast.success("Cliente registrado com sucesso");
       router.push("/clientes?page=1&pageSize=7");
     } catch (err) {
@@ -85,19 +84,19 @@ const ClientForm = () => {
   };
 
   const handleCepChange = async (cep: string) => {
-    setCustomer((prev) => ({
+    setClient((prev) => ({
       ...prev,
-      customerCep: numberRgxFormatter(cep),
+      cep: numberRgxFormatter(cep),
     }));
 
     try {
       const addressInfo = await cepFinder(cep);
 
-      setCustomer((prev) => ({
+      setClient((prev) => ({
         ...prev,
-        customerAddress: addressInfo.logradouro,
-        customerCity: addressInfo.bairro,
-        customerState: addressInfo.uf,
+        address: addressInfo.logradouro,
+        city: addressInfo.bairro,
+        state: addressInfo.uf,
       }));
     } catch (err) {
       toast.error("Não foi possível buscar o endereço.");
@@ -128,11 +127,11 @@ const ClientForm = () => {
             label={"Razão Social"}
             placeholder={"Razão Social"}
             required={true}
-            value={customer.companyName}
+            value={client.name}
             onChange={(e) =>
-              setCustomer((prev) => ({
+              setClient((prev) => ({
                 ...prev,
-                companyName: e.target.value,
+                name: e.target.value,
               }))
             }
           />
@@ -141,9 +140,9 @@ const ClientForm = () => {
             label={"CNPJ"}
             placeholder={"CNPJ"}
             required={true}
-            value={customer.customerCnpj}
+            value={client.cnpj}
             onChange={(e) =>
-              setCustomer((prev) => ({ ...prev, customerCnpj: e.target.value }))
+              setClient((prev) => ({ ...prev, cnpj: e.target.value }))
             }
           />
           <InputText
@@ -151,9 +150,9 @@ const ClientForm = () => {
             label={"Nome Fantasia"}
             placeholder={"Nome Fantasia"}
             required={true}
-            value={customer.tradingName}
+            value={client.tradingName}
             onChange={(e) =>
-              setCustomer((prev) => ({ ...prev, tradingName: e.target.value }))
+              setClient((prev) => ({ ...prev, tradingName: e.target.value }))
             }
           />
           <InputText
@@ -161,11 +160,11 @@ const ClientForm = () => {
             label={"Celular"}
             placeholder={"Telefone celular (opcional)"}
             max={11}
-            value={customer.customerPhone || ""}
+            value={client.phone || ""}
             onChange={(e) =>
-              setCustomer((prev) => ({
+              setClient((prev) => ({
                 ...prev,
-                customerPhone: e.target.value,
+                phone: e.target.value,
               }))
             }
           />
@@ -175,11 +174,11 @@ const ClientForm = () => {
           label={"Fixo"}
           placeholder={"Telefone fixo (opcional)"}
           max={10}
-          value={String(customer.customerLandline)}
+          value={String(client.landline)}
           onChange={(e) =>
-            setCustomer((prev) => ({
+            setClient((prev) => ({
               ...prev,
-              customerLandline: e.target.value,
+              landline: e.target.value,
             }))
           }
         />
@@ -187,9 +186,9 @@ const ClientForm = () => {
           type={"email"}
           label={"Email"}
           placeholder={"email@exemplo.com (opcional)"}
-          value={customer.customerEmail || ""}
+          value={client.email || ""}
           onChange={(e) =>
-            setCustomer((prev) => ({ ...prev, customerEmail: e.target.value }))
+            setClient((prev) => ({ ...prev, email: e.target.value }))
           }
         />
         <h4>Localização</h4>
@@ -199,16 +198,16 @@ const ClientForm = () => {
             label={"CEP"}
             placeholder={"CEP"}
             required={true}
-            value={customer.customerCep}
+            value={client.cep}
             onChange={(e) => handleCepChange(e.target.value)}
           />
           <InputText
             type={"text"}
             label={"Cidade"}
             placeholder={"Cidade"}
-            value={customer.customerCity}
+            value={client.city}
             onChange={(e) =>
-              setCustomer((prev) => ({ ...prev, customerCity: e.target.value }))
+              setClient((prev) => ({ ...prev, city: e.target.value }))
             }
             required={true}
           />
@@ -216,11 +215,11 @@ const ClientForm = () => {
             type={"text"}
             label={"Endereço"}
             placeholder={"Endereço"}
-            value={customer.customerAddress}
+            value={client.address}
             onChange={(e) =>
-              setCustomer((prev) => ({
+              setClient((prev) => ({
                 ...prev,
-                customerAddress: e.target.value,
+                address: e.target.value,
               }))
             }
             required={true}
@@ -230,9 +229,9 @@ const ClientForm = () => {
             label={"Número do endereço"}
             placeholder={"1233"}
             max={4}
-            value={customer.addressNumber.toString()}
+            value={client.addressNumber.toString()}
             onChange={(e) =>
-              setCustomer((prev) => ({
+              setClient((prev) => ({
                 ...prev,
                 addressNumber: numberRgxFormatter(e.target.value) || "",
               }))

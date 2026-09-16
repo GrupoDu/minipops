@@ -1,20 +1,20 @@
 :root {
   --dark-blue: #192131;
-  --select-green: #4AB56C;
+  --select-green: #4ab56c;
   --hover-green: rgb(159 255 191 / 0.2);
   --border-default-color: #c8c8c8;
   --error-color: red;
 
   // Order status background colors
-  --pending-bg: #FFF9C9;
-  --done-bg: #CAFFC9;
-  --on-going-bg: #AFC7EE;
-  --cancel-bg: #FF8080;
+  --pending-bg: #fff9c9;
+  --done-bg: #caffc9;
+  --on-going-bg: #afc7ee;
+  --cancel-bg: #ff8080;
   --shipped-bg: #ffb180;
 
   // Order status text and border colors
-  --pending-color: #6D620E;
-  --done-color: #1A5319;
+  --pending-color: #6d620e;
+  --done-color: #1a5319;
   --on-going-color: #284576;
   --cancel-color: #800000;
   --shipped-color: #563b2b;
@@ -22,8 +22,18 @@
   --confirm-border: #202c77;
 
   // Gradients
-  --warning-gradient: linear-gradient(145deg, #b52424 0%, #ca493e 45%, #8e1f1f 100%);
-  --confirm-gradient: linear-gradient(145deg, #4a95b5 0%, #216c8e 45%, #202c77 100%);
+  --warning-gradient: linear-gradient(
+    145deg,
+    #b52424 0%,
+    #ca493e 45%,
+    #8e1f1f 100%
+  );
+  --confirm-gradient: linear-gradient(
+    145deg,
+    #4a95b5 0%,
+    #216c8e 45%,
+    #202c77 100%
+  );
 }
 
 * {
@@ -31,7 +41,8 @@
   margin: 0;
 }
 
-html, body {
+html,
+body {
   font-family: var(--font-poppins), sans-serif;
   font-size: 16px;
   width: 100%;
@@ -43,7 +54,7 @@ body {
 }
 
 h1 {
-    font-size: 2.6rem;
+  font-size: 2.6rem;
 }
 
 h2 {
@@ -56,11 +67,11 @@ h3 {
 
 main {
   flex: 1;
-  background-color: #FBFFF3;
+  background-color: #fbfff3;
 }
 
 .ag-charts-wrapper * {
-  border-radius: .6rem;
+  border-radius: 0.6rem;
 }
 
 .ag-charts-canvas-container {
@@ -93,8 +104,8 @@ main {
 }
 
 .listContainer {
-  border-radius: .8rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+  border-radius: 0.8rem;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -108,13 +119,13 @@ main {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-default-color);
-  border-radius: .4rem;
+  border-radius: 0.4rem;
 }
 
 .multistepForm {
   display: flex;
   flex-direction: column;
-  gap: .8rem;
+  gap: 0.8rem;
 }
 
 .listItem {
@@ -123,19 +134,19 @@ main {
   flex: 1;
   gap: 1rem;
   align-items: center;
-  padding: .8rem;
+  padding: 0.8rem;
   box-sizing: border-box;
-  border-radius: .4rem;
+  border-radius: 0.4rem;
 
   .phone {
     display: flex;
     flex-direction: column;
     flex: 1;
-    gap: .2rem;
+    gap: 0.2rem;
   }
 
   .isNotInformed {
-    opacity: .5;
+    opacity: 0.5;
     font-style: italic;
   }
 
@@ -150,14 +161,14 @@ main {
     }
 
     .orderDate {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 
   span {
     flex: 1;
     width: 100%;
-    font-size: .8rem;
+    font-size: 0.8rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -168,13 +179,13 @@ main {
 
     .detailsButton {
       display: flex;
-      gap: .5rem;
-      padding: .6rem;
+      gap: 0.5rem;
+      padding: 0.6rem;
       width: 100%;
       align-items: center;
-      background-color: #FFF;
-      border: 1px solid #E0E0E0;
-      border-radius: .4rem;
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 0.4rem;
       cursor: pointer;
       box-sizing: border-box;
       text-decoration: none;
@@ -187,20 +198,20 @@ main {
   }
 
   &:hover {
-    background-color: #F0F0F0;
+    background-color: #f0f0f0;
   }
 }
 
 .input {
   display: flex;
   align-items: center;
-  gap: .4rem;
-  border-radius: .4rem;
-  border: 1px solid #CECECE;
-  padding: .5rem;
+  gap: 0.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid #cecece;
+  padding: 0.5rem;
   flex: 1;
   outline: none;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &:focus {
     border: 1px solid var(--select-green);
@@ -219,8 +230,8 @@ main {
 
 .listWrapper {
   border: 1px solid var(--border-default-color);
-  border-radius: .6rem;
+  border-radius: 0.6rem;
   background-color: white;
   overflow: auto;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 }

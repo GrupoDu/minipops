@@ -7,18 +7,18 @@
 
   .iconContainer {
     display: flex;
-    padding: .6rem;
+    padding: 0.6rem;
     width: fit-content;
     border-radius: 8px;
-    background-color: #CDEFD8;
+    background-color: #cdefd8;
     border: 1px solid var(--select-green);
     color: var(--select-green);
   }
 
   .content {
     span {
-      opacity: .6;
-      font-size: .8rem;
+      opacity: 0.6;
+      font-size: 0.8rem;
     }
   }
 }

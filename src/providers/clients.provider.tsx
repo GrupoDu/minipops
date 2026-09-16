@@ -1,24 +1,24 @@
 "use client";
 
-import { CustomersContext } from "@/contexts/customers.context";
+import { ClientsContext } from "@/contexts/client.context";
 import useFetch from "@/hooks/useFetch";
-import { Customer } from "@/types/customer.interface";
+import { Client } from "@/types/client.interface";
 import React, { useMemo } from "react";
 
 function ClientsProvider({ children }: { children: React.ReactNode }) {
-  const { data, isLoading } = useFetch<Customer[]>("/customer");
+  const { data, isLoading } = useFetch<Client[]>("/client");
 
-  const customers = useMemo(() => {
+  const clients = useMemo(() => {
     return {
-      customers: data,
+      clients: data,
       isLoading,
     };
   }, [data, isLoading]);
 
   return (
-    <CustomersContext.Provider value={customers}>
+    <ClientsContext.Provider value={clients}>
       {children}
-    </CustomersContext.Provider>
+    </ClientsContext.Provider>
   );
 }
 

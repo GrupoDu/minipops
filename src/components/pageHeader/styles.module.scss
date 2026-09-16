@@ -1,12 +1,12 @@
 .pageHeaderContainer {
-  border-bottom: 1px solid #B2B2B2;
+  border-bottom: 1px solid #b2b2b2;
   padding: 1.6rem;
   display: flex;
   justify-content: space-between;
 
   .pageHeaderAddButton {
     height: fit-content;
-    padding: .8rem;
+    padding: 0.8rem;
     display: flex;
     align-items: center;
     border-radius: 4px;
@@ -14,12 +14,12 @@
     color: var(--select-green);
     background-color: var(--done-bg);
     cursor: pointer;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     text-decoration: none;
 
     span {
       font-weight: 700;
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
 
     &:hover {

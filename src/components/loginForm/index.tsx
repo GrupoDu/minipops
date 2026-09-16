@@ -12,7 +12,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -20,7 +20,7 @@ export default function LoginForm() {
       await api.post("/auth/login", {
         email,
         password,
-        userRole: "Vendas",
+        role: "Vendas",
       });
 
       router.push("/dashboard");

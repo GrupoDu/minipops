@@ -2,14 +2,16 @@
   width: 100%;
   border-collapse: collapse;
   background-color: white;
-  border-radius: .6rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, .2);
+  border-radius: 0.6rem;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 
-  thead, tbody {
+  thead,
+  tbody {
     tr {
       border-bottom: 1px solid #e5e7eb;
 
-      th, td {
+      th,
+      td {
         padding: 1rem;
         box-sizing: border-box;
         text-align: left;
@@ -27,8 +29,8 @@
     tr {
       th {
         font-weight: 400;
-        font-size: .8rem;
-        opacity: .6;
+        font-size: 0.8rem;
+        opacity: 0.6;
       }
     }
   }
@@ -36,7 +38,7 @@
   tbody {
     tr {
       td {
-        font-size: .9rem;
+        font-size: 0.9rem;
       }
     }
 

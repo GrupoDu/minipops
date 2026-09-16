@@ -1,7 +1,7 @@
 import { Supplier } from "@/types/suppliers.interface";
 
 export interface Expenses {
-  expenseUuid: string;
+  uuid: string;
   description: string;
   price: number;
   amount: number;
@@ -10,7 +10,4 @@ export interface Expenses {
   supplierUuid?: string | null;
 }
 
-export interface ExpensesCreate extends Omit<
-  Expenses,
-  "expenseUuid" | "supplier"
-> {}
+export interface ExpensesCreate extends Omit<Expenses, "uuid" | "supplier"> {}

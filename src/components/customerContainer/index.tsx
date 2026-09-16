@@ -8,7 +8,7 @@ import { AiOutlinePhone } from "react-icons/ai";
 import Image from "next/image";
 import useFetch from "@/hooks/useFetch";
 import PlaceholderImage from "@/assets/user-image-with-black-background.png";
-import { Customer } from "@/types/customer.interface";
+import { Client } from "@/types/client.interface";
 import PageHeader from "@/components/pageHeader";
 import phoneFormatter from "@/utils/phoneFormatter";
 import { MdLocationOn } from "react-icons/md";
@@ -20,49 +20,49 @@ export const CustomerContainer = ({
 }: {
   customerUuid: string;
 }) => {
-  const { data: customer } = useFetch<Customer>(`/customer/${customerUuid}`);
+  const { data: client } = useFetch<Client>(`/client/${customerUuid}`);
 
-  if (!customer) return <CustomerNotFound />;
+  if (!client) return <ClientNotFound />;
 
   const hasAddressNumber =
-    customer.addressNumber !== "" &&
-    customer.addressNumber !== null &&
-    customer.addressNumber !== undefined;
+    client.addressNumber !== "" &&
+    client.addressNumber !== null &&
+    client.addressNumber !== undefined;
 
-  const addressNumber = hasAddressNumber ? `Nº ${customer.addressNumber}` : "";
+  const addressNumber = hasAddressNumber ? `Nº ${client.addressNumber}` : "";
 
-  const fullLocation = `${customer.customerAddress} ${addressNumber}, ${customer.customerCity} - ${cepFormatter(customer.customerCep)} ${customer.customerState}`;
+  const fullLocation = `${client.address} ${addressNumber}, ${client.city} - ${cepFormatter(client.cep)} ${client.state}`;
 
   return (
     <div className={styles.customerContainer}>
       <div className={styles.customerProfile}>
         <Image
-          src={customer.customerLogo || PlaceholderImage}
+          src={client.logo || PlaceholderImage}
           alt={"customer-logo"}
           width={100}
           height={100}
           className={styles.clientLogo}
         />
         <div className={styles.clientName}>
-          <h3>{customer.companyName}</h3>
-          <span>CNPJ: {cnpjFormatter(customer.customerCnpj)}</span>
+          <h3>{client.name}</h3>
+          <span>CNPJ: {cnpjFormatter(client.cnpj)}</span>
         </div>
       </div>
       <ul className={styles.customerInfos}>
         <ClientInfoItem
           Icon={<AiOutlinePhone className={styles.icons} />}
           label={"Telefone fixo"}
-          value={customer.customerLandline || ""}
+          value={client.landline || ""}
         />
         <ClientInfoItem
           Icon={<CgSmartphone className={styles.icons} />}
           label={"Celular"}
-          value={phoneFormatter(customer.customerPhone || "")}
+          value={phoneFormatter(client.phone || "")}
         />
         <ClientInfoItem
           Icon={<CgMail className={styles.icons} />}
           label={"Email"}
-          value={customer.customerEmail || ""}
+          value={client.email || ""}
         />
         <ClientInfoItem
           Icon={<MdLocationOn className={styles.icons} />}
@@ -77,7 +77,7 @@ export const CustomerContainer = ({
   );
 };
 
-function CustomerNotFound() {
+function ClientNotFound() {
   return (
     <div className={"pageContainer"}>
       <PageHeader title={"Clientes"} description={"Informações de clientes"} />

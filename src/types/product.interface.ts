@@ -1,7 +1,7 @@
 export interface Product {
-  productUuid: string;
+  uuid: string;
   name: string;
-  productType: string;
+  type: string;
   image: string;
   stockQuantity: number;
   unitPrice: number;

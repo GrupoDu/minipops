@@ -22,7 +22,7 @@ const DeliveryForm = (props: DeliveyProps) => {
   const { setDelivery, delivery } = props;
 
   const findCep = async (cep: string) => {
-    setDelivery((prev) => ({ ...prev, deliveryCep: cep }));
+    setDelivery((prev) => ({ ...prev, cep }));
 
     if (cep.length < 8) return;
 
@@ -31,7 +31,7 @@ const DeliveryForm = (props: DeliveyProps) => {
 
       const data = await response.json();
 
-      setDelivery((prev) => ({ ...prev, deliveryAddress: data.logradouro }));
+      setDelivery((prev) => ({ ...prev, address: data.logradouro }));
     } catch (err) {
       console.error((err as Error).message);
     }
@@ -54,16 +54,16 @@ const DeliveryForm = (props: DeliveyProps) => {
         max={8}
         placeholder={"00000000"}
         required={true}
-        value={delivery.deliveryCep}
+        value={delivery.cep}
         onChange={(e) => findCep(numberRgxFormatter(e.target.value))}
       />
       <InputText
         type={"text"}
         label={"Local de entrega"}
         required={true}
-        value={delivery.deliveryAddress}
+        value={delivery.address}
         onChange={(e) =>
-          setDelivery((prev) => ({ ...prev, deliveryAddress: e.target.value }))
+          setDelivery((prev) => ({ ...prev, address: e.target.value }))
         }
       />
       <InputText

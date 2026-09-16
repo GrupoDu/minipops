@@ -1,5 +1,5 @@
 .formTitle {
-  padding: .8rem;
+  padding: 0.8rem;
   box-sizing: border-box;
   border-bottom: 1px solid var(--border-default-color);
 }
@@ -11,16 +11,16 @@
   .gridInputs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: .8rem;
+    gap: 0.8rem;
     border-top: 1px solid var(--border-default-color);
     border-bottom: 1px solid var(--border-default-color);
-    padding: .8rem;
+    padding: 0.8rem;
   }
 }
 
 .buttonContainer {
-  padding: .8rem;
+  padding: 0.8rem;
   display: flex;
   width: fit-content;
-  gap: .6rem;
+  gap: 0.6rem;
 }

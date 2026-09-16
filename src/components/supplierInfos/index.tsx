@@ -22,9 +22,9 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
     <>
       <div className={styles.supplierInfoContainer}>
         <div className={styles.topInformation}>
-          {supplier.supplierImage ? (
+          {supplier.image ? (
             <Image
-              src={supplier.supplierImage}
+              src={supplier.image}
               alt={"imagem-do-fornecedor"}
               className={styles.supplierLogo}
             />
@@ -32,10 +32,10 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
             <CgProfile className={styles.supplierLogo} />
           )}
           <div className={styles.texts}>
-            <h3>{supplier.companyName}</h3>
-            <span>{supplier.supplierCnpj}</span>
+            <h3>{supplier.name}</h3>
+            <span>{supplier.cnpj}</span>
             <div className={styles.segment}>
-              <span>{supplier.supplierSegment}</span>
+              <span>{supplier.segment}</span>
             </div>
           </div>
         </div>
@@ -46,21 +46,21 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
               <MdOutlineEmail className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Email</h5>
-                <span>{supplier.supplierEmail}</span>
+                <span>{supplier.email}</span>
               </div>
             </div>
             <div className={styles.contact}>
               <CgSmartphone className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Celular</h5>
-                <span>{supplier.supplierPhone}</span>
+                <span>{supplier.phone}</span>
               </div>
             </div>
             <div className={styles.contact}>
               <TbDeviceLandlinePhone className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Fixo</h5>
-                <span>{supplier.supplierLandline}</span>
+                <span>{supplier.landline}</span>
               </div>
             </div>
           </section>
@@ -70,7 +70,7 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
               <BsPostcard className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>CEP</h5>
-                <span>{cepFormatter(supplier.supplierCep)}</span>
+                <span>{cepFormatter(supplier.cep)}</span>
               </div>
             </div>
             <div className={styles.address}>
@@ -78,7 +78,7 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
               <div className={styles.textDescription}>
                 <h5>Endereço</h5>
                 <span>
-                  {supplier.supplierAddress} - n°{supplier.addressNumber}
+                  {supplier.address} - n°{supplier.addressNumber}
                 </span>
               </div>
             </div>

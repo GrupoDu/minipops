@@ -1,13 +1,10 @@
 export interface Billing {
-  billingUuid: string;
+  uuid: string;
   createdAt: Date;
-  customerUuid: string;
-  billingAddress: string;
-  billingCep: string;
+  clientUuid: string;
+  address: string;
+  cep: string;
   name?: string | null;
 }
 
-export interface BillingCreate extends Omit<
-  Billing,
-  "createdAt" | "billingUuid"
-> {}
+export interface BillingCreate extends Omit<Billing, "createdAt" | "uuid"> {}

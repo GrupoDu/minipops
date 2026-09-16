@@ -47,7 +47,7 @@ export const ExpensesList = () => {
 
   const displayExpenses = (expenses: Expenses[] | undefined) => {
     return expenses?.map((expense) => (
-      <tr key={expense.expenseUuid}>
+      <tr key={expense.uuid}>
         <td>{expense.description}</td>
         <td>{priceFormatter(expense.price)}</td>
         <td>{expense.amount} und.</td>
@@ -55,7 +55,7 @@ export const ExpensesList = () => {
           style={expense.supplier ? {} : { opacity: 0.6, fontStyle: "italic" }}
         >
           {expense.supplier ? (
-            <Link href={`/fornecedores/${expense.supplier?.supplierUuid}`}>
+            <Link href={`/fornecedores/${expense.supplier?.uuid}`}>
               {expense.supplier.tradingName}
             </Link>
           ) : (

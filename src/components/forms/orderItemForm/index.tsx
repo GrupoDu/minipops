@@ -57,15 +57,15 @@ const ProductsForm = (props: OrderItemProps) => {
 
   const productsList =
     products?.map((product) => ({
-      value: product.productUuid || "",
+      value: product.uuid || "",
       label: product.name || "",
     })) || emptyList;
 
   const getProduct = (target: { productUuid: string }) =>
-    products?.find((product) => product.productUuid === target.productUuid);
+    products?.find((product) => product.uuid === target.productUuid);
   const selectProduct = (e: ChangeEvent<HTMLSelectElement>) => {
     const productTarget = products?.find(
-      (product) => product.productUuid === e.target.value,
+      (product) => product.uuid === e.target.value,
     );
 
     setNewOrderItem((prev) => ({

@@ -1,17 +1,17 @@
 export interface Delivery {
-  deliveryUuid?: string;
+  uuid?: string;
   createdAt?: Date;
   building: string;
-  deliveryAddress: string;
-  deliveryCep: string;
+  address: string;
+  cep: string;
   addressNumber: number;
   contactNumber: string;
-  deliveryStatus: string;
+  status: string;
   reference?: string | null;
   deliveryObservation?: string | null;
 }
 
 export interface DeliveryCreate extends Omit<
   Delivery,
-  "deliveryUuid" | "createdAt" | "deliveryStatus"
+  "uuid" | "createdAt" | "status"
 > {}

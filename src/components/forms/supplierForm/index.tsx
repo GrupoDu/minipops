@@ -14,16 +14,16 @@ import { cepFinder } from "@/utils/cepFinder";
 
 export const SupplierForm = () => {
   const [supplier, setSupplier] = useState<SupplierCreate>({
-    companyName: "",
+    name: "",
     tradingName: "",
-    supplierLandline: "",
-    supplierPhone: "",
-    supplierEmail: "",
-    supplierCnpj: "",
-    supplierSegment: "",
-    supplierImage: "",
-    supplierAddress: "",
-    supplierCep: "",
+    landline: "",
+    phone: "",
+    email: "",
+    cnpj: "",
+    segment: "",
+    image: "",
+    address: "",
+    cep: "",
     addressNumber: "",
   });
   const router = useRouter();
@@ -31,7 +31,7 @@ export const SupplierForm = () => {
   const handleCepChange = async (cep: string) => {
     setSupplier((prev) => ({
       ...prev,
-      supplierCep: cep,
+      cep,
     }));
 
     try {
@@ -39,7 +39,7 @@ export const SupplierForm = () => {
 
       setSupplier((prev) => ({
         ...prev,
-        supplierAddress: addressInfos.logradouro,
+        address: addressInfos.logradouro,
       }));
     } catch (err) {
       const error = err as Error;
@@ -49,11 +49,11 @@ export const SupplierForm = () => {
 
   const hasContactInfo = () => {
     const hasEmail =
-      !!supplier.supplierEmail && supplier.supplierEmail.length > 0;
+      !!supplier.email && supplier.email.length > 0;
     const hasLandline =
-      !!supplier.supplierLandline && supplier.supplierLandline.length > 0;
+      !!supplier.landline && supplier.landline.length > 0;
     const hasPhone =
-      !!supplier.supplierPhone && supplier.supplierPhone.length > 0;
+      !!supplier.phone && supplier.phone.length > 0;
 
     if (hasEmail || hasLandline || hasPhone) return;
 
@@ -65,7 +65,7 @@ export const SupplierForm = () => {
 
     const supplierData = {
       ...supplier,
-      supplierCep: numberRgxFormatter(supplier.supplierCep),
+      supplierCep: numberRgxFormatter(supplier.cep),
       addressNumber: numberRgxFormatter(supplier.addressNumber),
     };
 
@@ -89,9 +89,9 @@ export const SupplierForm = () => {
         <InputText
           type={"text"}
           label={"Razão Social"}
-          value={supplier.companyName}
+          value={supplier.name}
           onChange={(e) =>
-            setSupplier((prev) => ({ ...prev, companyName: e.target.value }))
+            setSupplier((prev) => ({ ...prev, name: e.target.value }))
           }
           required={true}
           placeholder={"Razão Social"}
@@ -113,9 +113,9 @@ export const SupplierForm = () => {
           label={"CNPJ"}
           required={true}
           placeholder={"CNPJ"}
-          value={supplier.supplierCnpj}
+          value={supplier.cnpj}
           onChange={(e) =>
-            setSupplier((prev) => ({ ...prev, supplierCnpj: e.target.value }))
+            setSupplier((prev) => ({ ...prev, cnpj: e.target.value }))
           }
           style={{ padding: ".6rem .8rem" }}
         />
@@ -124,7 +124,7 @@ export const SupplierForm = () => {
             type={"text"}
             label={"CEP"}
             placeholder={"CEP do fornecedor"}
-            value={supplier.supplierCep}
+            value={supplier.cep}
             onChange={(e) => handleCepChange(e.target.value)}
           />
           <InputText
@@ -132,11 +132,11 @@ export const SupplierForm = () => {
             label={"Celular"}
             placeholder={"000000000"}
             max={11}
-            value={supplier.supplierPhone}
+            value={supplier.phone}
             onChange={(e) =>
               setSupplier((prev) => ({
                 ...prev,
-                supplierPhone: e.target.value,
+                phone: e.target.value,
               }))
             }
           />
@@ -145,11 +145,11 @@ export const SupplierForm = () => {
             label={"Fixo"}
             max={10}
             placeholder={"Telefone fixo"}
-            value={supplier.supplierLandline}
+            value={supplier.landline}
             onChange={(e) =>
               setSupplier((prev) => ({
                 ...prev,
-                supplierLandline: e.target.value,
+                landline: e.target.value,
               }))
             }
           />
@@ -157,11 +157,11 @@ export const SupplierForm = () => {
             type={"text"}
             label={"Email"}
             placeholder={"Email"}
-            value={supplier.supplierEmail}
+            value={supplier.email}
             onChange={(e) =>
               setSupplier((prev) => ({
                 ...prev,
-                supplierEmail: e.target.value,
+                email: e.target.value,
               }))
             }
           />
@@ -171,11 +171,11 @@ export const SupplierForm = () => {
           label={"Endereço"}
           required={true}
           placeholder={"Endereço do fornecedor"}
-          value={supplier.supplierAddress}
+          value={supplier.address}
           onChange={(e) =>
             setSupplier((prev) => ({
               ...prev,
-              supplierAddress: e.target.value,
+              address: e.target.value,
             }))
           }
           style={{ padding: ".6rem .8rem" }}
@@ -200,11 +200,11 @@ export const SupplierForm = () => {
           required={true}
           placeholder={"Segmento do fornecedor"}
           style={{ padding: ".6rem .8rem" }}
-          value={supplier.supplierSegment}
+          value={supplier.segment}
           onChange={(e) =>
             setSupplier((prev) => ({
               ...prev,
-              supplierSegment: e.target.value,
+              segment: e.target.value,
             }))
           }
         />

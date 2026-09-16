@@ -8,7 +8,7 @@
 .titleDev {
   display: flex;
   align-items: center;
-  gap: .2rem;
+  gap: 0.2rem;
 }
 
 .blur {
@@ -18,11 +18,11 @@
 .recentOrders {
   display: flex;
   flex-direction: column;
-  gap: .8rem;
+  gap: 0.8rem;
 
   .pendingTitle {
     display: flex;
     align-items: center;
-    gap: .2rem;
+    gap: 0.2rem;
   }
 }

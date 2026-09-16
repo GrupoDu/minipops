@@ -6,25 +6,25 @@
     width: 100%;
     border: 1px solid var(--border-default-color);
 
-    thead, tbody {
+    thead,
+    tbody {
       tr {
         border-bottom: 1px solid var(--border-default-color);
 
         th {
           text-align: left;
-          font-size: .9rem;
-          opacity: .6;
+          font-size: 0.9rem;
+          opacity: 0.6;
           border-bottom: 1px solid var(--border-default-color);
         }
 
         td {
-          font-size: .8rem;
-
-
+          font-size: 0.8rem;
         }
 
-        th, td {
-          padding: .6rem;
+        th,
+        td {
+          padding: 0.6rem;
         }
       }
     }
@@ -46,8 +46,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: .8rem;
-      padding: .8rem;
+      font-size: 0.8rem;
+      padding: 0.8rem;
       gap: 1rem;
 
       span {
@@ -71,7 +71,7 @@
   display: flex;
   align-items: center;
   border: 1px solid var(--confirm-border) !important;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   span {
     text-align: center;

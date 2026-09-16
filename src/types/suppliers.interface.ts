@@ -1,22 +1,22 @@
 export interface Supplier {
-  supplierUuid: string;
-  companyName: string;
+  uuid: string;
+  name: string;
   tradingName: string;
-  supplierCnpj: string;
-  supplierCep: string;
-  supplierAddress: string;
-  supplierEmail: string;
-  supplierPhone: string;
-  supplierLandline: string;
+  cnpj: string;
+  cep: string;
+  address: string;
+  email: string;
+  phone: string;
+  landline: string;
   addressNumber: string;
-  supplierSegment: string;
-  supplierImage?: string | null;
+  segment: string;
+  image?: string | null;
 }
 
 export interface SupplierCreate extends Omit<
   Supplier,
-  "supplierUuid" | "addressNumber" | "supplierCep"
+  "uuid" | "addressNumber" | "cep"
 > {
   addressNumber: string;
-  supplierCep: string;
+  cep: string;
 }

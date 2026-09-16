@@ -34,14 +34,14 @@ const BillingForm = ({
         required={true}
         max={8}
         placeholder={"00000000"}
-        value={billing.billingCep}
+        value={billing.cep}
         onChange={(e) => handleCepChange(e.target.value)}
       />
       <InputText
         type={"text"}
         label={"Endereço"}
         required={true}
-        value={billing.billingAddress}
+        value={billing.address}
         onChange={(e) =>
           setBilling((prev) => ({ ...prev, billingAddress: e.target.value }))
         }

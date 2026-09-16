@@ -16,7 +16,7 @@ import { setQueryParams } from "@/utils/setQueryParams";
 import { extractOptionsArray } from "@/utils/extractOptionsArray";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { CgDetailsMore } from "react-icons/cg";
-import { Customer } from "@/types/customer.interface";
+import { Client } from "@/types/client.interface";
 import { Order } from "@/types/order.interface";
 import { STATUS_CONSTANT } from "@/constants/status.constant";
 import { ORDER_TABLE_HEADS } from "@/constants/tableHeads.constant";
@@ -39,21 +39,21 @@ function OrderList() {
     isLoading,
     maxPages,
   } = useFetch<Order[]>(endpoint, TRACK_PARAMS);
-  const { data: customers } = useFetch<Customer[]>("customer");
+  const { data: clients } = useFetch<Client[]>("client");
   const pathname = usePathname();
   const isDashboard = pathname.includes("dashboard");
   const isOrdersEmpty = !orders || orders.length < 1;
   const customersOptions =
-    customers?.map((customer) => ({
-      value: customer.customerUuid,
-      label: customer.tradingName,
+    clients?.map((client) => ({
+      value: client.uuid,
+      label: client.tradingName,
     })) || [];
 
   const handleCustomerChange = (value: string) => {
     setCustomerFilter(value);
     const params = setQueryParams({
       searchParams,
-      key: "customerUuid",
+      key: "clientUuid",
       value,
     });
     router.push(`${pathname}?${params}`);
@@ -81,7 +81,7 @@ function OrderList() {
             label={"Cliente"}
             options={customersOptions}
             value={clientFilter}
-            filterTarget={"customerUuid"}
+            filterTarget={"clientUuid"}
             onChange={(e) => handleCustomerChange(e.target.value)}
           />
           <InputSelect
@@ -108,29 +108,29 @@ function OrderList() {
         <>
           <ListTemplate heads={ORDER_TABLE_HEADS}>
             {orders.map((order) => (
-              <tr key={order.customOrderId}>
+              <tr key={order.customId}>
                 <td>
                   <div className={styles.orderIdContainer}>
                     <span className={styles.orderId}>
-                      {order.customOrderId}
+                      {order.customId}
                     </span>
                     <span className={styles.orderDate}>
                       {dateFormatter(order.issuedAt)}
                     </span>
                   </div>
                 </td>
-                <td>{order.customer.companyName}</td>
+                <td>{order.client.name}</td>
                 <td>{order.delivery.building}</td>
                 <td>
-                  <div style={statusStyle(order.orderStatus)}>
-                    {order.orderStatus}
+                  <div style={statusStyle(order.status)}>
+                    {order.status}
                   </div>
                 </td>
                 <td>{priceFormatter(order.totalPrice)}</td>
                 <td>
                   <Link
                     className={styles.buttonContainer}
-                    href={`/pedidos/${order.orderId}`}
+                    href={`/pedidos/${order.id}`}
                     onClick={() => setIsLoading(true)}
                   >
                     <CgDetailsMore color={"#000000"} />

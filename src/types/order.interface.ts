@@ -1,36 +1,30 @@
 import { OrderItem, OrderItemCreate } from "@/types/orderItem.interface";
-import { Customer } from "@/types/customer.interface";
+import { Client } from "@/types/client.interface";
 import { Revenue } from "@/types/revenue.interface";
 import { Billing, BillingCreate } from "@/types/billing.interface";
 import { Delivery, DeliveryCreate } from "@/types/delivery.interface";
 
 export interface Order {
-  orderId: number;
-  customOrderId: string;
+  id: number;
+  customId: string;
   issuedAt: string;
-  orderStatus: string;
-  orderDeadline: Date;
+  status: string;
+  deadline: Date;
   orderItems: OrderItem[];
   billing: Billing;
   revenue: Revenue;
   delivery: Delivery;
   clientUuid: string;
-  customer: Customer;
+  client: Client;
   totalPrice: number;
-}
-
-export interface OrderPagination {
-  data: Order[];
-  maxPages: number;
-  page: number;
 }
 
 type omitCreate =
   | "issuedAt"
-  | "orderUuid"
-  | "orderStatus"
+  | "id"
+  | "status"
   | "totalPrice"
-  | "clients"
+  | "client"
   | "billing"
   | "revenue"
   | "delivery"

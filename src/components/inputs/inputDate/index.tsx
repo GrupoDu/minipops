@@ -13,7 +13,8 @@ export const InputDate = (props: InputType) => {
   const router = useRouter();
 
   const paramKey = param ? param : "date";
-  const dateValue = value !== undefined ? value : (searchParams.get(paramKey) || "");
+  const dateValue =
+    value !== undefined ? value : searchParams.get(paramKey) || "";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     ref.current = e.target.value;

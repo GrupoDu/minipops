@@ -12,9 +12,7 @@ export default function RootLayout({
     <>
       <Sidebar />
       <main>
-        <Suspense fallback={<div>Carregando...</div>}>
-          {children}
-        </Suspense>
+        <Suspense fallback={<div>Carregando...</div>}>{children}</Suspense>
       </main>
     </>
   );

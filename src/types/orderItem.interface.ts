@@ -1,7 +1,7 @@
 import { Product } from "@/types/product.interface";
 
 export interface OrderItem {
-  orderItemUuid: string;
+  uuid: string;
   productUuid: string;
   orderUuid: string;
   unitPrice: number;
@@ -15,5 +15,5 @@ export interface OrderItem {
 
 export interface OrderItemCreate extends Omit<
   OrderItem,
-  "orderItemUuid" | "total" | "orderUuid" | "product"
+  "uuid" | "total" | "orderUuid" | "product"
 > {}

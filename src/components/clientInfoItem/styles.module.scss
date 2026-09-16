@@ -2,13 +2,13 @@
   list-style: none;
   display: flex;
   align-items: center;
-  gap: .6rem;
+  gap: 0.6rem;
 
   .iconContainer {
-    padding: .6rem;
+    padding: 0.6rem;
     border: 1px solid var(--select-green);
     display: flex;
-    border-radius: .4rem;
+    border-radius: 0.4rem;
     color: var(--select-green);
     background-color: var(--hover-green);
   }
@@ -18,7 +18,7 @@
     flex-direction: column;
 
     .label {
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
   }
 }

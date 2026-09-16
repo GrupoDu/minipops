@@ -24,25 +24,25 @@ import { cepFinder } from "@/utils/cepFinder";
 const OrderForm = () => {
   const [deadline, setDeadline] = useState<string>("");
   const [revenue, setRevenue] = useState<Revenue>({
-    customerUuid: "",
-    revenueAddress: "",
-    revenueCnpj: "",
-    revenueEmail: "",
-    revenueLandline: "",
-    revenuePhone: "",
+    clientUuid: "",
+    address: "",
+    cnpj: "",
+    email: "",
+    landline: "",
+    phone: "",
   });
   const [billing, setBilling] = useState<BillingCreate>({
-    billingAddress: "",
-    customerUuid: "",
-    billingCep: "",
+    address: "",
+    clientUuid: "",
+    cep: "",
     name: "",
   });
   const [delivery, setDelivery] = useState<DeliveryCreate>({
     building: "",
-    deliveryAddress: "",
+    address: "",
     addressNumber: 0,
     contactNumber: "",
-    deliveryCep: "",
+    cep: "",
     reference: "",
   });
   const [orderItem, setOrderItem] = useState<OrderItemCreate[]>([]);
@@ -54,7 +54,7 @@ const OrderForm = () => {
 
     setBilling((prev) => ({
       ...prev,
-      billingCep: formatedCep,
+      cep: formatedCep,
     }));
 
     try {
@@ -62,7 +62,7 @@ const OrderForm = () => {
 
       setBilling((prev) => ({
         ...prev,
-        billingAddress: addressInfo.logradouro,
+        address: addressInfo.logradouro,
       }));
     } catch (err) {
       const error = err as Error;
@@ -176,22 +176,22 @@ function mountOrderPayload(
   return {
     delivery: {
       ...delivery,
-      deliveryCep: numberRgxFormatter(delivery.deliveryCep),
+      deliveryCep: numberRgxFormatter(delivery.cep),
       addressNumber:
         delivery.addressNumber !== 0 ? delivery.addressNumber : null,
       contactNumber: numberRgxFormatter(delivery.contactNumber),
     },
     revenue: {
       ...revenue,
-      revenueEmail: revenue.revenueEmail === "" ? null : revenue.revenueEmail,
+      revenueEmail: revenue.email === "" ? null : revenue.email,
     },
     billing: {
       ...billing,
-      customerUuid: revenue.customerUuid,
-      billingCep: numberRgxFormatter(billing.billingCep),
+      clientUuid: revenue.clientUuid,
+      billingCep: numberRgxFormatter(billing.cep),
     },
     orderDeadline: new Date(deadline),
-    customerUuid: revenue.customerUuid,
+    clientUuid: revenue.clientUuid,
     orderItems: orderItem,
   };
 }

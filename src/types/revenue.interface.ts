@@ -1,10 +1,8 @@
 export interface Revenue {
-  customerUuid: string;
-  revenueAddress: string;
-  revenueCnpj: string;
-  revenueLandline: string;
-  revenuePhone: string;
-  revenueEmail: string;
+  clientUuid: string;
+  address: string;
+  cnpj: string;
+  landline: string;
+  phone: string;
+  email: string;
 }
-
-// export interface RevenueCreate extends Omit<Revenue, "client_uuid"> {}

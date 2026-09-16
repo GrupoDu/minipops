@@ -1,6 +1,6 @@
 "use client";
 
-import useCustomers from "@/hooks/useCustomers";
+import useClient from "@/hooks/useClient";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Revenue } from "@/types/revenue.interface";
 import InputText from "@/components/inputs/inputText";
@@ -20,30 +20,30 @@ const RevenueForm = ({
   revenue,
   handleCepChange,
 }: RevenueProps) => {
-  const { customers } = useCustomers();
+  const { clients } = useClient();
   const customersList =
-    customers?.map((customer) => ({
-      value: customer.customerUuid,
-      label: customer.companyName,
+    clients?.map((client) => ({
+      value: client.uuid,
+      label: client.name,
     })) || [];
 
   const handleClientSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedUuid = e.target.value;
-    const selectedClient = customers?.find(
-      (customer) => customer.customerUuid === selectedUuid,
+    const selectedClient = clients?.find(
+      (client) => client.uuid === selectedUuid,
     );
 
     setRevenue((prev) => ({
       ...prev,
-      customerUuid: selectedUuid,
-      revenuePhone: selectedClient?.customerPhone || "",
-      revenueLandline: selectedClient?.customerLandline || "",
-      revenueCnpj: selectedClient?.customerCnpj || "",
-      revenueAddress: selectedClient?.customerAddress || "",
-      revenueEmail: selectedClient?.customerEmail || "",
+      clientUuid: selectedUuid,
+      phone: selectedClient?.phone || "",
+      landline: selectedClient?.landline || "",
+      cnpj: selectedClient?.cnpj || "",
+      address: selectedClient?.address || "",
+      email: selectedClient?.email || "",
     }));
 
-    handleCepChange(selectedClient?.customerCep || "");
+    handleCepChange(selectedClient?.cep || "");
   };
 
   return (
@@ -51,16 +51,16 @@ const RevenueForm = ({
       <InputSelect
         label={"Cliente"}
         options={customersList}
-        value={revenue.customerUuid}
+        value={revenue.clientUuid}
         onChange={(e) => handleClientSelect(e)}
       />
       <InputText
         type={"text"}
         label={"Endereço"}
         required={true}
-        value={revenue.revenueAddress}
+        value={revenue.address}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenueAddress: e.target.value }))
+          setRevenue((prev) => ({ ...prev, address: e.target.value }))
         }
       />
       <InputText
@@ -68,11 +68,11 @@ const RevenueForm = ({
         label={"CNPJ/CPF"}
         placeholder={"00.000.000/0000-00 ou 000.000.000-00"}
         required={true}
-        value={revenue.revenueCnpj}
+        value={revenue.cnpj}
         onChange={(e) =>
           setRevenue((prev) => ({
             ...prev,
-            revenueCnpj: numberRgxFormatter(e.target.value),
+            cnpj: numberRgxFormatter(e.target.value),
           }))
         }
       />
@@ -81,11 +81,11 @@ const RevenueForm = ({
         label={"Celular"}
         max={11}
         placeholder={"00000000000"}
-        value={revenue.revenuePhone}
+        value={revenue.phone}
         onChange={(e) =>
           setRevenue((prev) => ({
             ...prev,
-            revenuePhone: numberRgxFormatter(e.target.value),
+            phone: numberRgxFormatter(e.target.value),
           }))
         }
       />
@@ -94,18 +94,18 @@ const RevenueForm = ({
         label={"Fixo"}
         max={10}
         placeholder={"0000000000"}
-        value={revenue.revenueLandline}
+        value={revenue.landline}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenueLandline: e.target.value }))
+          setRevenue((prev) => ({ ...prev, landline: e.target.value }))
         }
       />
       <InputText
         type={"text"}
         label={"Email"}
         placeholder={"email@exemplo.com"}
-        value={revenue.revenueEmail}
+        value={revenue.email}
         onChange={(e) =>
-          setRevenue((prev) => ({ ...prev, revenueEmail: e.target.value }))
+          setRevenue((prev) => ({ ...prev, email: e.target.value }))
         }
       />
     </div>

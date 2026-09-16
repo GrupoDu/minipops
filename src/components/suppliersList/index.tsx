@@ -101,18 +101,18 @@ export const SuppliersList = () => {
         <>
           <ListTemplate heads={SUPPLIER_TABLE_HEADS}>
             {suppliers?.map((supplier) => (
-              <tr key={supplier.supplierUuid}>
+              <tr key={supplier.uuid}>
                 <td>{supplier.tradingName}</td>
-                <td>{supplier.supplierCnpj}</td>
-                <td>{supplier.supplierEmail || "Email não fornecido"}</td>
+                <td>{supplier.cnpj}</td>
+                <td>{supplier.email || "Email não fornecido"}</td>
                 <td className={styles.contacts}>
-                  <span>{phoneFormatter(supplier.supplierPhone)}</span>
-                  <span>{landlineFormatter(supplier.supplierLandline)}</span>
+                  <span>{phoneFormatter(supplier.phone)}</span>
+                  <span>{landlineFormatter(supplier.landline)}</span>
                 </td>
                 <td className={styles.buttonContainer}>
                   <Link
                     className={styles.linkButton}
-                    href={`/fornecedores/${supplier.supplierUuid}`}
+                    href={`/fornecedores/${supplier.uuid}`}
                     onClick={() => setIsLoading(true)}
                   >
                     <FaEye />

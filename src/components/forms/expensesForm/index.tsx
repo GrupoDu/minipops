@@ -20,8 +20,8 @@ import { WarningObs } from "@/components/WarningObs";
 export const ExpensesForm = () => {
   const { data: suppliers } = useFetch<Supplier[]>("supplier");
   const suppliersOptions = suppliers?.map((supplier) => ({
-    label: supplier.companyName,
-    value: supplier.supplierUuid,
+    label: supplier.name,
+    value: supplier.uuid,
   }));
   const router = useRouter();
   const [expense, setExpense] = useState<ExpensesCreate>({

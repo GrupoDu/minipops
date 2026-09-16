@@ -19,7 +19,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
 
   const renderOrderItems = (items: OrderItem[]) => {
     return items.map((item) => (
-      <tr key={item.orderItemUuid}>
+      <tr key={item.uuid}>
         <td>{item.product.acronym}</td>
         <td>{priceFormatter(item.unitPrice)}</td>
         <td>{item.quantity} und.</td>
@@ -55,8 +55,8 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.customer.companyName}</td>
-                <td>{order.customer.customerCnpj}</td>
+                <td>{order.client.name}</td>
+                <td>{order.client.cnpj}</td>
               </tr>
             </tbody>
           </table>
@@ -69,8 +69,8 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.customer.customerAddress}</td>
-                <td>{phoneFormatter(order.customer.customerPhone)}</td>
+                <td>{order.client.address}</td>
+                <td>{phoneFormatter(order.client.phone)}</td>
               </tr>
             </tbody>
           </table>
@@ -82,7 +82,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.customer.customerEmail || "Email não informado"}</td>
+                <td>{order.client.email || "Email não informado"}</td>
               </tr>
             </tbody>
           </table>
@@ -115,7 +115,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{order.billing.billingAddress}</td>
+                <td>{order.billing.address}</td>
               </tr>
             </tbody>
           </table>
@@ -127,7 +127,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             </thead>
             <tbody>
               <tr>
-                <td>{cepFormatter(order.billing.billingCep)}</td>
+                <td>{cepFormatter(order.billing.cep)}</td>
               </tr>
             </tbody>
           </table>
@@ -152,12 +152,12 @@ export const OrderInfos = ({ order }: { order: Order }) => {
           <tr>
             <td>{order.delivery.building}</td>
             <td>
-              {order.delivery.deliveryAddress}
+              {order.delivery.address}
               {hasAddressNumber &&
                 ` - n°
                   ${order.delivery.addressNumber}`}
             </td>
-            <td>{cepFormatter(order.delivery.deliveryCep)}</td>
+            <td>{cepFormatter(order.delivery.cep)}</td>
           </tr>
         </tbody>
       </table>
@@ -173,7 +173,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
           <tr>
             <td>{phoneFormatter(order.delivery.contactNumber)}</td>
             <td>{order.delivery.reference || "Referência não informada."}</td>
-            <td>{order.delivery.deliveryStatus}</td>
+            <td>{order.delivery.status}</td>
           </tr>
         </tbody>
       </table>

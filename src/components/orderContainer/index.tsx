@@ -13,18 +13,18 @@ import Breadcrumb from "@/components/breadcrumb";
 export const OrderContainer = ({ orderId }: { orderId: string }) => {
   const { data: order } = useFetch<Order>(`order/${orderId}`);
   const isOrderDone =
-    order?.orderStatus === "Concluido" || order?.orderStatus === "Cancelado";
+    order?.status === "Concluido" || order?.status === "Cancelado";
 
   if (!order) return <OrderNotFound slug={orderId} />;
 
-  const statusClass = order.orderStatus.replace(/\s+/g, "_");
+  const statusClass = order.status.replace(/\s+/g, "_");
 
   return (
     <>
       <Breadcrumb
         customLabels={{
           pedidos: "Lista de Pedidos",
-          [orderId]: `Pedido ${order.customOrderId}`,
+          [orderId]: `Pedido ${order.customId}`,
         }}
       />
       <StatusButtons slug={orderId} show={!isOrderDone} />
@@ -47,7 +47,7 @@ export const OrderContainer = ({ orderId }: { orderId: string }) => {
         <div
           className={`${styles.statusBar} ${styles[`status_${statusClass}`]}`}
         ></div>
-        <h4 className={styles.orderId}>Pedido: {order.customOrderId}</h4>
+        <h4 className={styles.orderId}>Pedido: {order.customId}</h4>
         <hr />
         <OrderInfos order={order} />
       </div>
