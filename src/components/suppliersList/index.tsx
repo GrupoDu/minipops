@@ -103,7 +103,7 @@ export const SuppliersList = () => {
             {suppliers?.map((supplier) => (
               <tr key={supplier.uuid}>
                 <td>{supplier.tradingName}</td>
-                <td>{supplier.cnpj}</td>
+                <td>{supplier.cnpjCpf}</td>
                 <td>{supplier.email || "Email não fornecido"}</td>
                 <td className={styles.contacts}>
                   <span>{phoneFormatter(supplier.phone)}</span>

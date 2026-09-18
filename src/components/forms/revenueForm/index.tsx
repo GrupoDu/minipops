@@ -38,7 +38,7 @@ const RevenueForm = ({
       clientUuid: selectedUuid,
       phone: selectedClient?.phone || "",
       landline: selectedClient?.landline || "",
-      cnpj: selectedClient?.cnpj || "",
+      cnpjCpf: selectedClient?.cnpjCpf || "",
       address: selectedClient?.address || "",
       email: selectedClient?.email || "",
     }));
@@ -72,7 +72,7 @@ const RevenueForm = ({
         onChange={(e) =>
           setRevenue((prev) => ({
             ...prev,
-            cnpj: numberRgxFormatter(e.target.value),
+            cnpjCpf: numberRgxFormatter(e.target.value),
           }))
         }
       />

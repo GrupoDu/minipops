@@ -18,7 +18,7 @@ const ClientForm = () => {
   const [client, setClient] = useState<ClientCreate>({
     name: "",
     tradingName: "",
-    cnpj: "",
+    cnpjCpf: "",
     address: "",
     phone: "",
     email: "",
@@ -140,7 +140,7 @@ const ClientForm = () => {
             label={"CNPJ"}
             placeholder={"CNPJ"}
             required={true}
-            value={client.cnpj}
+            value={client.cnpjCpf}
             onChange={(e) =>
               setClient((prev) => ({ ...prev, cnpj: e.target.value }))
             }

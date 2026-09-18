@@ -19,7 +19,7 @@ export const SupplierForm = () => {
     landline: "",
     phone: "",
     email: "",
-    cnpj: "",
+    cnpjCpf: "",
     segment: "",
     image: "",
     address: "",
@@ -113,9 +113,9 @@ export const SupplierForm = () => {
           label={"CNPJ"}
           required={true}
           placeholder={"CNPJ"}
-          value={supplier.cnpj}
+          value={supplier.cnpjCpf}
           onChange={(e) =>
-            setSupplier((prev) => ({ ...prev, cnpj: e.target.value }))
+            setSupplier((prev) => ({ ...prev, cnpjCpf: e.target.value }))
           }
           style={{ padding: ".6rem .8rem" }}
         />

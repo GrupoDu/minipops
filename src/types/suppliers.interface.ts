@@ -2,7 +2,7 @@ export interface Supplier {
   uuid: string;
   name: string;
   tradingName: string;
-  cnpj: string;
+  cnpjCpf: string;
   cep: string;
   address: string;
   email: string;
@@ -15,8 +15,5 @@ export interface Supplier {
 
 export interface SupplierCreate extends Omit<
   Supplier,
-  "uuid" | "addressNumber" | "cep"
-> {
-  addressNumber: string;
-  cep: string;
-}
+  "uuid"
+> {}

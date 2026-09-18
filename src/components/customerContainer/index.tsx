@@ -45,7 +45,7 @@ export const CustomerContainer = ({
         />
         <div className={styles.clientName}>
           <h3>{client.name}</h3>
-          <span>CNPJ: {cnpjFormatter(client.cnpj)}</span>
+          <span>CNPJ: {cnpjFormatter(client.cnpjCpf)}</span>
         </div>
       </div>
       <ul className={styles.customerInfos}>

@@ -113,7 +113,7 @@ const ClientsList = () => {
             {clients?.map((client) => (
               <tr key={client.uuid}>
                 <td>{client.tradingName}</td>
-                <td>{cpfCnpjDisplay(client.cnpj)}</td>
+                <td>{cpfCnpjDisplay(client.cnpjCpf)}</td>
                 <td>{client.email || "Email não fornecido"}</td>
                 <td className={"phone"}>
                   <div className={styles.landPhoneContainer}>

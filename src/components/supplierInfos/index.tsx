@@ -33,7 +33,7 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
           )}
           <div className={styles.texts}>
             <h3>{supplier.name}</h3>
-            <span>{supplier.cnpj}</span>
+            <span>{supplier.cnpjCpf}</span>
             <div className={styles.segment}>
               <span>{supplier.segment}</span>
             </div>

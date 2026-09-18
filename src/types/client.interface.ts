@@ -3,7 +3,7 @@ export interface Client {
   createdAt: Date;
   name: string;
   tradingName: string;
-  cnpj: string;
+  cnpjCpf: string;
   address: string;
   cep: string;
   city: string;

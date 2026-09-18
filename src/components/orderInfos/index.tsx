@@ -56,7 +56,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             <tbody>
               <tr>
                 <td>{order.client.name}</td>
-                <td>{order.client.cnpj}</td>
+                <td>{order.client.cnpjCpf}</td>
               </tr>
             </tbody>
           </table>
