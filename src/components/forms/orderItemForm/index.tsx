@@ -7,10 +7,10 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { OrderItemCreate } from "@/types/orderItem.interface";
 import InputText from "@/components/inputs/inputText";
 import { priceFormatter } from "@/utils/priceFormatter";
-import debugLogger from "@/utils/debugLogger";
 import DefaultButton from "@/components/defaultButton";
 import { toast } from "react-toastify";
 import { calculateProductTotalPrice } from "@/utils/calculateProductTotalPrice";
+import {BiTrash} from "react-icons/bi";
 
 type OrderItemProps = {
   setOrderItem: Dispatch<SetStateAction<OrderItemCreate[]>>;
@@ -53,6 +53,7 @@ const ProductsForm = (props: OrderItemProps) => {
     "Desconto(%)",
     "IPI(%)",
     "Total",
+    "Ações"
   ];
 
   const productsList =
@@ -74,15 +75,10 @@ const ProductsForm = (props: OrderItemProps) => {
       unitPrice: productTarget?.unitPrice || 0,
     }));
   };
-  const handleSave = () => {
+  
+  const addOrderItem = () => {
     const product = getProduct(newOrderItem);
-
-    if (newOrderItem.quantity < 1)
-      return toast.error("Quantidade de produtos inválida.");
-
-    if (!newOrderItem.productUuid || newOrderItem.productUuid === "")
-      return toast.error("Por favor, selecione um produto.");
-
+    
     setOrderItem((prevState) => [...prevState, newOrderItem]);
     setAddProductsList((prevState) => [
       ...prevState,
@@ -108,8 +104,23 @@ const ProductsForm = (props: OrderItemProps) => {
       discountPercentage: 0,
       additionalAmount: 0,
     });
-    debugLogger(["Save clicado."]);
+  }
+  
+  const handleSave = () => {
+    if (newOrderItem.quantity < 1)
+      return toast.error("Quantidade de produtos inválida.");
+
+    if (!newOrderItem.productUuid || newOrderItem.productUuid === "")
+      return toast.error("Por favor, selecione um produto.");
+
+    addOrderItem(); 
   };
+  
+  const handleRemove = (index: number) => {
+    setAddProductsList((prevState) => prevState.filter((_, i) => i !== index));
+    setOrderItem((prevState) => prevState.filter((_, i) => i !== index));
+  };
+  
   const setDiscountToZero = () => {
     setNewOrderItem((prev) => ({
       ...prev,
@@ -205,14 +216,14 @@ const ProductsForm = (props: OrderItemProps) => {
               ))}
             </tr>
           </thead>
-          {displayAddOrderItems(addProductsList)}
+          {displayAddOrderItems(handleRemove, addProductsList)}
         </table>
       </div>
     </div>
   );
 };
 
-function displayAddOrderItems(orderItems?: AddOrderItemType[]) {
+function displayAddOrderItems(handleRemove: (index: number) => void, orderItems?: AddOrderItemType[]) {
   return (
     <tbody>
       {orderItems?.map((item, index) => (
@@ -223,6 +234,11 @@ function displayAddOrderItems(orderItems?: AddOrderItemType[]) {
           <td>{item.descount}</td>
           <td>{item.ipi}</td>
           <td>{priceFormatter(item.total)}</td>
+          <td>
+            <button className={styles.removeItemBtn} type={"button"} onClick={() => handleRemove(index)}>
+              <BiTrash />
+            </button>
+          </td>
         </tr>
       ))}
     </tbody>

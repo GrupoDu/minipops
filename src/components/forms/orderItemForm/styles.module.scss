@@ -84,3 +84,22 @@
     background-color: var(--confirm-border) !important;
   }
 }
+
+.removeItemBtn {
+  color: red;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  background-color: transparent;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: .2rem;
+  font-size: 1rem;
+  
+  &:hover {
+    color: white;
+    background-color: red;
+  }
+}
