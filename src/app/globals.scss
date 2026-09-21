@@ -212,7 +212,11 @@ main {
   flex: 1;
   outline: none;
   transition: all 0.2s ease-in-out;
-
+  max-width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  
   &:focus {
     border: 1px solid var(--select-green);
     box-shadow: 0 0 0 2px var(--hover-green);

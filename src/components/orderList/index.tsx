@@ -141,10 +141,10 @@ function OrderRow({
             </span>
           </div>
         </td>
-        <td>
+        <td className={styles.clientName}>
           <span>{order.client.name}</span>
         </td>
-        <td>
+        <td className={styles.deliveryBuilding}>
           <span>{order.delivery.building}</span>
         </td>
         <td>

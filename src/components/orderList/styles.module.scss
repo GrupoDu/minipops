@@ -67,6 +67,14 @@
   border-radius: 0.2rem;
 }
 
+.clientName,
+.deliveryBuilding{
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .actionButtonsContainer {
   display: flex;
   flex: 1;

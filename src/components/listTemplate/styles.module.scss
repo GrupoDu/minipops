@@ -36,13 +36,6 @@
       td {
         position: relative;
         font-size: 0.8rem;
-
-        span {
-          max-width: 90px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
       }
 
       &:last-child {
