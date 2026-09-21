@@ -68,7 +68,7 @@ const RevenueForm = ({
         label={"CNPJ/CPF"}
         placeholder={"00.000.000/0000-00 ou 000.000.000-00"}
         required={true}
-        value={revenue.cnpj}
+        value={revenue.cnpjCpf}
         onChange={(e) =>
           setRevenue((prev) => ({
             ...prev,

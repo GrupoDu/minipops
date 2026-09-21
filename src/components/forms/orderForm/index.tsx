@@ -26,7 +26,7 @@ const OrderForm = () => {
   const [revenue, setRevenue] = useState<Revenue>({
     clientUuid: "",
     address: "",
-    cnpj: "",
+    cnpjCpf: "",
     email: "",
     landline: "",
     phone: "",
