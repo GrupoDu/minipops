@@ -66,11 +66,7 @@ const ClientForm = () => {
     };
 
     try {
-      hasContactInfo(
-        client.email,
-        client.phone,
-        client.landline,
-      );
+      hasContactInfo(client.email, client.phone, client.landline);
 
       await api.post("/client", finalClientData);
       toast.success("Cliente registrado com sucesso");
@@ -142,7 +138,7 @@ const ClientForm = () => {
             required={true}
             value={client.cnpjCpf}
             onChange={(e) =>
-              setClient((prev) => ({ ...prev, cnpj: e.target.value }))
+              setClient((prev) => ({ ...prev, cnpjCpf: e.target.value }))
             }
           />
           <InputText

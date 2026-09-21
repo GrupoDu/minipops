@@ -2,7 +2,7 @@
 
 import styles from "./styles.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, Dispatch, SetStateAction, useState } from "react";
 import Link from "next/link";
 import { useLoading } from "@/hooks/useLoading";
 import useFetch from "@/hooks/useFetch";
@@ -24,6 +24,8 @@ import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 import { MONTH_OPTIONS } from "@/constants/monthsOptions.constant";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { hasFilters } from "@/utils/hasFilters";
+import { OrderItemInfos } from "../orderItemInfos";
+import {BsInfoLg} from "react-icons/bs";
 
 function OrderList() {
   const searchParams = useSearchParams();
@@ -108,41 +110,70 @@ function OrderList() {
         <>
           <ListTemplate heads={ORDER_TABLE_HEADS}>
             {orders.map((order) => (
-              <tr key={order.customId}>
-                <td>
-                  <div className={styles.orderIdContainer}>
-                    <span className={styles.orderId}>
-                      {order.customId}
-                    </span>
-                    <span className={styles.orderDate}>
-                      {dateFormatter(order.issuedAt)}
-                    </span>
-                  </div>
-                </td>
-                <td>{order.client.name}</td>
-                <td>{order.delivery.building}</td>
-                <td>
-                  <div style={statusStyle(order.status)}>
-                    {order.status}
-                  </div>
-                </td>
-                <td>{priceFormatter(order.totalPrice)}</td>
-                <td>
-                  <Link
-                    className={styles.buttonContainer}
-                    href={`/pedidos/${order.id}`}
-                    onClick={() => setIsLoading(true)}
-                  >
-                    <CgDetailsMore color={"#000000"} />
-                    <span className={styles.buttonText}>Detalhes</span>
-                  </Link>
-                </td>
-              </tr>
+              <OrderRow order={order} setIsLoading={setIsLoading} />
             ))}
           </ListTemplate>
           {!isDashboard && <Pagination maxPage={maxPages || 1} />}
         </>
       )}
+    </>
+  );
+}
+
+function OrderRow({
+  order,
+  setIsLoading,
+}: {
+  order: Order;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}) {
+  const [isVisible, setIsVisible] = useState(false);
+  const products = order.orderItems.map((orderItem) => orderItem.product);
+
+  return (
+    <>
+      <tr key={order.customId}>
+        <td>
+          <div className={styles.orderIdContainer}>
+            <span className={styles.orderId}>{order.customId}</span>
+            <span className={styles.orderDate}>
+              {dateFormatter(order.issuedAt)}
+            </span>
+          </div>
+        </td>
+        <td>
+          <span>{order.client.name}</span>
+        </td>
+        <td>
+          <span>{order.delivery.building}</span>
+        </td>
+        <td>
+          <div style={statusStyle(order.status)}>{order.status}</div>
+        </td>
+        <td>{priceFormatter(order.totalPrice)}</td>
+        <td className={styles.actionButtonsContainer}>
+          <OrderItemInfos
+            orderItem={order.orderItems}
+            isVisible={isVisible}
+            setIsVisible={setIsVisible}
+          />
+          <div
+            className={styles.infoContainer}
+            onMouseEnter={() => setIsVisible(true)}
+            onMouseLeave={() => setIsVisible(false)}
+          >
+            <BsInfoLg />
+          </div>
+          <Link
+            className={styles.buttonContainer}
+            href={`/pedidos/${order.id}`}
+            onClick={() => setIsLoading(true)}
+          >
+            <CgDetailsMore color={"#000000"} />
+            <span className={styles.buttonText}>Detalhes</span>
+          </Link>
+        </td>
+      </tr>
     </>
   );
 }

@@ -13,7 +13,4 @@ export interface Supplier {
   image?: string | null;
 }
 
-export interface SupplierCreate extends Omit<
-  Supplier,
-  "uuid"
-> {}
+export interface SupplierCreate extends Omit<Supplier, "uuid"> {}

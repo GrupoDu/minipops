@@ -10,7 +10,7 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import DefaultButton from "@/components/defaultButton";
 import { toast } from "react-toastify";
 import { calculateProductTotalPrice } from "@/utils/calculateProductTotalPrice";
-import {BiTrash} from "react-icons/bi";
+import { BiTrash } from "react-icons/bi";
 
 type OrderItemProps = {
   setOrderItem: Dispatch<SetStateAction<OrderItemCreate[]>>;
@@ -53,7 +53,7 @@ const ProductsForm = (props: OrderItemProps) => {
     "Desconto(%)",
     "IPI(%)",
     "Total",
-    "Ações"
+    "Ações",
   ];
 
   const productsList =
@@ -75,10 +75,10 @@ const ProductsForm = (props: OrderItemProps) => {
       unitPrice: productTarget?.unitPrice || 0,
     }));
   };
-  
+
   const addOrderItem = () => {
     const product = getProduct(newOrderItem);
-    
+
     setOrderItem((prevState) => [...prevState, newOrderItem]);
     setAddProductsList((prevState) => [
       ...prevState,
@@ -104,8 +104,8 @@ const ProductsForm = (props: OrderItemProps) => {
       discountPercentage: 0,
       additionalAmount: 0,
     });
-  }
-  
+  };
+
   const handleSave = () => {
     if (newOrderItem.quantity < 1)
       return toast.error("Quantidade de produtos inválida.");
@@ -113,14 +113,14 @@ const ProductsForm = (props: OrderItemProps) => {
     if (!newOrderItem.productUuid || newOrderItem.productUuid === "")
       return toast.error("Por favor, selecione um produto.");
 
-    addOrderItem(); 
+    addOrderItem();
   };
-  
+
   const handleRemove = (index: number) => {
     setAddProductsList((prevState) => prevState.filter((_, i) => i !== index));
     setOrderItem((prevState) => prevState.filter((_, i) => i !== index));
   };
-  
+
   const setDiscountToZero = () => {
     setNewOrderItem((prev) => ({
       ...prev,
@@ -223,7 +223,10 @@ const ProductsForm = (props: OrderItemProps) => {
   );
 };
 
-function displayAddOrderItems(handleRemove: (index: number) => void, orderItems?: AddOrderItemType[]) {
+function displayAddOrderItems(
+  handleRemove: (index: number) => void,
+  orderItems?: AddOrderItemType[],
+) {
   return (
     <tbody>
       {orderItems?.map((item, index) => (
@@ -235,7 +238,11 @@ function displayAddOrderItems(handleRemove: (index: number) => void, orderItems?
           <td>{item.ipi}</td>
           <td>{priceFormatter(item.total)}</td>
           <td>
-            <button className={styles.removeItemBtn} type={"button"} onClick={() => handleRemove(index)}>
+            <button
+              className={styles.removeItemBtn}
+              type={"button"}
+              onClick={() => handleRemove(index)}
+            >
               <BiTrash />
             </button>
           </td>

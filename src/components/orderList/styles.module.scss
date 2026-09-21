@@ -55,3 +55,20 @@
   background-color: white;
   border: 1px solid var(--border-default-color);
 }
+
+.infoContainer {
+  border: 1px solid var(--border-default-color);
+  background-color: white;
+  cursor: context-menu;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  border-radius: 0.2rem;
+}
+
+.actionButtonsContainer {
+  display: flex;
+  flex: 1;
+  gap: 0.4rem;
+}

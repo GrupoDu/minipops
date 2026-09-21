@@ -7,6 +7,6 @@ interface ClientsContextProps {
   clients: Client[] | undefined;
 }
 
-export const ClientsContext = createContext<
-  ClientsContextProps | undefined
->(undefined);
+export const ClientsContext = createContext<ClientsContextProps | undefined>(
+  undefined,
+);

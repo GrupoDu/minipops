@@ -48,12 +48,9 @@ export const SupplierForm = () => {
   };
 
   const hasContactInfo = () => {
-    const hasEmail =
-      !!supplier.email && supplier.email.length > 0;
-    const hasLandline =
-      !!supplier.landline && supplier.landline.length > 0;
-    const hasPhone =
-      !!supplier.phone && supplier.phone.length > 0;
+    const hasEmail = !!supplier.email && supplier.email.length > 0;
+    const hasLandline = !!supplier.landline && supplier.landline.length > 0;
+    const hasPhone = !!supplier.phone && supplier.phone.length > 0;
 
     if (hasEmail || hasLandline || hasPhone) return;
 
