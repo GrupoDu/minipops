@@ -42,26 +42,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest: CustomAxiosConfig = error.config;
     const status = error.response?.status;
-
-    if (status === 503) throw new Error("Tente novamente em alguns minutos.");
-
-    if (status === 403) {
-      await axios.post(
-        `${API_URL}/auth/logout`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      redirectToLogin(401);
-      return;
+    
+    if (status !== 401) {
+        await handleResErrors(status);
+        return Promise.reject(error);
     }
-
-    if (status !== 401) return Promise.reject(error);
 
     if (originalRequest._retry) return Promise.reject(error);
 
@@ -127,4 +112,28 @@ function redirectToLogin(resStatus?: number) {
   if (isLoginPage && resStatus !== 401) return;
 
   window.location.href = "/login";
+}
+ async function handleResErrors(resStatus: number) {
+    switch (resStatus) {
+        case 400:
+            throw new Error("Verifique se todos os campos obrigatórios foram preenchidos.");
+        case 403:
+            await axios.post(
+                `${API_URL}/auth/logout`,
+                {},
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            );
+
+            redirectToLogin(401);
+            break;
+        case 500:
+            throw new Error("Erro interno do servidor.");
+        case 503:    
+            throw new Error("Tente novamente em alguns segundos.")
+    }
 }

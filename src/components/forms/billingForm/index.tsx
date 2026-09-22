@@ -43,7 +43,7 @@ const BillingForm = ({
         required={true}
         value={billing.address}
         onChange={(e) =>
-          setBilling((prev) => ({ ...prev, billingAddress: e.target.value }))
+          setBilling((prev) => ({ ...prev, address: e.target.value }))
         }
       />
     </div>
