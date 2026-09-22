@@ -8,15 +8,20 @@ type FilterContainerProps = {
   children: ReactNode;
   target?: string;
   isFiltersAvailable?: boolean;
+  clearFiltersFunc: () => void;
 };
 
-const FilterContainer = (props: FilterContainerProps) => {
-  const { children, isFiltersAvailable } = props;
+const FilterContainer = ({
+  children,
+  isFiltersAvailable,
+  clearFiltersFunc,
+}: FilterContainerProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
   const clearFilters = () => {
+    clearFiltersFunc();
     const params = new URLSearchParams(searchParams.toString());
 
     params.forEach((_, key) => {

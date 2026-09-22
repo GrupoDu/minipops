@@ -216,7 +216,7 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  
+
   &:focus {
     border: 1px solid var(--select-green);
     box-shadow: 0 0 0 2px var(--hover-green);

@@ -43,6 +43,13 @@ export const ExpensesList = () => {
     TRACK_PARAMS,
   );
 
+  const clearFilters = () => {
+    setMonthFilter("");
+    setNameFilter("");
+    setGreaterThanFilter(0);
+    setLessThanFilter(0);
+  };
+
   if (!page) return <h2>Página não encontrada</h2>;
 
   const displayExpenses = (expenses: Expenses[] | undefined) => {
@@ -110,7 +117,10 @@ export const ExpensesList = () => {
 
   return (
     <>
-      <FilterContainer isFiltersAvailable={true}>
+      <FilterContainer
+        isFiltersAvailable={true}
+        clearFiltersFunc={clearFilters}
+      >
         <InputText
           type={"text"}
           label={"Nome"}

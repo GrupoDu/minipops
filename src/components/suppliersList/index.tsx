@@ -36,6 +36,12 @@ export const SuppliersList = () => {
     TRACK_PARAMS,
   );
 
+  const clearFilters = () => {
+    setCnpjFilter("");
+    setNameFilter("");
+    setEmailFilter("");
+  };
+
   const handleNameChange = (value: string) => {
     setNameFilter(value);
     const params = setQueryParams({
@@ -66,7 +72,10 @@ export const SuppliersList = () => {
 
   return (
     <>
-      <FilterContainer isFiltersAvailable={true}>
+      <FilterContainer
+        isFiltersAvailable={true}
+        clearFiltersFunc={clearFilters}
+      >
         <InputText
           type={"text"}
           label={"Nome"}

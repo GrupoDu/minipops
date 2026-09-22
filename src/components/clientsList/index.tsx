@@ -43,40 +43,37 @@ const ClientsList = () => {
     TRACK_PARAMS,
   );
 
+  const clearFilters = () => {
+    setCnpjFilter("");
+    setNameFilter("");
+    setEmailFilter("");
+  };
+
   const isListPopulated = !!clients && clients.length > 0;
 
   const handleNameChange = (value: string) => {
     setNameFilter(value);
-    const params = setQueryParams({
-      searchParams,
-      key: "tradingName",
-      value,
-    });
+    const params = setQueryParams({ searchParams, key: "tradingName", value });
     router.push(`${pathname}?${params}`);
   };
   const handleEmailChange = (value: string) => {
     setEmailFilter(value);
-    const params = setQueryParams({
-      searchParams,
-      key: "email",
-      value,
-    });
+    const params = setQueryParams({ searchParams, key: "email", value });
     router.push(`${pathname}?${params}`);
   };
   const handleCnpjChange = (value: string) => {
     const formatedValue = value.replace(/\D/g, "");
     setCnpjFilter(formatedValue);
-    const params = setQueryParams({
-      searchParams,
-      key: "cnpj",
-      value: formatedValue,
-    });
+    const params = setQueryParams({ searchParams, key: "cnpj", value });
     router.push(`${pathname}?${params}`);
   };
 
   return (
     <>
-      <FilterContainer isFiltersAvailable={true}>
+      <FilterContainer
+        isFiltersAvailable={true}
+        clearFiltersFunc={clearFilters}
+      >
         <InputText
           type={"text"}
           label={"Nome"}

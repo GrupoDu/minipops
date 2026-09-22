@@ -25,7 +25,7 @@ import { MONTH_OPTIONS } from "@/constants/monthsOptions.constant";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { hasFilters } from "@/utils/hasFilters";
 import { OrderItemInfos } from "../orderItemInfos";
-import {BsInfoLg} from "react-icons/bs";
+import { BsInfoLg } from "react-icons/bs";
 
 function OrderList() {
   const searchParams = useSearchParams();
@@ -75,10 +75,20 @@ function OrderList() {
     router.push(`${pathname}?${params}`);
   };
 
+  const clearFilters = () => {
+    setCustomerFilter("");
+    setStatusFilter("");
+    setMonthFilter("");
+  };
+
   return (
     <>
       {!isDashboard && (
-        <FilterContainer isFiltersAvailable={true} target={"orders"}>
+        <FilterContainer
+          isFiltersAvailable={true}
+          target={"orders"}
+          clearFiltersFunc={clearFilters}
+        >
           <InputSelect
             label={"Cliente"}
             options={customersOptions}
