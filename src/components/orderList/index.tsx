@@ -138,7 +138,6 @@ function OrderRow({
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isVisible, setIsVisible] = useState(false);
-  const products = order.orderItems.map((orderItem) => orderItem.product);
 
   return (
     <>
@@ -232,6 +231,13 @@ function statusStyle(status: string): CSSProperties {
         border: "1px solid var(--cancel-color)",
         backgroundColor: "var(--cancel-bg)",
       };
+    case "Atrasado":
+      return {
+        ...defaultStyle,
+        color: "#FFF",
+        border: "1px solid #000",
+        backgroundColor: "#000",
+      }
     default:
       return {
         ...defaultStyle,
