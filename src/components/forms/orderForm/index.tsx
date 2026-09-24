@@ -176,21 +176,21 @@ function mountOrderPayload(
   return {
     delivery: {
       ...delivery,
-      deliveryCep: numberRgxFormatter(delivery.cep),
+      cep: numberRgxFormatter(delivery.cep),
       addressNumber:
         delivery.addressNumber !== 0 ? delivery.addressNumber : null,
       contactNumber: numberRgxFormatter(delivery.contactNumber),
     },
     revenue: {
       ...revenue,
-      revenueEmail: revenue.email === "" ? null : revenue.email,
+      email: revenue.email === "" ? null : revenue.email,
     },
     billing: {
       ...billing,
       clientUuid: revenue.clientUuid,
-      billingCep: numberRgxFormatter(billing.cep),
+      cep: numberRgxFormatter(billing.cep),
     },
-    orderDeadline: new Date(deadline),
+    deadline: new Date(deadline).toISOString(),
     clientUuid: revenue.clientUuid,
     orderItems: orderItem,
   };
