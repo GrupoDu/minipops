@@ -10,6 +10,7 @@ export interface Order {
   issuedAt: string;
   status: string;
   deadline: Date;
+  isOverdue: boolean;
   orderItems: OrderItem[];
   billing: Billing;
   revenue: Revenue;
