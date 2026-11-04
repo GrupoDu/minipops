@@ -85,17 +85,13 @@ function Sidebar() {
   return (
     <div className={styles.sidebarContainer}>
       <div className={styles.logoContainer}>
-        {isLoading ? (
-          <PuffLoader size={40} color={"#4AB56C"} />
-        ) : (
-          <Image
-            src={Logo}
-            alt={"GrupoDu Logo"}
-            width={100}
-            height={100}
-            className={styles.logo}
-          />
-        )}
+        <Image
+          src={Logo}
+          alt={"GrupoDu Logo"}
+          width={100}
+          height={100}
+          className={styles.logo}
+        />
         <div className={styles.logoText}>
           <span>GrupoDu</span>
           <span className={styles.logoName}>Minipops</span>
@@ -115,7 +111,7 @@ function Sidebar() {
         ))}
       </div>
       <div onClick={handleLogout} className={styles.logoutContainer}>
-        <IoIosLogOut />
+        <IoIosLogOut className={styles.logoutIcon} />
         <span>Sair</span>
       </div>
     </div>

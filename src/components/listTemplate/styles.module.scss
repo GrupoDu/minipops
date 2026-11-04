@@ -1,8 +1,12 @@
+@value actionButtonsContainer from "@/components/orderList/styles.module.scss";
+@value orderItemInfosContainer from "@/components/orderItemInfos/styles.module.scss";
+
 .listTemplate {
   background-color: white;
   border-radius: 0.6rem;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-  width: 100%;
+  overflow: hidden;
+  flex: 1;
   border-collapse: collapse;
 
   tbody,
@@ -14,6 +18,7 @@
       th {
         padding: 0.8rem;
         text-align: left;
+        min-width: 8rem;
       }
     }
   }
@@ -32,14 +37,28 @@
   tbody {
     tr {
       border-bottom: 1px solid var(--border-default-color);
+      position: relative;
 
       td {
         position: relative;
         font-size: 0.8rem;
+
+        &:first-child {
+          max-width: 10rem;
+        }
       }
 
       &:last-child {
         border-bottom: none;
+
+        :global(.actionButtonsContainer) {
+          border: 1px solid red !important;
+
+          :global(.orderItemInfosContainer) {
+            top: 0 !important;
+            bottom: 4rem !important;
+          }
+        }
       }
     }
 

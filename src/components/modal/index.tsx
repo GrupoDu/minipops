@@ -40,6 +40,12 @@ export const Modal = (props: ModalProps) => {
         escapeKeyHandler(e, setShowModal),
       );
     }
+
+    return () => {
+      window.removeEventListener("keydown", (e) =>
+        escapeKeyHandler(e, setShowModal),
+      );
+    };
   }, []);
 
   return (

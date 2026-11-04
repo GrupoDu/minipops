@@ -5,11 +5,13 @@
   padding: 1rem;
   border: 1px solid var(--border-default-color);
 }
+
 .filters {
   display: flex;
   gap: 0.4rem;
   width: 100%;
   align-items: flex-end;
+  overflow-x: auto;
 
   .searchButton,
   .clearFilters {
@@ -19,6 +21,7 @@
     border-radius: 0.4rem;
     cursor: pointer;
     display: flex;
+    min-width: 7rem;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;

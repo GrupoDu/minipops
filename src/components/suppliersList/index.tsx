@@ -20,6 +20,7 @@ import { setQueryParams } from "@/utils/setQueryParams";
 import phoneFormatter from "@/utils/phoneFormatter";
 import { SUPPLIER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
+import { cnpjFormatter } from "@/utils/cnpjFormatter";
 
 export const SuppliersList = () => {
   const searchParams = useSearchParams();
@@ -112,7 +113,7 @@ export const SuppliersList = () => {
             {suppliers?.map((supplier) => (
               <tr key={supplier.uuid}>
                 <td>{supplier.tradingName}</td>
-                <td>{supplier.cnpjCpf}</td>
+                <td>{cnpjFormatter(supplier.cnpjCpf)}</td>
                 <td>{supplier.email || "Email não fornecido"}</td>
                 <td className={styles.contacts}>
                   <span>{phoneFormatter(supplier.phone)}</span>

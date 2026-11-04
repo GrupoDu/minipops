@@ -10,7 +10,7 @@ const ListTemplate = ({
 }) => {
   return (
     <div className="listWrapper">
-      <table style={{ overflow: "scroll" }} className={styles.listTemplate}>
+      <table className={styles.listTemplate}>
         <thead>
           <tr>
             {heads.map((head, index) => (

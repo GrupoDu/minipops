@@ -9,6 +9,7 @@ import phoneFormatter from "@/utils/phoneFormatter";
 import cepFormatter from "@/utils/cepFormatter";
 import { OrderItem } from "@/types/orderItem.interface";
 import { useEffect } from "react";
+import { cnpjFormatter } from "@/utils/cnpjFormatter";
 
 export const OrderInfos = ({ order }: { order: Order }) => {
   const { setIsLoading } = useLoading();
@@ -56,7 +57,7 @@ export const OrderInfos = ({ order }: { order: Order }) => {
             <tbody>
               <tr>
                 <td>{order.client.name}</td>
-                <td>{order.client.cnpjCpf}</td>
+                <td>{cnpjFormatter(order.client.cnpjCpf)}</td>
               </tr>
             </tbody>
           </table>

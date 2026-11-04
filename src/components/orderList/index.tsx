@@ -26,6 +26,7 @@ import { dateFormatter } from "@/utils/dateFormatter";
 import { hasFilters } from "@/utils/hasFilters";
 import { OrderItemInfos } from "../orderItemInfos";
 import { BsInfoLg } from "react-icons/bs";
+import statusFormatter from "@/utils/statusFormatter";
 
 function OrderList() {
   const searchParams = useSearchParams();
@@ -141,7 +142,10 @@ function OrderRow({
 
   return (
     <>
-      <tr key={order.customId}>
+      <tr
+        key={order.customId}
+        className={`${order.isOverdue && styles.isOverdue}`}
+      >
         <td>
           <div className={styles.orderIdContainer}>
             <span className={styles.orderId}>{order.customId}</span>
@@ -157,7 +161,9 @@ function OrderRow({
           <span>{order.delivery.building}</span>
         </td>
         <td>
-          <div style={statusStyle(order.status)}>{order.status}</div>
+          <div style={statusStyle(order.status)}>
+            {statusFormatter(order.status)}
+          </div>
         </td>
         <td>{priceFormatter(order.totalPrice)}</td>
         <td className={styles.actionButtonsContainer}>
@@ -203,7 +209,7 @@ function statusStyle(status: string): CSSProperties {
         border: "1px solid var(--pending-color)",
         backgroundColor: "var(--pending-bg)",
       };
-    case "Em produção":
+    case "EmProducao":
       return {
         ...defaultStyle,
         color: "var(--on-going-color)",
@@ -228,16 +234,16 @@ function statusStyle(status: string): CSSProperties {
       return {
         ...defaultStyle,
         color: "var(--shipped-color)",
-        border: "1px solid var(--cancel-color)",
-        backgroundColor: "var(--cancel-bg)",
+        border: "1px solid var(--shipped-color)",
+        backgroundColor: "var(--shipped-bg)",
       };
-    case "Atrasado":
+    case "Disponivel":
       return {
         ...defaultStyle,
-        color: "#FFF",
-        border: "1px solid #000",
-        backgroundColor: "#000",
-      }
+        color: "var(--available-color)",
+        border: "1px solid var(--available-color)",
+        backgroundColor: "var(--available-bg)",
+      };
     default:
       return {
         ...defaultStyle,

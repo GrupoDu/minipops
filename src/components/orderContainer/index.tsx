@@ -9,6 +9,8 @@ import { dateFormatter } from "@/utils/dateFormatter";
 import useFetch from "@/hooks/useFetch";
 import { Order } from "@/types/order.interface";
 import Breadcrumb from "@/components/breadcrumb";
+import { IoTimeOutline } from "react-icons/io5";
+import statusFormatter from "@/utils/statusFormatter";
 
 export const OrderContainer = ({ orderId }: { orderId: string }) => {
   const { data: order } = useFetch<Order>(`order/${orderId}`);
@@ -46,7 +48,15 @@ export const OrderContainer = ({ orderId }: { orderId: string }) => {
         </div>
         <div
           className={`${styles.statusBar} ${styles[`status_${statusClass}`]}`}
-        ></div>
+        >
+          <span>{statusFormatter(order.status)}</span>
+        </div>
+        {order.isOverdue && (
+          <div className={styles.isOverdue}>
+            <IoTimeOutline />
+            <span>Atrasado</span>
+          </div>
+        )}
         <h4 className={styles.orderId}>Pedido: {order.customId}</h4>
         <hr />
         <OrderInfos order={order} />
