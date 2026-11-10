@@ -221,7 +221,6 @@ main {
   flex: 1;
   outline: none;
   transition: all 0.2s ease-in-out;
-  max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -256,8 +255,12 @@ main {
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 768px) {
+@media screen and (min-width: 320px) and (max-width: 568px) {
   html {
     font-size: 13px;
+  }
+  
+  body {
+    flex-direction: column-reverse;
   }
 }
