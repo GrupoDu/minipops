@@ -5,12 +5,16 @@ import { FaEdit } from "react-icons/fa";
 import DefaultButton from "@/components/defaultButton";
 import { BiTrash } from "react-icons/bi";
 import { useModal } from "@/hooks/useModal";
+import BackButton from "@/components/backButton";
 
 export const ActionButtonsSupplier = ({ slug }: { slug: string }) => {
   const { setShowModal } = useModal();
 
   return (
     <div className={styles.actionButtons}>
+      <div className={styles.backButton}>
+        <BackButton />
+      </div>
       <DefaultButton
         type={"button"}
         className={styles.deleteButton}

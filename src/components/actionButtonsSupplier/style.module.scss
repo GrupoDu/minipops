@@ -2,6 +2,11 @@
   display: flex;
   gap: 0.4rem;
   width: 100%;
+  
+  .backButton {
+    flex: 1;
+    display: none;
+  }
 
   .deleteButton {
     border: none;
@@ -26,4 +31,12 @@
       color: black;
     }
   }
+}
+
+@media screen and (max-width: 568px) {
+    .actionButtons {
+      .backButton {
+        display: flex;
+      }
+    } 
 }
