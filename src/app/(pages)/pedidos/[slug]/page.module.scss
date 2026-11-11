@@ -192,6 +192,13 @@
   }
 }
 
+.cancelledSpan {
+  &:after {
+    content: "*";
+    color: red;
+  }
+}
+
 .statusBtnsContainer {
   min-width: 40rem;
   display: flex;
@@ -247,6 +254,7 @@
   position: relative;
   height: fit-content;
   display: none;
+  min-width: 40rem;
   transition: all .3s ease-in-out;
   padding: .6rem;
   border: 1px solid var(--border-default-color);
@@ -278,8 +286,12 @@
   }
   
   button {
-    padding: .4rem 1rem;
+    padding: .6rem 1.2rem;
     width: fit-content;
+    border: 1px solid var(--border-default-color);
+    background-color: transparent;
+    border-radius: .2rem;
+    cursor: pointer;
   }
 }
 
@@ -293,5 +305,24 @@
   }
   :global(.mainContent) {
     overflow-x: scroll;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cancelReasonContainer {
+    input {
+      padding: .6rem;
+    }
+    
+    .close {
+      .closeBtn {
+        font-size: 1.8rem;
+      }
+    }
+    
+    button {
+      padding: .8rem 1.8rem;
+      width: 100%;
+    }
   }
 }

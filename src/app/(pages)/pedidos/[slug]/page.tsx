@@ -7,14 +7,13 @@ import { Order } from "@/types/order.interface";
 import Logo from "@/assets/grupodu_new_logo.png";
 import { useParams, useRouter } from "next/navigation";
 import Breadcrumb from "@/components/breadcrumb";
-import { StatusButtons } from "@/components/statusButtons";
 import Image from "next/image";
 import { dateFormatter } from "@/utils/dateFormatter";
 import statusFormatter from "@/utils/statusFormatter";
 import { IoTimeOutline } from "react-icons/io5";
 import { OrderInfos } from "@/components/orderInfos";
-import { useEffect, useState } from "react";
-import { BiCheck, BiCross } from "react-icons/bi";
+import { useState } from "react";
+import { BiCheck } from "react-icons/bi";
 import { BsX } from "react-icons/bs";
 import { Modal } from "@/components/modal";
 import { toast } from "react-toastify";
@@ -28,6 +27,7 @@ export default function OrderDetailsPage() {
   const params = useParams<{ slug: string }>();
   const { setIsLoading } = useLoading();
   const [showModal, setShowModal] = useState(false);
+  const [cancellationReason, setCancellationReason] = useState<string>("");
   const router = useRouter();
   const [status, setStatus] = useState("");
   const { data: order } = useFetch<Order>(`order/${params.slug}`);
@@ -48,18 +48,22 @@ export default function OrderDetailsPage() {
     }
 
     try {
-      const response = await api.patch(`/order/${params.slug}`, { status });
+      const response = await api.patch(`/order/${params.slug}`, {
+        status,
+        cancellationReason,
+      });
 
       const data = await response.data;
 
-      toast.success(data.message);
+      toast.success(data);
       setShowModal(false);
       router.push(`/pedidos?${DEFAULT_PARAMS}`);
-    } catch (err) {
-      const error = err as Error;
-      console.error(error.message);
+    } catch (e) {
+      const err = e as Error;
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
+      setShowModal(false);
     }
   };
 
@@ -130,8 +134,13 @@ export default function OrderDetailsPage() {
             >
               <BsX className={styles.closeBtn} />
             </div>
-            <span>Motivo do cancelamento</span>
-            <input type="text" name="" id="" />
+            <span className={styles.cancelledSpan}>Motivo do cancelamento</span>
+            <input
+              type="text"
+              value={cancellationReason}
+              required={status === "Cancelado"}
+              onChange={(e) => setCancellationReason(e.target.value)}
+            />
             <button onClick={() => setShowModal(true)}>Confirmar</button>
           </div>
           <div className={styles.orderContainer}>
