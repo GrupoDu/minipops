@@ -255,42 +255,42 @@
   height: fit-content;
   display: none;
   min-width: 40rem;
-  transition: all .3s ease-in-out;
-  padding: .6rem;
+  transition: all 0.3s ease-in-out;
+  padding: 0.6rem;
   border: 1px solid var(--border-default-color);
   background-color: white;
-  gap: .4rem;
-  border-radius: .4rem;
+  gap: 0.4rem;
+  border-radius: 0.4rem;
 
   .close {
     position: absolute;
-    top: .2rem;
-    right: .4rem;
+    top: 0.2rem;
+    right: 0.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    
+
     .closeBtn {
       font-size: 1.2rem;
     }
   }
-  
+
   span {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
-  
+
   input {
-    padding: .4rem;
+    padding: 0.4rem;
     outline: none;
   }
-  
+
   button {
-    padding: .6rem 1.2rem;
+    padding: 0.6rem 1.2rem;
     width: fit-content;
     border: 1px solid var(--border-default-color);
     background-color: transparent;
-    border-radius: .2rem;
+    border-radius: 0.2rem;
     cursor: pointer;
   }
 }
@@ -311,17 +311,17 @@
 @media screen and (max-width: 768px) {
   .cancelReasonContainer {
     input {
-      padding: .6rem;
+      padding: 0.6rem;
     }
-    
+
     .close {
       .closeBtn {
         font-size: 1.8rem;
       }
     }
-    
+
     button {
-      padding: .8rem 1.8rem;
+      padding: 0.8rem 1.8rem;
       width: 100%;
     }
   }
