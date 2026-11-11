@@ -51,7 +51,7 @@ api.interceptors.response.use(
     if (originalRequest._retry) return Promise.reject(error);
 
     // Se já está fazendo refresh, coloca na fila
-    if (isRefreshing) return addPromiseToQueue(originalRequest);
+    if (isRefreshing) return await addPromiseToQueue(originalRequest);
 
     // Marca que vai tentar refresh
     originalRequest._retry = true;
@@ -92,7 +92,7 @@ api.interceptors.response.use(
   },
 );
 
-function addPromiseToQueue(originalRequest: CustomAxiosConfig) {
+async function addPromiseToQueue(originalRequest: CustomAxiosConfig) {
   return new Promise((resolve, reject) => {
     failedQueue.push({ resolve, reject });
   })
@@ -106,6 +106,8 @@ function addPromiseToQueue(originalRequest: CustomAxiosConfig) {
 }
 
 function redirectToLogin(resStatus?: number) {
+  if (!isProd) return;
+
   const isLoginPage =
     typeof window !== "undefined" && window.location.pathname.includes("login");
 
