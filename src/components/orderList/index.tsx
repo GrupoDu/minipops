@@ -120,8 +120,13 @@ function OrderList() {
       ) : (
         <>
           <ListTemplate heads={ORDER_TABLE_HEADS}>
-            {orders.map((order) => (
-              <OrderRow order={order} setIsLoading={setIsLoading} />
+            {orders.map((order, index) => (
+              <OrderRow
+                key={index}
+                order={order}
+                setIsLoading={setIsLoading}
+                isLastItem={isLastOrder(orders, index)}
+              />
             ))}
           </ListTemplate>
           {!isDashboard && <Pagination maxPage={maxPages || 1} />}
@@ -133,9 +138,11 @@ function OrderList() {
 
 function OrderRow({
   order,
+  isLastItem,
   setIsLoading,
 }: {
   order: Order;
+  isLastItem: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -171,6 +178,7 @@ function OrderRow({
             orderItem={order.orderItems}
             isVisible={isVisible}
             setIsVisible={setIsVisible}
+            isLastItem={isLastItem}
           />
           <div
             className={styles.infoContainer}
@@ -249,6 +257,10 @@ function statusStyle(status: string): CSSProperties {
         ...defaultStyle,
       };
   }
+}
+
+function isLastOrder(orders: Order[], currentOrderIndex: number) {
+  return orders.length - 3 >= currentOrderIndex;
 }
 
 export default OrderList;
