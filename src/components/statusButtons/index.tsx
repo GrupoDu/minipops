@@ -15,9 +15,11 @@ import { useLoading } from "@/hooks/useLoading";
 export const StatusButtons = ({
   slug,
   show,
+  setIsCancellingAction,
 }: {
   slug: string;
   show: boolean;
+  setIsCancellingAction: (value: boolean) => void;
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState("");
@@ -83,7 +85,7 @@ export const StatusButtons = ({
             type={"button"}
             onClick={() => {
               setStatus("Cancelado");
-              setShowModal(true);
+              setIsCancellingAction(true);
             }}
             className={styles.cancelButton}
           >
