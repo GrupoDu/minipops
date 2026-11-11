@@ -59,12 +59,6 @@ function Sidebar() {
       href: "/analises",
       disabled: true,
     },
-    {
-      option: "Usuarios",
-      icon: FaUserCog,
-      href: `/usuarios?${DEFAULT_PARAMS}`,
-      disabled: true,
-    },
   ];
   const router = useRouter();
   const isOptionSelected = (option: string): boolean => {

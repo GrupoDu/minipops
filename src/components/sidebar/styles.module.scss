@@ -144,7 +144,7 @@
   }
 }
 
-@media screen and (min-width: 320px) and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .sidebarContainer {
     width: fit-content;
 
@@ -182,6 +182,40 @@
       span {
         display: none;
       }
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 568px) {
+  .sidebarContainer {
+    height: fit-content;
+    width: 100%;
+    flex-direction: row;
+
+    .logoContainer {
+      display: none;
+    }
+
+    .menuContainer {
+      flex-direction: row;
+      overflow-x: scroll;
+      height: fit-content;
+
+      .menuItem {
+        height: fit-content;
+        padding: 1.2rem;
+
+        .menuIcon {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    .logoutContainer {
+      border-top: none;
+      border-left: 1px solid white;
+      height: fit-content;
+      padding: 1.8rem;
     }
   }
 }
