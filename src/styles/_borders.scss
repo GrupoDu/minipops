@@ -1,0 +1,13 @@
+@use "./colors";
+
+$default-radius: .8rem;
+$medium-radius: .6rem;
+$small-radius: .4rem;
+$smaller-radius: .2rem;
+$big-radius: 1rem;
+
+$default: 1px solid colors.$border-default;
+
+@mixin custom-border($color, $width: 1px) {
+  border: $width solid $color;
+}

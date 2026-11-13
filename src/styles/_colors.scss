@@ -1,0 +1,38 @@
+// ||> COLORS
+$dark-blue: #192131;
+$selected-green: #4ab56c;
+$hover-green: rgb(159 255 191 / 0.2);
+$border-default: #c8c8c8;
+$error: #e44f4f;
+// |=|> STATUS
+// |===|> BACKGROUND
+$pending-status-bg: #fff9c9;
+$done-status-bg: #caffc9;
+$in-production-status-bg: #afc7ee;
+$cancel-status-bg: #ff8080;
+$shipped-status-bg: #ffb180;
+$available-status-bg: #adcbae;
+$overdue-bg: #efd5d0;
+// |===|> PRIMARY COLORS
+$pending-status: #6d620e;
+$done-status: #1a5319;
+$in-production-status: #284576;
+$cancel-status: #800000;
+$shipped-status: #563b2b;
+$warning-status: #8e1f1f;
+$confirm-status: #202c77;
+$available-status: #2e7d32;
+$overdue-status: #e84226;
+// |=|> GRADIENTS
+$warning-gradient: linear-gradient(
+        145deg,
+        #b52424 0%,
+        #ca493e 45%,
+        #8e1f1f 100%
+);
+$confirm-gradient: linear-gradient(
+        145deg,
+        #4a95b5 0%,
+        #216c8e 45%,
+        #202c77 100%
+);

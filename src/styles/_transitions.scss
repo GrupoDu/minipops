@@ -1,0 +1,7 @@
+$slow: all .3s ease-in-out;
+$default: all .2 ease-in-out;
+$fast: all .1s ease-in-out;
+
+@mixin custom_shadow($color) {
+  box-shadow: 0 0 4px 0 $color; 
+}

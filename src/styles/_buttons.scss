@@ -1,0 +1,12 @@
+@use "./padding";
+@use "./borders";
+
+@mixin status-button($color, $backgroundColor) {
+  padding: padding.$small;
+  border-radius: borders.$small-radius;
+  text-align: center;
+  box-sizing: border-box;
+  color: $color;
+  border: 1px solid $color;
+  background-color: $backgroundColor; 
+}
