@@ -227,10 +227,6 @@ main {
 }
 
 @media screen and (min-width: 320px) and (max-width: 568px) {
-  html {
-    font-size: 13px;
-  }
-
   body {
     flex-direction: column-reverse;
   }

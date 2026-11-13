@@ -20,7 +20,7 @@ import { useModal } from "@/hooks/useModal";
 import DefaultButton from "@/components/defaultButton";
 import { BiTrash } from "react-icons/bi";
 import { FaEdit } from "react-icons/fa";
-import { cnpjFormatter } from "@/utils/cnpjFormatter";
+import { displayCnpjCpf } from "@/utils/cnpjCpfFormatter";
 
 function SupplierInfoPage() {
   const { slug: supplierUuid } = useParams<{ slug: string }>();
@@ -99,7 +99,7 @@ function SupplierInfos({ supplierUuid }: { supplierUuid: string }) {
           )}
           <div className={styles.texts}>
             <h3>{supplier.name}</h3>
-            <span>{cnpjFormatter(supplier.cnpjCpf)}</span>
+            <span>{displayCnpjCpf(supplier.cnpjCpf)}</span>
             <div className={styles.segment}>
               <span>{supplier.segment}</span>
             </div>

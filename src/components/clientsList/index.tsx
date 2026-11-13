@@ -14,19 +14,13 @@ import InputText from "../inputs/inputText";
 import FilterContainer from "@/components/filterContainer";
 import { landlineFormatter } from "@/utils/landlineFormatter";
 import { CgEye } from "react-icons/cg";
-import { cnpjFormatter } from "@/utils/cnpjFormatter";
+import { displayCnpjCpf } from "@/utils/cnpjCpfFormatter";
 import { cpfFormatter } from "@/utils/cpfFormatter";
 import { Client } from "@/types/client.interface";
 import { TRACK_PARAMS } from "@/constants/trackParams.constant";
 import { CUSTOMER_TABLE_HEADS } from "@/constants/tableHeads.constant";
 import { useState } from "react";
 import { setQueryParams } from "@/utils/setQueryParams";
-
-function cpfCnpjDisplay(value: string) {
-  if (value.length === 14) return cnpjFormatter(value);
-
-  return cpfFormatter(value);
-}
 
 const ClientsList = () => {
   const searchParams = useSearchParams();
@@ -110,7 +104,7 @@ const ClientsList = () => {
             {clients?.map((client) => (
               <tr key={client.uuid}>
                 <td>{client.tradingName}</td>
-                <td>{cpfCnpjDisplay(client.cnpjCpf)}</td>
+                <td>{displayCnpjCpf(client.cnpjCpf)}</td>
                 <td>{client.email || "Email não fornecido"}</td>
                 <td className={"phone"}>
                   <div className={styles.landPhoneContainer}>

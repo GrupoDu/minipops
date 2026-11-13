@@ -14,7 +14,7 @@ import { MdLocationOn } from "react-icons/md";
 import { CgMail, CgSmartphone } from "react-icons/cg";
 import { AiOutlinePhone } from "react-icons/ai";
 import phoneFormatter from "@/utils/phoneFormatter";
-import { cnpjFormatter } from "@/utils/cnpjFormatter";
+import { displayCnpjCpf } from "@/utils/cnpjCpfFormatter";
 import BackButton from "@/components/backButton";
 import cepFormatter from "@/utils/cepFormatter";
 
@@ -59,7 +59,7 @@ function DisplayClientInfos() {
         />
         <div className={styles.clientName}>
           <h3>{client.name}</h3>
-          <span>CNPJ: {cnpjFormatter(client.cnpjCpf)}</span>
+          <span>CNPJ: {displayCnpjCpf(client.cnpjCpf)}</span>
         </div>
       </div>
       <ul className={styles.customerInfos}>

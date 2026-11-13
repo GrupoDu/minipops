@@ -11,6 +11,7 @@
   flex-direction: column;
   box-shadow: shadows.$default;
   border: borders.$default;
+  font-size: 1rem;
 
   .customerProfile {
     padding: padding.$big;
@@ -18,6 +19,12 @@
     display: flex;
     align-items: center;
     gap: gaps.$bigger;
+    
+    .clientName {
+      h3 {
+        font-size: font.$relative-big; 
+      } 
+    }
 
     .customerLogo {
       border-radius: borders.$small-radius;
@@ -26,7 +33,7 @@
     span {
       opacity: 0.8;
       font-weight: 600;
-      font-size: font.$small;
+      font-size: font.$relative-small;
     }
   }
 
