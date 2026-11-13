@@ -1,15 +1,20 @@
+@use "@/styles/gaps";
+@use "@/styles/colors";
+@use "@/styles/padding";
+@use "@/styles/borders";
+
 .loadingBlockContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
-  gap: 1rem;
+  gap: gaps.$bigger;
   background-color: white;
-  border-radius: 0.6rem;
-  border: 1px solid #e5e7eb;
-  padding: 1rem;
+  border-radius: borders.$medium-radius;
+  @include borders.custom-border(#e5e7eb);
+  padding: padding.$big;
 
   span {
-    color: var(--select-green);
+    color: colors.$selected-green;
   }
 }

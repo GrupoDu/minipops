@@ -1,3 +1,8 @@
+@use "@/styles/gaps";
+@use "@/styles/font";
+@use "@/styles/borders";
+@use "@/styles/padding";
+
 .buttonContainer {
   flex: 1;
 }
@@ -6,20 +11,20 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: gaps.$small;
 }
 
 .linkButton {
-  padding: 0.6rem;
+  padding: padding.$small;
   text-decoration: none;
   color: white;
   cursor: pointer;
   background-color: black;
-  border-radius: 0.4rem;
+  border-radius: borders.$small-radius;
   border: none;
-  font-size: 0.8rem;
+  font-size: font.$small;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: gaps.$small;
 }

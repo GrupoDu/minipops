@@ -1,3 +1,5 @@
+@use "@/styles/font";
+
 .label {
-  font-size: 0.8rem;
+  font-size: font.$small;
 }

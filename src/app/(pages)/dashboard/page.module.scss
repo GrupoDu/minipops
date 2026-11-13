@@ -1,14 +1,16 @@
+@use "@/styles/gaps";
+
 .cards {
   display: flex;
   box-sizing: border-box;
-  gap: 1rem;
+  gap: gaps.$big;
   width: 100%;
 }
 
 .titleDev {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: gaps.$small;
 }
 
 .blur {
@@ -18,11 +20,11 @@
 .recentOrders {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: gaps.$big;
 
   .pendingTitle {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: gaps.$small;
   }
 }

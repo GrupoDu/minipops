@@ -1,42 +1,50 @@
+@use "@/styles/padding";
+@use "@/styles/borders";
+@use "@/styles/gaps";
+@use "@/styles/font";
+@use "@/styles/colors";
+
+$dark-green: #5e5e03;
+
 .formTitle {
-  padding: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: padding.$big;
+  border-bottom: borders.$default;
 }
 
 .formFields {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  gap: 0.6rem;
+  padding: padding.$big;
+  gap: gaps.$big;
 
   .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 1rem;
+    gap: gaps.$bigger;
   }
 }
 
 .observation {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: gaps.$small;
   margin: 0.8rem;
-  padding: 0.6rem;
-  border-radius: 0.4rem;
+  padding: padding.$small;
+  border-radius: borders.$medium-radius;
   background-color: #e8e8e8;
-  border: 1px solid #5e5e03;
-  border-left: 4px solid #5e5e03;
+  @include borders.custom-border($dark-green);
+  border-left: 4px solid $dark-green;
 
   span {
-    color: #5e5e03;
+    color: $dark-green;
     opacity: 0.6;
-    font-size: 0.8rem;
+    font-size: font.$small;
   }
 
   .obsIcon {
-    color: #5e5e03;
-    font-size: 1.6rem;
+    color: $dark-green;
+    font-size: font.$big;
   }
 }
 
@@ -44,5 +52,5 @@
   width: fit-content;
   padding: 0 1rem 1rem;
   display: flex;
-  gap: 0.6rem;
+  gap: gaps.$medium;
 }

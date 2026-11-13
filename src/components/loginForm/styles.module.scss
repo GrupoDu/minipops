@@ -1,51 +1,58 @@
+@use "@/styles/colors";
+@use "@/styles/transitions";
+@use "@/styles/font";
+@use "@/styles/padding";
+@use "@/styles/gaps";
+@use "@/styles/borders";
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: gaps.$bigger;
   width: 100%;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: gaps.$big;
 
   label {
-    font-size: 0.875rem;
+    font-size: font.$small;
     font-weight: 500;
     color: #333;
   }
 
   input {
     padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    @include borders.custom-border(#ddd);
+    border-radius: borders.$small-radius;
+    font-size: font.$small;
     outline: none;
-    transition: border-color 0.2s;
+    transition: transitions.$default;
 
     &:focus {
-      border-color: #0070f3;
+      border-color: colors.$in-production-status;
     }
   }
 }
 
 .button {
-  padding: 0.75rem;
-  background-color: #0070f3;
+  padding: padding.$button-default;
+  background-color: colors.$in-production-status;
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: borders.$small-radius;
+  font-size: font.$big;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: transitions.$default;
 
   &:hover {
-    background-color: #0051bb;
+    background-color: colors.$dark-blue;
   }
 
   &:active {
-    background-color: #003e91;
+    opacity: .6;
   }
 }

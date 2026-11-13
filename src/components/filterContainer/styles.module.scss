@@ -1,14 +1,20 @@
+@use "@/styles/borders";
+@use "@/styles/shadows";
+@use "@/styles/gaps";
+@use "@/styles/padding";
+@use "@/styles/colors";
+
 .filterContainer {
   background-color: white;
-  border-radius: 0.6rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  border: 1px solid var(--border-default-color);
+  border-radius: borders.$default-radius;
+  box-shadow: shadows.$default;
+  padding: padding.$big;
+  border: borders.$default;
 }
 
 .filters {
   display: flex;
-  gap: 0.4rem;
+  gap: gaps.$medium;
   width: 100%;
   align-items: flex-end;
   overflow-x: auto;
@@ -16,9 +22,9 @@
   .searchButton,
   .clearFilters {
     height: fit-content;
-    padding: 0.6rem;
-    border: 1px solid var(--border-default-color);
-    border-radius: 0.4rem;
+    padding: padding.$small;
+    border: borders.$default;
+    border-radius: borders.$small-radius;
     cursor: pointer;
     display: flex;
     min-width: 7rem;
@@ -39,7 +45,7 @@
     text-align: center;
     top: 25%;
     z-index: 11;
-    color: var(--dark-blue);
+    color: colors.$dark-blue;
   }
 
   .filterContainer {

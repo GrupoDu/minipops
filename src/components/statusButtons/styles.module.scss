@@ -1,43 +1,51 @@
+@use "@/styles/gaps";
+@use "@/styles/padding";
+@use "@/styles/borders";
+@use "@/styles/transitions";
+@use "@/styles/colors";
+
+$done-green: #4ab56c;
+
 .statusBtnsContainer {
   min-width: 40rem;
   display: flex;
-  gap: 0.4rem;
+  gap: gaps.$small;
   align-items: center;
 
   .statusBtns {
     display: flex;
-    gap: 0.4rem;
+    gap: gaps.$small;
 
     button {
       padding: 0.6rem 0.8rem;
-      border-radius: 0.2rem;
+      border-radius: borders.$smaller-radius;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
+      gap: gaps.$small;
     }
 
     .cancelButton {
-      border: 1px solid #8e1f1f;
-      color: #8e1f1f;
+      @include borders.custom-border(colors.$cancel-status);
+      color: colors.$cancel-status;
       background-color: transparent;
       transition: all 0.2s ease-in-out;
 
       &:hover {
-        background-color: #8e1f1f;
+        background-color: colors.$cancel-status;
         color: white;
       }
     }
 
     .doneButton {
-      border: 1px solid #4ab56c;
-      color: #4ab56c;
+      @include borders.custom-border($done-green);
+      color: $done-green;
       background-color: transparent;
-      transition: all 0.2s ease-in-out;
+      transition: transitions.$default;
 
       &:hover {
-        background-color: #4ab56c;
+        background-color: $done-green;
         color: white;
       }
     }

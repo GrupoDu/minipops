@@ -1,17 +1,25 @@
+@use "@/styles/padding";
+@use "@/styles/colors";
+@use "@/styles/borders";
+@use "@/styles/gaps";
+@use "@/styles/font";
+
+$warning-yellow: #c19742;
+
 .warningObsContainer {
-  padding: 0.6rem 1rem;
-  border: 1px solid #c19742;
+  padding: padding.$button-default;
+  @include borders.custom-border($warning-yellow);
   background-color: #fffaed;
-  color: #c19742;
-  border-radius: 0.4rem;
+  color: $warning-yellow;
+  border-radius: borders.$small-radius;
 
   .warningTitle {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: gaps.$small;
   }
 
   span {
-    font-size: 0.8rem;
+    font-size: font.$small;
   }
 }

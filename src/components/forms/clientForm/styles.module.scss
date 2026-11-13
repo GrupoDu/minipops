@@ -1,36 +1,41 @@
+@use "@/styles/borders";
+@use "@/styles/padding";
+@use "@/styles/gaps";
+@use "@/styles/colors";
+
 .formHeader {
-  padding: 0.8rem;
-  border-bottom: 1px solid var(--border-default-color);
+  padding: padding.$medium;
+  border-bottom: borders.$default;
 }
 
 .inputs {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.8rem;
+  gap: gaps.$small;
+  padding: padding.$medium;
 
   .gridInputs {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.4rem;
+    gap: gaps.$small;
   }
 
   .fileInputContainer {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: gaps.$small;
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 1rem;
+    padding: padding.$medium;
     box-sizing: border-box;
-    border: 1px dashed var(--border-default-color);
-    border-radius: 0.6rem;
+    border: 1px dashed colors.$border-default;
+    border-radius: borders.$medium-radius;
   }
 
   .buttons {
     display: flex;
-    gap: 0.4rem;
+    gap: gaps.$small;
   }
 }

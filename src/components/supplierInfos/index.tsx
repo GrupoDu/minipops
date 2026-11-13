@@ -77,9 +77,7 @@ export const SupplierInfos = ({ supplier }: { supplier: Supplier }) => {
               <CgPin className={styles.icon} />
               <div className={styles.textDescription}>
                 <h5>Endereço</h5>
-                <span>
-                  {supplier.address} - n°{supplier.addressNumber}
-                </span>
+                <span>{formatAddress(supplier)}</span>
               </div>
             </div>
           </section>

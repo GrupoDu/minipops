@@ -1,7 +1,10 @@
+@use "@/styles/borders";
+@use "@/styles/padding";
+
 .backButton {
   border: none;
-  border-radius: 0.4rem;
-  padding: 0.6rem 1.4rem;
+  border-radius: borders.$small-radius;
+  padding: padding.$button-wide;
   outline: none;
   cursor: pointer;
   flex: 1;

@@ -1,3 +1,5 @@
+@use "@/styles/colors";
+
 .main {
   display: flex;
   align-items: center;
@@ -24,7 +26,7 @@
 
   h1 {
     font-size: 2rem;
-    color: #0070f3;
+    color: colors.$in-production-status;
     margin-bottom: 0.5rem;
   }
 

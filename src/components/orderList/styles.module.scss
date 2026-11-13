@@ -1,35 +1,43 @@
+@use "@/styles/padding";
+@use "@/styles/buttons";
+@use "@/styles/borders";
+@use "@/styles/colors";
+@use "@/styles/gaps";
+@use "@/styles/font";
+@use "@/styles/shadows";
+
 .orderListComponent {
   display: flex;
-  gap: 1rem;
+  gap: gaps.$big;
   background-color: white;
-  padding: 1rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 0.6rem;
+  padding: padding.$big;
+  box-shadow: shadows.$default;
+  border-radius: borders.$default-radius;
   flex-direction: column;
 
   .fetchError,
   .fetchLoading {
-    font-size: 1rem;
+    font-size: font.$medium;
     text-align: center;
   }
 
   .fetchLoading {
-    color: #2d3772;
+    color: colors.$in-production-status;
   }
 
   .fetchError {
-    color: #ff8080;
+    color: colors.$error;
   }
 
   .emptyList {
     text-align: center;
-    font-size: 0.9rem;
+    font-size: font.$small;
     opacity: 0.4;
     display: flex;
     flex-direction: column;
 
     strong {
-      color: var(--select-green);
+      color: colors.$selected-green;
     }
   }
 }
@@ -40,31 +48,58 @@
 
   .orderDate {
     opacity: 0.6;
-    font-size: 0.8rem;
+    font-size: font.$small;
+  }
+}
+
+// Estilos de status
+.status {
+  &_Pendente {
+    @include buttons.status-button(colors.$pending-status, colors.$pending-status-bg)
+  }
+  
+  &_EmProducao {
+    @include buttons.status-button(colors.$in-production-status, colors.$in-production-status-bg)
+  }
+  
+  &_Disponivel {
+    @include buttons.status-button(colors.$available-status, colors.$available-status-bg)
+  }
+  
+  &_Cancelado {
+    @include buttons.status-button(colors.$cancel-status, colors.$cancel-status-bg)
+  }
+  
+  &_Concluido {
+    @include buttons.status-button(colors.$done-status, colors.$done-status-bg)
+  }
+  
+  &_Enviado {
+    @include buttons.status-button(colors.$shipped-status, colors.$shipped-status-bg)
   }
 }
 
 .buttonContainer {
   display: flex;
-  padding: 0.4rem;
+  padding: padding.$small;
   align-items: center;
   text-decoration: none;
   color: black;
-  gap: 0.4rem;
-  border-radius: 0.2rem;
+  gap: gaps.$small;
+  border-radius: borders.$smaller-radius;
   background-color: white;
-  border: 1px solid var(--border-default-color);
+  border: borders.$default;
 }
 
 .infoContainer {
-  border: 1px solid var(--border-default-color);
+  border: borders.$default;
   background-color: white;
   cursor: context-menu;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2rem;
-  border-radius: 0.2rem;
+  border-radius: borders.$smaller-radius;
 }
 
 .clientName,
@@ -78,7 +113,7 @@
 .actionButtonsContainer {
   display: flex;
   flex: 1;
-  gap: 0.4rem;
+  gap: gaps.$medium;
 }
 
 .isOverdue {
@@ -100,11 +135,11 @@
 
 @keyframes overdueAnimation {
   from {
-    box-shadow: 0 0 4px 2px rgb(255 55 55 / 0.8);
+    @include shadows.overdue-shadow(rgb(255 22 22 / 0.8));
     transform: scale(1.1);
   }
   to {
-    box-shadow: 0 0 4px 2px rgb(255 22 22 / 0);
+    @include shadows.overdue-shadow(rgb(255 22 22 / 0));
     transform: scale(1);
   }
 }

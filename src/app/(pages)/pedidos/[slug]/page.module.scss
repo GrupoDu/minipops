@@ -1,28 +1,38 @@
+@use "@/styles/shadows";
+@use "@/styles/borders";
+@use "@/styles/padding";
+@use "@/styles/font";
+@use "@/styles/gaps";
+@use "@/styles/colors";
+@use "@/styles/transitions";
+
+$dark-gray: #848484;
+
 @keyframes overdueAnimation {
   from {
-    box-shadow: 0 0 4px 2px rgba(232, 66, 38 / 0.4);
+    @include shadows.custom-shadow(rgba(232, 66, 38 / 0.4), 4px, 2px);
   }
   to {
-    box-shadow: 0 0 1px 0 rgba(232, 66, 38 / 0);
+    @include shadows.custom-shadow(rgba(232, 66, 38 / 0), 1px);
   }
 }
 
 .orderContainer {
-  border-radius: 0.4rem;
+  border-radius: borders.$small-radius;
   background-color: white;
-  border: 1px solid var(--border-default-color);
-  padding: 1.4rem;
+  border: borders.$default;
+  padding: padding.$bigger;
   min-width: 40rem;
 
   .orderId {
     text-align: center;
-    padding: 0.6rem 0;
+    padding: padding.$small 0;
   }
 
   .printLogo {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: gaps.$big;
     width: 100%;
     margin-bottom: 0.8rem;
 
@@ -42,7 +52,7 @@
 
         span {
           opacity: 0.6;
-          font-size: 0.8rem;
+          font-size: font.$small;
           flex: 1;
           text-align: end;
         }
@@ -54,13 +64,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--overdue-color);
-    border-radius: 0.8rem;
+    color: colors.$overdue-status;
+    border-radius: borders.$default-radius;
     padding: 0.2rem 0.8rem;
-    background-color: var(--overdue-bg);
-    gap: 0.2rem;
+    background-color: colors.$overdue-bg;
+    gap: gaps.$small;
     width: fit-content;
-    font-size: 0.8rem;
+    font-size: font.$small;
     margin-top: 0.4rem;
     animation-name: overdueAnimation;
     animation-duration: 3s;
@@ -69,45 +79,45 @@
 
   .statusBar {
     width: fit-content;
-    font-size: 0.8rem;
+    font-size: font.$small;
     padding: 0.2rem 0.8rem;
-    border-radius: 0.8rem;
+    border-radius: borders.$default-radius;
   }
 
   .status_Pendente {
-    border: 1px solid var(--pending-color);
-    color: var(--pending-color);
-    background-color: var(--pending-bg);
+    @include borders.custom-border(colors.$pending-status);
+    color: colors.$pending-status;
+    background-color: colors.$pending-status-bg;
   }
 
   .status_EmProducao {
-    border: 1px solid var(--on-going-color);
-    color: var(--on-going-color);
-    background-color: var(--on-going-bg);
+    @include borders.custom-border(colors.$in-production-status);
+    color: colors.$in-production-status;
+    background-color: colors.$in-production-status-bg;
   }
 
   .status_Concluido {
-    border: 1px solid var(--done-color);
-    color: var(--done-color);
-    background-color: var(--done-bg);
+    @include borders.custom-border(colors.$done-status);
+    color: colors.$done-status;
+    background-color: colors.$done-status-bg;
   }
 
   .status_Cancelado {
-    border: 1px solid var(--cancel-color);
-    color: var(--cancel-color);
-    background-color: var(--cancel-bg);
+    @include borders.custom-border(colors.$cancel-status);
+    color: colors.$cancel-status;
+    background-color: colors.$cancel-status-bg;
   }
 
   .status_Enviado {
-    border: 1px solid var(--shipped-color);
-    color: var(--shipped-color);
-    background-color: var(--shipped-bg);
+    @include borders.custom-border(colors.$shipped-status);
+    color: colors.$shipped-status;
+    background-color: colors.$shipped-status-bg;
   }
 
   .status_Disponivel {
-    border: 1px solid var(--available-color);
-    color: var(--available-color);
-    background-color: var(--available-bg);
+    @include borders.custom-border(colors.$available-status);
+    color: colors.$available-status;
+    background-color: colors.$available-status-bg;
   }
 
   h3,
@@ -117,33 +127,33 @@
 
   hr {
     border: none;
-    border-top: 1px solid #848484;
+    border-top: 1px solid $dark-gray;
     width: 100%;
     margin: 0;
   }
 
   .orderInfoBlocks {
-    border: 1px solid #848484;
-    padding: 0.4rem;
+    border: 1px solid $dark-gray;
+    padding: padding.$medium;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    border-radius: 0.2rem;
+    gap: gaps.$medium;
+    border-radius: borders.$small-radius;
 
     .itemsList {
       li {
         display: flex;
         width: 100%;
-        gap: 1rem;
+        gap: gaps.$bigger;
         align-items: center;
-        padding: 0.8rem;
+        padding: padding.$medium;
         box-sizing: border-box;
         border-bottom: 1px solid #dfdfdf;
 
         span {
           flex: 1;
           width: 100%;
-          font-size: 0.8rem;
+          font-size: font.$small;
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
@@ -158,35 +168,35 @@
     .deliveryContainer {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: gaps.$bigger;
     }
 
     .gridFields {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: gaps.$bigger;
     }
   }
 
   .itemsBlock {
-    border: 1px solid #848484;
-    padding: 0.4rem;
+    border: 1px solid $dark-gray;
+    padding: padding.$small;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: gaps.$bigger;
 
     .itemsList {
       display: flex;
       flex-direction: column;
       list-style: none;
-      border: 1px solid red;
+      @include borders.custom-border(red);
       padding: 0;
       margin: 0;
     }
   }
 
   .productsSection {
-    gap: 1rem;
+    gap: gaps.$bigger;
     display: flex;
     flex-direction: column;
   }
@@ -202,44 +212,44 @@
 .statusBtnsContainer {
   min-width: 40rem;
   display: flex;
-  gap: 0.4rem;
+  gap: gaps.$medium;
   align-items: center;
 
   .statusBtns {
     display: flex;
-    gap: 0.4rem;
+    gap: gaps.$medium;
 
     button {
       padding: 0.6rem 0.8rem;
-      border-radius: 0.2rem;
+      border-radius: borders.$small-radius;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
+      gap: gaps.$medium;
     }
 
     .cancelButton {
-      border: 1px solid #8e1f1f;
-      color: #8e1f1f;
+      @include borders.custom-border(colors.$cancel-status);
+      color: colors.$cancel-status;
       background-color: transparent;
-      transition: all 0.2s ease-in-out;
+      transition: transitions.$fast;
 
       &:hover {
-        background-color: #8e1f1f;
+        background-color: colors.$cancel-status;
         color: white;
       }
     }
 
     .doneButton {
-      border: 1px solid #4ab56c;
-      color: #4ab56c;
+      @include borders.custom-border(colors.$done-status);
+      color: colors.$done-status;
       background-color: transparent;
-      transition: all 0.2s ease-in-out;
+      transition: transitions.$fast;
 
       &:hover {
-        background-color: #4ab56c;
-        color: white;
+        background-color: colors.$done-status;
+        color: colors.$done-status-bg;
       }
     }
   }
@@ -255,12 +265,12 @@
   height: fit-content;
   display: none;
   min-width: 40rem;
-  transition: all 0.3s ease-in-out;
-  padding: 0.6rem;
-  border: 1px solid var(--border-default-color);
+  transition: transitions.$slow;
+  padding: padding.$small;
+  border: borders.$default;
   background-color: white;
-  gap: 0.4rem;
-  border-radius: 0.4rem;
+  gap: gaps.$medium;
+  border-radius: borders.$small-radius;
 
   .close {
     position: absolute;
@@ -272,25 +282,25 @@
     cursor: pointer;
 
     .closeBtn {
-      font-size: 1.2rem;
+      font-size: font.$big;
     }
   }
 
   span {
-    font-size: 0.8rem;
+    font-size: font.$small;
   }
 
   input {
-    padding: 0.4rem;
+    padding: padding.$small;
     outline: none;
   }
 
   button {
-    padding: 0.6rem 1.2rem;
+    padding: padding.$button-default;
     width: fit-content;
-    border: 1px solid var(--border-default-color);
+    border: borders.$default;
     background-color: transparent;
-    border-radius: 0.2rem;
+    border-radius: borders.$smaller-radius;
     cursor: pointer;
   }
 }
@@ -311,17 +321,17 @@
 @media screen and (max-width: 768px) {
   .cancelReasonContainer {
     input {
-      padding: 0.6rem;
+      padding: padding.$small;
     }
 
     .close {
       .closeBtn {
-        font-size: 1.8rem;
+        font-size: font.$bigger;
       }
     }
 
     button {
-      padding: 0.8rem 1.8rem;
+      padding: padding.$button-big;
       width: 100%;
     }
   }

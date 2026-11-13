@@ -1,15 +1,21 @@
+@use "@/styles/gaps";
+@use "@/styles/padding";
+@use "@/styles/borders";
+@use "@/styles/transitions";
+@use "@/styles/colors";
+
 .printButton {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: gaps.$medium;
   padding: 0.6rem 1.2rem;
-  background-color: var(--dark-blue);
+  background-color: colors.$dark-blue;
   color: white;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: borders.$small-radius;
   cursor: pointer;
   font-weight: 600;
-  transition: opacity 0.2s;
+  transition: transitions.$default;
   width: fit-content;
   margin-top: 1rem;
 }

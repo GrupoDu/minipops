@@ -1,5 +1,12 @@
+@use "@/styles/colors";
+@use "@/styles/padding";
+@use "@/styles/gaps";
+@use "@/styles/borders";
+@use "@/styles/font";
+@use "@/styles/transitions";
+
 .sidebarContainer {
-  background-color: var(--dark-blue);
+  background-color: colors.$dark-blue;
   width: 14rem;
   height: 100%;
   box-sizing: border-box;
@@ -10,9 +17,9 @@
     display: flex;
     width: 100%;
     align-items: center;
-    padding: 1rem;
+    padding: padding.$big;
     justify-content: center;
-    gap: 1rem;
+    gap: gaps.$big;
     border-bottom: 1px solid white;
     box-sizing: border-box;
 
@@ -26,16 +33,16 @@
       display: flex;
       width: 100%;
       flex-direction: column;
-      gap: 1px;
+      gap: gaps.$small;
 
       span {
         color: #fff;
-        font-size: 0.8rem;
+        font-size: font.$small;
         opacity: 0.6;
       }
 
       .logoName {
-        font-size: 1.4rem;
+        font-size: font.$big;
         font-weight: bold;
         opacity: 1;
       }
@@ -44,42 +51,42 @@
 
   .menuContainer {
     display: flex;
-    padding: 1rem;
+    padding: padding.$big;
     flex-direction: column;
     box-sizing: border-box;
-    gap: 1rem;
+    gap: gaps.$bigger;
     flex: 1;
 
     .menuItem {
       display: flex;
       align-items: center;
       color: white;
-      gap: 0.4rem;
-      padding: 0.8rem;
-      border-radius: 0.2rem;
+      gap: gaps.$medium;
+      padding: padding.$medium;
+      border-radius: borders.$small-radius;
       cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.2s ease;
+      transition: transitions.$fast;
       outline: none;
 
       .menuIcon {
-        font-size: 1.2rem;
+        font-size: font.$big;
         object-fit: contain;
       }
 
       &:hover {
-        background-color: var(--hover-green);
+        background-color: colors.$hover-green;
       }
     }
 
     .selected {
-      background-color: var(--select-green);
-      color: var(--dark-blue);
+      background-color: colors.$selected-green;
+      color: colors.$dark-blue;
       font-weight: bold;
 
       &:hover {
-        background-color: var(--select-green);
-        color: var(--dark-blue);
+        background-color: colors.$selected-green;
+        color: colors.$dark-blue;
         font-weight: bold;
       }
     }
@@ -93,7 +100,7 @@
   }
 
   .logoutContainer {
-    padding: 1.4rem;
+    padding: padding.$big;
     color: white;
     background-color: #222936;
     border-top: 1px solid white;
@@ -101,8 +108,8 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    font-size: 1.2rem;
-    gap: 0.6rem;
+    font-size: font.$medium;
+    gap: gaps.$big;
   }
 }
 
@@ -117,15 +124,15 @@
     }
 
     .menuContainer {
-      padding: 0.4rem;
+      padding: padding.$small;
 
       .menuItem {
-        padding: 0.6rem;
+        padding: padding.$small;
         flex-direction: column;
-        font-size: 0.6rem;
+        font-size: font.$small;
 
         .menuIcon {
-          font-size: 1.8rem;
+          font-size: calc(font.$big * 1.4);
         }
       }
     }
@@ -134,11 +141,11 @@
       flex-direction: column;
 
       .logoutIcon {
-        font-size: 1.6rem;
+        font-size: font.$bigger;
       }
 
       span {
-        font-size: 0.8rem;
+        font-size: font.$medium;
       }
     }
   }
@@ -155,15 +162,15 @@
     }
 
     .menuContainer {
-      padding: 0.4rem;
+      padding: padding.$small;
 
       .menuItem {
-        padding: 0.6rem;
+        padding: padding.$small;
         flex-direction: column;
-        font-size: 0.6rem;
+        font-size: font.$small;
 
         .menuIcon {
-          font-size: 1.8rem;
+          font-size: font.$bigger;
         }
       }
 
@@ -176,7 +183,7 @@
       flex-direction: column;
 
       .logoutIcon {
-        font-size: 1.6rem;
+        font-size: font.$bigger;
       }
 
       span {
@@ -203,10 +210,11 @@
 
       .menuItem {
         height: fit-content;
-        padding: 1.2rem;
+        padding: padding.$bigger;
+        font-size: font.$bigger;
 
         .menuIcon {
-          font-size: 2rem;
+          font-size: font.$relative-big;
         }
       }
     }
@@ -215,7 +223,7 @@
       border-top: none;
       border-left: 1px solid white;
       height: fit-content;
-      padding: 1.8rem;
+      padding: calc(padding.$bigger * 1.6);
     }
   }
 }

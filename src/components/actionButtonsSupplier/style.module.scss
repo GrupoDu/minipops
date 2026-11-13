@@ -1,6 +1,10 @@
+@use "@/styles/gaps";
+@use "@/styles/colors";
+@use "@/styles/transitions";
+
 .actionButtons {
   display: flex;
-  gap: 0.4rem;
+  gap: gaps.$medium;
   width: 100%;
   
   .backButton {
@@ -10,13 +14,13 @@
 
   .deleteButton {
     border: none;
-    background-color: #a62222;
-    color: #ffadad;
+    background-color: colors.$cancel-status;
+    color: colors.$cancel-status-bg;
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      background-color: #ffadad;
-      color: #a62222;
+      background-color: colors.$cancel-status-bg;
+      color: colors.$cancel-status;
     }
   }
 
@@ -24,7 +28,7 @@
     border: none;
     background-color: black;
     color: #c3c3c3;
-    transition: all 0.2s ease-in-out;
+    transition: transitions.$default;
 
     &:hover {
       background-color: #c3c3c3;

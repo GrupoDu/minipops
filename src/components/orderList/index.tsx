@@ -162,13 +162,13 @@ function OrderRow({
           </div>
         </td>
         <td className={styles.clientName}>
-          <span>{order.client.name}</span>
+          <span className={styles.lalala}>{order.client.name}</span>
         </td>
         <td className={styles.deliveryBuilding}>
           <span>{order.delivery.building}</span>
         </td>
         <td>
-          <div style={statusStyle(order.status)}>
+          <div className={styles[`status_${order.status}`]}>
             {statusFormatter(order.status)}
           </div>
         </td>

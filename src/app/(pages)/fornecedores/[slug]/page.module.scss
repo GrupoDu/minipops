@@ -1,3 +1,11 @@
+@use "@/styles/gaps";
+@use "@/styles/padding";
+@use "@/styles/borders";
+@use "@/styles/font";
+@use "@/styles/shadows";
+@use "@/styles/colors";
+@use "@/styles/transitions";
+
 .buttonIcon {
   object-fit: contain;
   width: 1.2rem;
@@ -7,18 +15,18 @@
 .supplierInfoContainer {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: gaps.$big;
 
   .notFound,
   .topInformation {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    border-radius: 0.8rem;
+    gap: gaps.$bigger;
+    border-radius: borders.$default-radius;
     background-color: white;
-    border: 1px solid var(--border-default-color);
-    padding: 1rem;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    border: borders.$default;
+    padding: padding.$big;
+    box-shadow: shadows.$default;
 
     .supplierLogo {
       object-fit: contain;
@@ -29,11 +37,10 @@
     .texts {
       display: flex;
       flex-direction: column;
-      color: black;
 
       span {
         opacity: 0.6;
-        font-size: 0.9rem;
+        font-size: font.$small;
       }
     }
   }
@@ -41,37 +48,37 @@
   .middleInformation {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
-    border-radius: 0.8rem;
+    gap: gaps.$bigger;
+    border-radius: borders.$default-radius;
 
     section {
       display: flex;
       flex-direction: column;
       background-color: white;
-      border: 1px solid var(--border-default-color);
-      border-radius: 0.8rem;
-      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+      border: borders.$default;
+      border-radius: padding.$big;
+      box-shadow: shadows.$default;
 
       h4 {
-        padding: 1rem;
-        border-bottom: 1px solid var(--border-default-color);
+        padding: padding.$big;
+        border-bottom: 1px solid colors.$border-default;
       }
 
       .contact,
       .address {
         display: flex;
-        gap: 0.4rem;
+        gap: gaps.$big;
         align-items: center;
-        padding: 0.6rem;
+        padding: padding.$small;
 
         .icon {
           object-fit: contain;
           width: 1.4rem;
           height: 1.4rem;
-          padding: 0.6rem;
-          border-radius: 0.6rem;
-          border: 1px solid var(--select-green);
-          color: var(--select-green);
+          padding: padding.$medium;
+          border-radius: borders.$medium-radius;
+          border: 1px solid colors.$selected-green;
+          color: colors.$selected-green;
           background-color: white;
         }
 
@@ -82,10 +89,53 @@
 
           span {
             opacity: 0.8;
-            font-size: 0.9rem;
+            font-size: font.$small;
           }
         }
       }
+    }
+  }
+}
+
+.actionButtons {
+  display: flex;
+  gap: gaps.$medium;
+  width: 100%;
+  
+  .backButton {
+    flex: 1;
+    display: none;
+  }
+
+  .deleteButton {
+    border: none;
+    background-color: colors.$cancel-status;
+    color: colors.$cancel-status-bg;
+    transition: transitions.$fast;
+
+    &:hover {
+      background-color: colors.$cancel-status-bg;
+      color: colors.$cancel-status;
+    }
+  }
+
+  .editButton {
+    border: none;
+    background-color: black;
+    color: #c3c3c3;
+    transition: transitions.$default;
+
+    &:hover {
+      background-color: #c3c3c3;
+      color: black;
+    }
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .actionButtons {
+    .backButton {
+      display: flex;
     }
   }
 }

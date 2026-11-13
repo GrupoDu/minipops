@@ -1,6 +1,8 @@
+@use "@/styles/gaps";
+
 .devMessage {
   display: flex;
-  gap: 0.6rem;
+  gap: gaps.$big;
   flex: 1;
   align-items: center;
   justify-content: center;

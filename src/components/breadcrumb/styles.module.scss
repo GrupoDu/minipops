@@ -1,6 +1,14 @@
+@use "@/styles/padding";
+@use "@/styles/font";
+@use "@/styles/transitions";
+@use "@/styles/gaps";
+@use "@/styles/colors";
+
+$gray-text: #848484;
+
 .breadcrumb {
   display: flex;
-  padding: 0.5rem 2rem;
+  padding: padding.$small;
   background-color: transparent;
 
   .list {
@@ -10,25 +18,25 @@
     margin: 0;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.25rem;
+    gap: gaps.$small;
   }
 
   .item {
     display: flex;
     align-items: center;
-    font-size: 0.85rem;
-    color: #848484;
+    font-size: font.$small;
+    color: $gray-text;
   }
 
   .link {
-    color: #848484;
+    color: $gray-text;
     text-decoration: none;
     display: flex;
     align-items: center;
-    transition: color 0.2s;
+    transition: transitions.$default;
 
     &:hover {
-      color: var(--dark-blue);
+      color: colors.$dark-blue;
     }
   }
 
@@ -39,7 +47,7 @@
 
   .current {
     font-weight: 600;
-    color: var(--dark-blue);
+    color: colors.$dark-blue;
   }
 }
 

@@ -1,23 +1,31 @@
+@use "@/styles/font";
+@use "@/styles/padding";
+@use "@/styles/gaps";
+@use "@/styles/borders";
+@use "@/styles/shadows";
+@use "@/styles/colors";
+@use "@/styles/transitions";
+
 .pagination {
   display: flex;
-  gap: 0.2rem;
-  padding: 0.4rem;
-  border: 1px solid var(--border-default-color);
+  gap: gaps.$small;
+  padding: padding.$small;
+  border: borders.$default;
   background-color: white;
-  border-radius: 0.6rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: borders.$medium-radius;
+  box-shadow: shadows.$default;
 
   .paginationItem {
     width: 1.8rem;
-    border-radius: 0.3rem;
-    padding: 0.4rem;
-    border: 1px solid var(--select-green);
-    background-color: var(--hover-green);
-    color: var(--select-green);
+    border-radius: borders.$small-radius;
+    padding: padding.$small;
+    @include borders.custom-border(colors.$selected-green);
+    background-color: colors.$hover-green;
+    color: colors.$selected-green;
     text-align: center;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s ease-in-out;
+    transition: transitions.$default;
   }
 
   .spaceDots {
@@ -27,8 +35,8 @@
   }
 
   .isSelected {
-    border: 1px solid var(--select-green);
-    background-color: var(--select-green);
+    @include borders.custom-border(colors.$selected-green);
+    background-color: colors.$selected-green;
     color: white;
     font-weight: bold;
   }
@@ -36,12 +44,12 @@
 
 @media screen and (min-width: 320px) and (max-width: 1100px) {
   .pagination {
-    gap: 0.4rem;
+    gap: gaps.$medium;
 
     .paginationItem {
       width: fit-content;
-      padding: 0.8rem 1rem;
-      font-size: 1.2rem;
+      padding: padding.$button-big;
+      font-size: font.$big;
     }
   }
 }

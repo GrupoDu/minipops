@@ -1,0 +1,51 @@
+@use "@/styles/shadows";
+@use "@/styles/borders";
+@use "@/styles/padding";
+@use "@/styles/gaps";
+@use "@/styles/font";
+
+.customerContainer {
+  background-color: white;
+  border-radius: borders.$default-radius;
+  display: flex;
+  flex-direction: column;
+  box-shadow: shadows.$default;
+  border: borders.$default;
+
+  .customerProfile {
+    padding: padding.$big;
+    border-bottom: borders.$default;
+    display: flex;
+    align-items: center;
+    gap: gaps.$bigger;
+
+    .customerLogo {
+      border-radius: borders.$small-radius;
+    }
+
+    span {
+      opacity: 0.8;
+      font-weight: 600;
+      font-size: font.$small;
+    }
+  }
+
+  .customerInfos {
+    padding: padding.$big;
+    display: flex;
+    flex-direction: column;
+    gap: gaps.$bigger;
+  }
+
+  .button {
+    padding: padding.$small;
+    width: 9rem;
+    display: flex;
+  }
+}
+
+.icons {
+  width: 1.4rem;
+  height: fit-content;
+  object-fit: contain;
+}

@@ -1,10 +1,13 @@
-@value actionButtonsContainer from "@/components/orderList/styles.module.scss";
-@value orderItemInfosContainer from "@/components/orderItemInfos/styles.module.scss";
+@use "@/styles/borders";
+@use "@/styles/shadows";
+@use "@/styles/colors";
+@use "@/styles/padding";
+@use "@/styles/font";
 
 .listTemplate {
   background-color: white;
-  border-radius: 0.6rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: borders.$medium-radius;
+  box-shadow: shadows.$default;
   overflow: hidden;
   flex: 1;
   border-collapse: collapse;
@@ -12,11 +15,11 @@
   tbody,
   thead {
     tr {
-      border-bottom: 1px solid var(--border-default-color);
+      border-bottom: borders.$default;
 
       td,
       th {
-        padding: 0.8rem;
+        padding: padding.$medium;
         text-align: left;
         min-width: 8rem;
       }
@@ -26,7 +29,7 @@
   thead {
     tr {
       th {
-        font-size: 0.8rem;
+        font-size: font.$small;
         font-weight: 500;
         text-transform: uppercase;
         opacity: 0.6;
@@ -36,12 +39,12 @@
 
   tbody {
     tr {
-      border-bottom: 1px solid var(--border-default-color);
+      border-bottom: borders.$default;
       position: relative;
 
       td {
         position: relative;
-        font-size: 0.8rem;
+        font-size: font.$small;
 
         &:first-child {
           max-width: 10rem;
@@ -52,7 +55,7 @@
         border-bottom: none;
 
         :global(.actionButtonsContainer) {
-          border: 1px solid red !important;
+          @include borders.custom-border(red);
 
           :global(.orderItemInfosContainer) {
             top: 0 !important;

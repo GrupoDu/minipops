@@ -1,24 +1,30 @@
+@use "@/styles/shadows";
+@use "@/styles/padding";
+@use "@/styles/borders";
+@use "@/styles/colors";
+@use "@/styles/font";
+
 .cardContainer {
-  padding: 1rem;
+  padding: padding.$medium;
   background-color: white;
-  border-radius: 8px;
+  border-radius: borders.$small-radius;
   flex: 1;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: shadows.$default;
 
   .iconContainer {
+    @include borders.custom-border(colors.$selected-green);
     display: flex;
-    padding: 0.6rem;
+    padding: padding.$small;
     width: fit-content;
-    border-radius: 8px;
-    background-color: #cdefd8;
-    border: 1px solid var(--select-green);
-    color: var(--select-green);
+    border-radius: borders.$small-radius;
+    background-color: colors.$done-status-bg;
+    color: colors.$selected-green;
   }
 
   .content {
     span {
       opacity: 0.6;
-      font-size: 0.8rem;
+      font-size: font.$small;
     }
   }
 }

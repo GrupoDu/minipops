@@ -1,7 +1,11 @@
+@use "@/styles/padding";
+@use "@/styles/colors";
+@use "@/styles/gaps";
+
 .formTitle {
-  padding: 0.8rem;
+  padding: padding.$medium;
   box-sizing: border-box;
-  border-bottom: 1px solid var(--border-default-color);
+  border-bottom: 1px solid colors.$border-default;
 }
 
 .inputsContainer {
@@ -11,16 +15,16 @@
   .gridInputs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-    border-top: 1px solid var(--border-default-color);
-    border-bottom: 1px solid var(--border-default-color);
-    padding: 0.8rem;
+    gap: gaps.$big;
+    border-top: 1px solid colors.$border-default;
+    border-bottom: 1px solid colors.$border-default;
+    padding: padding.$medium;
   }
 }
 
 .buttonContainer {
-  padding: 0.8rem;
+  padding: padding.$medium;
   display: flex;
   width: fit-content;
-  gap: 0.6rem;
+  gap: gaps.$medium;
 }

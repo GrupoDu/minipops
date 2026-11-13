@@ -1,6 +1,12 @@
+@use "@/styles/colors";
+@use "@/styles/padding";
+@use "@/styles/font";
+@use "@/styles/borders";
+@use "@/styles/transitions";
+
 .pageHeaderContainer {
-  border-bottom: 1px solid #b2b2b2;
-  padding: 1.6rem;
+  border-bottom: 1px solid colors.$border-default;
+  padding: padding.$big;
   display: flex;
   justify-content: space-between;
 
@@ -9,26 +15,26 @@
   }
 
   .pageHeaderAddButton {
+    @include borders.custom-border(colors.$selected-green);
     height: fit-content;
-    padding: 0.8rem;
+    padding: padding.$medium;
     display: flex;
     align-items: center;
-    border-radius: 4px;
-    border: 1px solid var(--select-green);
-    color: var(--select-green);
-    background-color: var(--done-bg);
+    border-radius: borders.$medium-radius;
+    color: colors.$selected-green;
+    background-color: colors.$done-status-bg;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: transitions.$default;
     text-decoration: none;
 
     span {
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: font.$small;
     }
 
     &:hover {
-      background-color: var(--select-green);
-      color: var(--done-bg);
+      background-color: colors.$selected-green;
+      color: colors.$done-status-bg;
     }
   }
 }

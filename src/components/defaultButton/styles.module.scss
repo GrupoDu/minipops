@@ -1,17 +1,23 @@
+@use "@/styles/padding";
+@use "@/styles/colors";
+@use "@/styles/borders";
+@use "@/styles/font";
+@use "@/styles/gaps";
+
 .buttonDefault {
-  padding: 0.6rem 1.2rem;
+  padding: padding.$button-wide;
   background-color: white;
-  border: 1px solid var(--border-default-color);
-  border-radius: 0.4rem;
+  border: 1px solid colors.$border-default;
+  border-radius: borders.$small-radius;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: font.$small;
   text-decoration: none;
   color: black;
   display: flex;
-  gap: 0.1rem;
+  gap: gaps.$small;
   align-items: center;
 
   &:hover {
-    background-color: var(--border-default-color);
+    background-color: colors.$border-default;
   }
 }

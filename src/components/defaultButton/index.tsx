@@ -32,6 +32,8 @@ const DefaultButton = (props: DefaultButtonProps) => {
   } = props;
   const { setShowModal } = useModal();
   const { isLoading } = useLoading();
+  const pointerEvents = isLoading ? "none" : "auto";
+  const cursor = isLoading ? "cell" : "pointer";
 
   if (isLink) {
     return (
@@ -39,8 +41,8 @@ const DefaultButton = (props: DefaultButtonProps) => {
         href={href || "#"}
         style={{
           ...style,
-          pointerEvents: isLoading ? "none" : "auto",
-          cursor: isLoading ? "cell" : "pointer",
+          pointerEvents,
+          cursor,
         }}
         className={`${styles.buttonDefault} ${className}`}
         prefetch={prefetch}

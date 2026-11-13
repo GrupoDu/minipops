@@ -1,12 +1,17 @@
+@use "@/styles/borders";
+@use "@/styles/font";
+@use "@/styles/transitions";
+@use "@/styles/padding";
+
 .orderItemInfosContainer {
   pointer-events: none;
   user-select: none;
   position: absolute;
-  border: 1px solid var(--border-default-color);
+  border: borders.$default;
   list-style-position: inside;
-  transition: opacity 0.1s ease;
-  font-size: 0.8rem;
-  border-radius: 0.4rem;
+  transition: transitions.$fast;
+  font-size: font.$small;
+  border-radius: borders.$small-radius;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   z-index: 12;
@@ -15,10 +20,10 @@
   width: 8rem;
 
   li {
-    padding: 0.4rem;
+    padding: padding.$small;
 
     &:not(:last-child) {
-      border-bottom: 1px solid var(--border-default-color);
+      border-bottom: borders.$default;
     }
   }
 }

@@ -1,16 +1,22 @@
+@use "@/styles/borders";
+@use "@/styles/colors";
+@use "@/styles/padding";
+@use "@/styles/gaps";
+@use "@/styles/font";
+
 .clientInfoItemContainer {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: gaps.$medium;
 
   .iconContainer {
-    padding: 0.6rem;
-    border: 1px solid var(--select-green);
+    @include borders.custom-border(colors.$selected-green);
+    padding: padding.$medium;
     display: flex;
-    border-radius: 0.4rem;
-    color: var(--select-green);
-    background-color: var(--hover-green);
+    border-radius: borders.$small-radius;
+    color: colors.$selected-green;
+    background-color: colors.$hover-green;
   }
 
   .infoValue {
@@ -18,7 +24,7 @@
     flex-direction: column;
 
     .label {
-      font-size: 0.8rem;
+      font-size: font.$small;
     }
   }
 }

@@ -1,6 +1,9 @@
+@use "@/styles/gaps";
+@use "@/styles/borders";
+
 .dashboardChartsContainer {
   display: flex;
-  gap: 1rem;
+  gap: gaps.$big;
 
   .monthlySalesChart {
     flex: 1;
@@ -13,6 +16,6 @@
   .monthlySalesChart,
   .monthlyStatusChart {
     background-color: white;
-    border-radius: 1rem;
+    border-radius: borders.$big-radius;
   }
 }

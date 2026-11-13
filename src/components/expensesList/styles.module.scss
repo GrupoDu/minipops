@@ -1,18 +1,25 @@
+@use "@/styles/padding";
+@use "@/styles/borders";
+@use "@/styles/shadows";
+@use "@/styles/small";
+
+$tr-color: #e5e7eb;
+
 .expensesList {
   width: 100%;
   border-collapse: collapse;
   background-color: white;
-  border-radius: 0.6rem;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: borders.$small-radius;
+  box-shadow: shadows.$default;
 
   thead,
   tbody {
     tr {
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid $tr-color;
 
       th,
       td {
-        padding: 1rem;
+        padding: padding.$big;
         box-sizing: border-box;
         text-align: left;
       }
@@ -24,12 +31,12 @@
   }
 
   thead {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid $tr-color;
 
     tr {
       th {
         font-weight: 400;
-        font-size: 0.8rem;
+        font-size: font.$small;
         opacity: 0.6;
       }
     }
@@ -38,7 +45,7 @@
   tbody {
     tr {
       td {
-        font-size: 0.9rem;
+        font-size: font.$small;
       }
     }
 

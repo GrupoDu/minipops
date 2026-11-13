@@ -1,6 +1,9 @@
+@use "@/styles/colors";
+@use "@/styles/font";
+
 .label {
-  font-size: 0.8rem;
-  color: var(--dark-blue);
+  font-size: font.$small;
+  color: colors.$dark-blue;
 }
 
 .searchInput {
@@ -12,6 +15,6 @@
 .isRequired {
   &::after {
     content: "*";
-    color: var(--error-color);
+    color: colors.$error;
   }
 }

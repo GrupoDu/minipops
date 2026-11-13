@@ -1,7 +1,9 @@
+@use "@/styles/gaps";
+
 .clientsListContainer {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: gaps.$big;
 
   .itemList {
     display: flex;

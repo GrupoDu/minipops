@@ -1,12 +1,15 @@
+@use "@/styles/padding";
+@use "@/styles/shadows";
+
 .formContainer {
   display: flex;
   flex-direction: column;
   background-color: white;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: shadows.$default;
 
   .formTitle {
     width: 100%;
-    padding: 0.6rem;
+    padding: padding.$small;
   }
 
   hr {

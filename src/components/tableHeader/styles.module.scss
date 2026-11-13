@@ -1,12 +1,16 @@
+@use "@/styles/gaps";
+@use "@/styles/padding";
+@use "@/styles/font";
+
 .tableHeaderContainer {
   display: flex;
-  gap: 1rem;
+  gap: gaps.$bigger;
   background-color: white;
   width: 100%;
-  font-size: 0.8rem;
+  font-size: font.$small;
   color: #b6b6b6;
   justify-content: space-between;
-  padding: 0.8rem;
+  padding: padding.$medium;
   border-bottom: 1px solid #dfdfdf;
   box-sizing: border-box;
 
