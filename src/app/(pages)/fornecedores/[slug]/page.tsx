@@ -57,6 +57,7 @@ function SupplierInfoPage() {
               type={"button"}
               isLink={true}
               className={styles.editButton}
+              isDisabled={true}
               href={`${supplierUuid}/editar`}
             >
               <FaEdit className={styles.buttonIcon} />

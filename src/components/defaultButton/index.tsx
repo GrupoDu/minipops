@@ -16,6 +16,7 @@ type DefaultButtonProps = {
   className?: string;
   modal?: boolean;
   prefetch?: boolean;
+  isDisabled?: boolean;
 };
 
 const DefaultButton = (props: DefaultButtonProps) => {
@@ -29,11 +30,13 @@ const DefaultButton = (props: DefaultButtonProps) => {
     className,
     modal,
     prefetch,
+    isDisabled,
   } = props;
   const { setShowModal } = useModal();
   const { isLoading } = useLoading();
-  const pointerEvents = isLoading ? "none" : "auto";
-  const cursor = isLoading ? "cell" : "pointer";
+  const pointerEvents = isLoading || isDisabled ? "none" : "auto";
+  const cursor = isLoading || isDisabled ? "cell" : "pointer";
+  const opacity = isLoading || isDisabled ? 0.5 : 1;
 
   if (isLink) {
     return (
@@ -44,7 +47,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
           pointerEvents,
           cursor,
         }}
-        className={`${styles.buttonDefault} ${className}`}
+        className={`${styles.buttonDefault} ${className} ${isDisabled && styles.disabled}`}
         prefetch={prefetch}
       >
         {children}
@@ -56,11 +59,11 @@ const DefaultButton = (props: DefaultButtonProps) => {
     <button
       style={{
         ...style,
-        pointerEvents: isLoading ? "none" : "auto",
-        cursor: isLoading ? "not-allowed" : "pointer",
-        opacity: isLoading ? "0.5" : "1",
+        pointerEvents,
+        cursor,
+        opacity,
       }}
-      className={`${styles.buttonDefault} ${className}`}
+      className={`${styles.buttonDefault} ${className} ${isDisabled && styles.disabled}`}
       onClick={modal ? () => setShowModal(true) : onClick}
       type={type}
     >
