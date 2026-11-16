@@ -26,10 +26,10 @@ export const Modal = (props: ModalProps) => {
   const text = type === "warning" ? WARNING_TEXT : CONFIRM_TEXT;
 
   const warningStyle: CSSProperties = {
-    background: "var(--warning-gradient)",
+    background: "colors.$warning-gradient",
   };
   const confirmStyle: CSSProperties = {
-    background: "var(--confirm-gradient)",
+    background: "colors.$confirm-gradient",
   };
 
   const titleStyle = type === "warning" ? warningStyle : confirmStyle;
@@ -50,7 +50,7 @@ export const Modal = (props: ModalProps) => {
 
   return (
     <div className={`${styles.modalContainer} ${showModal && styles.show}`}>
-      <header style={titleStyle}>
+      <header className={styles[`modal_${type}`]}>
         <ImWarning className={styles.icon} />
         <div className={styles.titleTexts}>
           <h3>{title}</h3>

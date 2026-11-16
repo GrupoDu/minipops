@@ -4,6 +4,7 @@
 @use "@/styles/padding";
 @use "@/styles/font";
 @use "@/styles/gaps";
+@use "@/styles/colors";
 
 :global(main):has(.show) {
   &::after {
@@ -51,6 +52,14 @@
         font-size: font.$small;
       }
     }
+  }
+
+  header.modal_warning {
+    background: colors.$warning-gradient;
+  }
+
+  header.modal_confirm {
+    background: colors.$confirm-gradient;
   }
 
   .actionButtons {
